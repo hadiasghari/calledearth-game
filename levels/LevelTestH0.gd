@@ -13,8 +13,8 @@ func _on_Timer_timeout():
 	add_child(http_request)
 	http_request.connect("request_completed", self, "_http_request_completed")
 
-	var error = http_request.request("http://127.0.0.1:8000/earth/get/1") 
-		 # TODO 1. update URL 2. add last time to only get new messages 
+	var error = http_request.request("https://dreamcity2.herokuapp.com/earth/get/1") 
+		 # TODO 1. update URL with game ID 2. add last time to only get new messages 
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
 		print("An error occurred in the HTTP request.")  

@@ -2,13 +2,13 @@
 
 [ext_resource path="res://levels/world_tileset0.tres" type="TileSet" id=1]
 [ext_resource path="res://levels/LevelTestH0.gd" type="Script" id=2]
-[ext_resource path="res://player/PlayerTestH0.tscn" type="PackedScene" id=3]
+[ext_resource path="res://player/PlayerTestJ1.tscn" type="PackedScene" id=3]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 499.467, 275.896 )
+[node name="player" parent="." instance=ExtResource( 3 )]
+position = Vector2( 236.865, 138.591 )
 
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2( 0.5, 0.4 )
@@ -19,9 +19,6 @@ tile_data = PoolIntArray( 655339, 0, 0, 655340, 0, 0, 655341, 0, 0, 655342, 0, 0
 __meta__ = {
 "_editor_description_": ".4"
 }
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 503.46, 274.357 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0

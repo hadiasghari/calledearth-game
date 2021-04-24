@@ -13,6 +13,7 @@ margin_left = -22.0
 margin_top = -2.0
 margin_right = 35.0
 margin_bottom = 13.0
+rect_scale = Vector2( 2.39262, 2.77769 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -21,13 +22,17 @@ __meta__ = {
 visible = false
 position = Vector2( 6, 5.5 )
 shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Label" type="Label" parent="."]
 margin_left = -22.0
 margin_top = -2.0
 margin_right = 39.0
 margin_bottom = 12.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
+rect_scale = Vector2( 2.4, 3.44 )
+custom_colors/font_color = Color( 0.843137, 0.870588, 0, 1 )
 text = "DREAMS!"
 __meta__ = {
 "_edit_use_anchors_": false

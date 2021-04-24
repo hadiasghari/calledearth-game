@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/leg_L/chicleg_walk.png" type="Texture" id=1]
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/mouth/mouth_singing.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/mouth/mouth_growling.png" type="Texture" id=11]
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/leg_R/cat_leg_walk.png" type="Texture" id=12]
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/wings/bee_wings_fly.png" type="Texture" id=13]
+[ext_resource path="res://player/PlayerTestJ1.gd" type="Script" id=14]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -29,7 +30,7 @@ animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ) ],
 "loop": true,
 "name": "default",
-"speed": 2.0
+"speed": 1.0
 } ]
 
 [sub_resource type="AtlasTexture" id=4]
@@ -220,18 +221,18 @@ animations = [ {
 "name": "default_smile",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 42 ), SubResource( 43 ) ],
-"loop": true,
+"frames": [ SubResource( 42 ), SubResource( 43 ), SubResource( 42 ) ],
+"loop": false,
 "name": "sing",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 44 ), SubResource( 45 ) ],
-"loop": true,
+"frames": [ SubResource( 44 ), SubResource( 45 ), SubResource( 44 ) ],
+"loop": false,
 "name": "whistle",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 46 ), SubResource( 47 ) ],
-"loop": true,
+"frames": [ SubResource( 46 ), SubResource( 47 ), SubResource( 46 ) ],
+"loop": false,
 "name": "growl",
 "speed": 5.0
 } ]
@@ -291,7 +292,7 @@ animations = [ {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ) ],
 "loop": true,
 "name": "wings_fly",
-"speed": 5.0
+"speed": 20.0
 }, {
 "frames": [ SubResource( 36 ), SubResource( 37 ) ],
 "loop": true,
@@ -339,7 +340,7 @@ animations = [ {
 "frames": [ SubResource( 49 ), SubResource( 50 ) ],
 "loop": true,
 "name": "idle",
-"speed": 5.0
+"speed": 2.0
 }, {
 "frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ) ],
 "loop": true,
@@ -347,20 +348,29 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=57]
+extents = Vector2( 117.662, 153.477 )
+
 [node name="player" type="KinematicBody2D"]
+script = ExtResource( 14 )
 
 [node name="body" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 3 )
 frame = 1
 speed_scale = 0.5
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="leg_L" type="AnimatedSprite" parent="."]
 position = Vector2( -34.8428, 152.905 )
 scale = Vector2( 0.533, 0.568 )
 frames = SubResource( 15 )
 animation = "leg_left_walk"
-frame = 8
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="leg_R" type="AnimatedSprite" parent="."]
 position = Vector2( 57.0841, 151.77 )
@@ -368,13 +378,21 @@ scale = Vector2( 0.36, 0.375 )
 frames = SubResource( 27 )
 animation = "leg_right_walk"
 frame = 1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="mouth" type="AnimatedSprite" parent="."]
 position = Vector2( 3.80614, 21.394 )
 scale = Vector2( 1.03, 0.91 )
 frames = SubResource( 48 )
 animation = "default_smile"
+frame = 1
 speed_scale = 0.1
+playing = true
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="wings" type="AnimatedSprite" parent="."]
 position = Vector2( -2.24114, -41.5938 )
@@ -382,11 +400,40 @@ scale = Vector2( 0.99, 0.78 )
 frames = SubResource( 38 )
 animation = "wings_fly"
 frame = 2
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="arm" type="AnimatedSprite" parent="."]
+[node name="arm_R" type="AnimatedSprite" parent="."]
 position = Vector2( 185.989, -29.2331 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 56 )
 animation = "idle"
 frame = 1
 speed_scale = 0.5
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="arm_L" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -194.884, -33.8384 )
+scale = Vector2( 0.510711, 0.46639 )
+frames = SubResource( 56 )
+animation = "idle"
+frame = 1
+speed_scale = 0.5
+flip_h = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 70 )
+shape = SubResource( 57 )
