@@ -76,6 +76,9 @@ func get_input():
 		$leg_L.stop()
 		$leg_R.stop()	
 
+
+	if Input.is_action_pressed("wings_jump"):
+		velocity.x *= 5
 	
 	#if moving_wings == true:
 	if not is_on_floor():
@@ -111,3 +114,4 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("wings_jump"):
 		if is_on_floor():
 			velocity.y = jump_speed
+
