@@ -490,21 +490,22 @@ position = Vector2( -14.119, 577.044 )
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+self_modulate = Color( 1, 1, 1, 0.670588 )
 motion_scale = Vector2( 0.7, 0.7 )
-motion_mirroring = Vector2( 2500, 1080 )
+motion_mirroring = Vector2( 2000, 1080 )
 
 [node name="stars" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
-position = Vector2( 1626.6, -967.578 )
-scale = Vector2( 1.6849, 1.66683 )
+position = Vector2( 301.104, -991.414 )
+scale = Vector2( 1.1052, 1.00088 )
 texture = ExtResource( 4 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2( 0.7, 0.7 )
-motion_mirroring = Vector2( 7450, 0 )
+motion_mirroring = Vector2( 7480, 0 )
 
 [node name="background 1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 modulate = Color( 1, 1, 1, 0.878431 )
-position = Vector2( -7.37964, -185.837 )
+position = Vector2( -759.772, -424.198 )
 scale = Vector2( 1.3, 1.3 )
 texture = ExtResource( 3 )
 centered = false
