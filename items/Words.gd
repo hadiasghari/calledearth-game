@@ -9,8 +9,10 @@ func init(pos, text, ecode):
 	$Rect.set_size(sz)
 	$Collision.shape.extents = sz2
 	$Collision.transform[2] = sz2  # ((1, 0), (-0, 1), (52, 16))
-	# - TODO: can I make the label centered?
-	# - shall we insert line breaks after certain characters? J=> no
-	# - font-size the same for now 
+	# note: shall we insert line breaks after certain characters? J=> no
+	# note: font-size the same for now 
 	position = pos
-
+	
+	# TODO 1. center label
+	# TODO 2. play sound!
+	# TODO 3. two types of words, jumpable (sticky), moveable

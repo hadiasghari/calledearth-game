@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/leg_L/chicleg_walk.png" type="Texture" id=1]
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/mouth/mouth_singing.png" type="Texture" id=2]
@@ -38,69 +38,69 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
-atlas = ExtResource( 10 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=5]
 flags = 4
-atlas = ExtResource( 10 )
+atlas = ExtResource( 1 )
 region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=7]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 512, 0, 512, 512 )
+region = Rect2( 1536, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=8]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 1024, 0, 512, 512 )
+region = Rect2( 2048, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=9]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 1536, 0, 512, 512 )
+region = Rect2( 2560, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=10]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 2048, 0, 512, 512 )
+region = Rect2( 3072, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=11]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 2560, 0, 512, 512 )
+region = Rect2( 3584, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=12]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 3072, 0, 512, 512 )
+region = Rect2( 4096, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=13]
 flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 3584, 0, 512, 512 )
+atlas = ExtResource( 10 )
+region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=14]
 flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 4096, 0, 512, 512 )
+atlas = ExtResource( 10 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ SubResource( 4 ), SubResource( 5 ) ],
-"loop": true,
-"name": "leg_left_idle",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": true,
 "name": "leg_left_walk",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 13 ), SubResource( 14 ) ],
+"loop": true,
+"name": "leg_left_idle",
 "speed": 5.0
 } ]
 
@@ -174,15 +174,20 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 512, 512 )
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 87, 74 )
 
 [sub_resource type="AtlasTexture" id=29]
 flags = 4
 atlas = ExtResource( 3 )
-region = Rect2( 512, 0, 512, 512 )
+region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=30]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 512, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=31]
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 1024, 0, 512, 512 )
@@ -192,19 +197,19 @@ flags = 4
 atlas = ExtResource( 11 )
 region = Rect2( 0, 0, 118, 122 )
 
-[sub_resource type="AtlasTexture" id=34]
+[sub_resource type="AtlasTexture" id=33]
 flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 111, 135 )
 
-[sub_resource type="AtlasTexture" id=36]
-flags = 4
-atlas = ExtResource( 8 )
-region = Rect2( 0, 0, 87, 74 )
-
-[sub_resource type="SpriteFrames" id=37]
+[sub_resource type="SpriteFrames" id=34]
 animations = [ {
-"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
+"frames": [ SubResource( 28 ) ],
+"loop": true,
+"name": "whistle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
 "loop": true,
 "name": "default_smile",
 "speed": 5.0
@@ -214,132 +219,126 @@ animations = [ {
 "name": "growl",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 34 ) ],
+"frames": [ SubResource( 33 ) ],
 "loop": true,
 "name": "sing",
 "speed": 5.0
-}, {
-"frames": [ SubResource( 36 ) ],
-"loop": true,
-"name": "whistle",
-"speed": 5.0
 } ]
+
+[sub_resource type="AtlasTexture" id=35]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=36]
+flags = 4
+atlas = ExtResource( 4 )
+region = Rect2( 512, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=37]
+flags = 4
+atlas = ExtResource( 13 )
+region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=38]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 512, 512 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=39]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 512, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=40]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 1024, 0, 512, 512 )
+region = Rect2( 1536, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=41]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 1536, 0, 512, 512 )
+region = Rect2( 2048, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=42]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 2048, 0, 512, 512 )
+region = Rect2( 1536, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=43]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 1536, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=44]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 1024, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=45]
-flags = 4
-atlas = ExtResource( 13 )
 region = Rect2( 512, 0, 512, 512 )
+
+[sub_resource type="SpriteFrames" id=45]
+animations = [ {
+"frames": [ SubResource( 35 ), SubResource( 36 ) ],
+"loop": true,
+"name": "wings_idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ) ],
+"loop": true,
+"name": "wings_fly",
+"speed": 20.0
+} ]
 
 [sub_resource type="AtlasTexture" id=46]
 flags = 4
-atlas = ExtResource( 4 )
+atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=47]
 flags = 4
-atlas = ExtResource( 4 )
+atlas = ExtResource( 9 )
 region = Rect2( 512, 0, 512, 512 )
 
-[sub_resource type="SpriteFrames" id=48]
-animations = [ {
-"frames": [ SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ) ],
-"loop": true,
-"name": "wings_fly",
-"speed": 20.0
-}, {
-"frames": [ SubResource( 46 ), SubResource( 47 ) ],
-"loop": true,
-"name": "wings_idle",
-"speed": 5.0
-} ]
+[sub_resource type="AtlasTexture" id=48]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=49]
 flags = 4
-atlas = ExtResource( 9 )
-region = Rect2( 0, 0, 512, 512 )
+atlas = ExtResource( 7 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=50]
-flags = 4
-atlas = ExtResource( 9 )
-region = Rect2( 512, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=51]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=52]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 512, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=53]
 flags = 4
 atlas = ExtResource( 7 )
 region = Rect2( 1024, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=54]
+[sub_resource type="AtlasTexture" id=51]
 flags = 4
 atlas = ExtResource( 7 )
 region = Rect2( 1536, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=55]
+[sub_resource type="AtlasTexture" id=52]
 flags = 4
 atlas = ExtResource( 7 )
 region = Rect2( 2048, 0, 512, 512 )
 
-[sub_resource type="SpriteFrames" id=56]
+[sub_resource type="SpriteFrames" id=53]
 animations = [ {
-"frames": [ SubResource( 49 ), SubResource( 50 ) ],
+"frames": [ SubResource( 46 ), SubResource( 47 ) ],
 "loop": true,
 "name": "idle",
 "speed": 2.0
 }, {
-"frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ) ],
+"frames": [ SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ) ],
 "loop": true,
 "name": "push",
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=57]
-extents = Vector2( 117.662, 153.477 )
-
 [node name="player" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource( 14 )
 
 [node name="body" type="AnimatedSprite" parent="."]
@@ -373,8 +372,9 @@ __meta__ = {
 [node name="mouth" type="AnimatedSprite" parent="."]
 position = Vector2( 3.80614, 21.394 )
 scale = Vector2( 1.03, 0.91 )
-frames = SubResource( 37 )
+frames = SubResource( 34 )
 animation = "default_smile"
+frame = 1
 speed_scale = 0.1
 playing = true
 __meta__ = {
@@ -384,7 +384,7 @@ __meta__ = {
 [node name="wings" type="AnimatedSprite" parent="."]
 position = Vector2( -2.24114, -41.5938 )
 scale = Vector2( 0.99, 0.78 )
-frames = SubResource( 48 )
+frames = SubResource( 45 )
 animation = "wings_fly"
 frame = 2
 __meta__ = {
@@ -394,7 +394,7 @@ __meta__ = {
 [node name="arm_R" type="AnimatedSprite" parent="."]
 position = Vector2( 185.989, -29.2331 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 56 )
+frames = SubResource( 53 )
 animation = "idle"
 frame = 1
 speed_scale = 0.5
@@ -406,7 +406,7 @@ __meta__ = {
 visible = false
 position = Vector2( -194.884, -33.8384 )
 scale = Vector2( 0.510711, 0.46639 )
-frames = SubResource( 56 )
+frames = SubResource( 53 )
 animation = "idle"
 frame = 1
 speed_scale = 0.5
@@ -417,16 +417,13 @@ __meta__ = {
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+zoom = Vector2( 1.2, 1.2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.707153, 79.8995 )
-shape = SubResource( 57 )
-__meta__ = {
-"_edit_lock_": true
-}
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 190.428, -5.04382, 120.836, -8.41121, 103.999, -9.53366, 87.1618, -43.2075, 18.6916, -81.3712, -32.9417, -78.0039, -81.2075, -49.9423, -105.902, -3.92136, -103.657, 45.467, -81.2075, 70.1611, -74.4727, 78.0184, -117.126, 136.386, -117.126, 223.938, -65.4931, 228.428, -0.390259, 229.551, 9.7119, 228.428, 119.713, 236.286, 120.836, 163.326, 73.6922, 84.7531, 107.366, 38.7322, 118.591, 26.3851, 208.388, 17.4054, 217.367, -106.065, 192.673, -125.147, 173.591, -95.9632 )
 
 [node name="sound_growl" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 15 )

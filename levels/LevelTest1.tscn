@@ -324,19 +324,18 @@ centered = false
 
 [node name="Tilemap_world" type="TileMap" parent="."]
 tile_set = SubResource( 10 )
-cell_size = Vector2( 90, 100 )
-cell_quadrant_size = 32
+cell_size = Vector2( 96, 96 )
 format = 1
 tile_data = PoolIntArray( -851929, 5, 0, -655311, 0, 0, -524226, 3, 0, -393181, 5, 0, -393172, 0, 0, -196581, 0, 0, -131006, 2, 0, -131001, 2, 0, -65501, 0, 0, -65497, 0, 0, -65493, 0, 0, -65489, 0, 0, 0, 0, 0, 1, 0, 0, 5, 0, 0, 9, 0, 0, 65550, 0, 0, 65554, 0, 0, 65558, 0, 0 )
 
-[node name="Tilemap_items" type="TileMap" parent="."]
+[node name="Tilemap_pickups" type="TileMap" parent="."]
 tile_set = SubResource( 11 )
-cell_size = Vector2( 150, 150 )
+cell_size = Vector2( 128, 128 )
 format = 1
-tile_data = PoolIntArray( -786403, 2, 0, -458736, 2, 0, -65534, 3, 0, -65532, 2, 0 )
+tile_data = PoolIntArray( -786403, 2, 0, -458736, 2, 0, -65533, 3, 0, -65532, 2, 0 )
 
 [node name="player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 242.952, -311.918 )
+position = Vector2( 202.543, -87.4255 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="Timer" type="Timer" parent="."]
