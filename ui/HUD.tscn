@@ -2,7 +2,7 @@
 
 [ext_resource path="res://ui/HUD.gd" type="Script" id=1]
 [ext_resource path="res://assets/Kenney Thick.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://assets/heart.png" type="Texture" id=3]
+[ext_resource path="res://assets/art/collect items/heart.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48

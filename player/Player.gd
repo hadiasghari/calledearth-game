@@ -118,10 +118,9 @@ func _physics_process(delta):
 			
 	if position.y > 1000: 
 		# player has fallen, is dead!
-		# hide()
-		# emit_signal('dead')
-		# show on HUD 'game over!'
-		yield(get_tree().create_timer(2.0), "timeout")
+		# emit_signal('dead') -- if others need it
+		# TODO: show on HUD 'game over!'
+		yield(get_tree().create_timer(1.0), "timeout")
 		get_tree().change_scene("res://Main.tscn")
 		
 		
