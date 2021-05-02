@@ -80,7 +80,7 @@ func _http_request2_completed(result, response_code, headers, body):
 func spawn_words(location, text, ecode):
 	var w = Words.instance()
 	location = location if location else 0
-	w.init(Vector2(location, 0), text, ecode)
+	w.init(Vector2(location, -500), text, ecode)
 	add_child(w)
 
 
