@@ -13,7 +13,7 @@
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/mouth/mouth_growling.png" type="Texture" id=11]
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/leg_R/cat_leg_walk.png" type="Texture" id=12]
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/wings/bee_wings_fly.png" type="Texture" id=13]
-[ext_resource path="res://player/PlayerTestJ1.gd" type="Script" id=14]
+[ext_resource path="res://player/Player.gd" type="Script" id=14]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4

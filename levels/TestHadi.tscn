@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/fonts/RussoOne-Regular.ttf" type="DynamicFontData" id=1]
+
+[sub_resource type="DynamicFont" id=1]
+size = 48
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 21.0
+margin_top = 56.0
+margin_right = 391.0
+margin_bottom = 228.0
+custom_fonts/normal_font = SubResource( 1 )
+text = "Hey <🎩⅀🎩😉🌹↗⇆☝☫☯✟¥﷼> ý سلام
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 87.0
+margin_top = 167.0
+margin_right = 898.0
+margin_bottom = 243.0
+custom_fonts/font = SubResource( 2 )
+text = "سلام Hello بابا"
+__meta__ = {
+"_edit_use_anchors_": false
+}

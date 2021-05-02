@@ -6,12 +6,17 @@ var last_text_pk = -1
 
 var gameid = ""
 
+#var server_url = "https://calledearth.herokuapp.com"
+var server_url = "http://127.0.0.1:8000"
+
+
 func _ready():
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.connect("request_completed", self, "_http_request_newgame_completed")
-	http_request.request("https://calledearth.herokuapp.com/earth/gonewgame") 
-	# TODO: 1. assert error == ok, 2. wait for gameID!
+	http_request.request(server_url + "/earth/gonewgame") 
+	# TODO: 1. assert error == ok, 2. wait for gameID! ... 
+	#       if neither come, give an error message [or don't unpause]
 
 
 func _http_request_newgame_completed(result, response_code, headers, body):
@@ -26,7 +31,7 @@ func _on_Timer_timeout():
 	var http_request1 = HTTPRequest.new()
 	add_child(http_request1)
 	http_request1.connect("request_completed", self, "_http_request1_completed")
-	http_request1.request("https://calledearth.herokuapp.com/earth/gogettexts/" + gameid) 
+	http_request1.request(server_url + "/earth/gogettexts/" + gameid) 
 		 # TODO 1. update URL with game ID 2. add last time to only get new messages 
 	# assert error = OK
 	#if error != OK:
@@ -37,7 +42,7 @@ func _on_Timer_timeout():
 	var http_request2 = HTTPRequest.new()
 	add_child(http_request2)
 	http_request2.connect("request_completed", self, "_http_request2_completed")
-	http_request2.request("https://calledearth.herokuapp.com/earth/gogetstats/" + gameid) 
+	http_request2.request(server_url + "/earth/gogetstats/" + gameid) 
 	
 		
 	# NOTE timer already repeats. maybe will need code to stop reentry
