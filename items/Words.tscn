@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/fonts/Amiri-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://assets/fonts/NotoColorEmoji.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://items/Words.gd" type="Script" id=3]
 [ext_resource path="res://assets/fonts/Iceland-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets/art/sounds/text_sound.mp3" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 52, 16 )
@@ -41,3 +42,4 @@ __meta__ = {
 }
 
 [node name="Audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
