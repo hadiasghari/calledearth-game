@@ -40,16 +40,19 @@ func get_input():
 	
 	if Input.is_action_pressed("mouth_growl"):
 		$mouth.animation = "growl"
-		# TODO: set timer (10s) to reset mouth animation back to smile
 		$mouth.play()
+		$sound_growl.play()
+		$TimerMouthReset.start()
 	if Input.is_action_pressed("mouth_sing"):
 		$mouth.animation = "sing"
-		# TODO: set timer (10s) to reset mouth animation back to smile
 		$mouth.play()
+		$sound_singing.play()
+		$TimerMouthReset.start()
 	if Input.is_action_pressed("mouth_whistle"):
 		$mouth.animation = "whistle"
-		# TODO: set timer (10s) to reset mouth animation back to smile
 		$mouth.play()
+		$sound_whistle.play()
+		$TimerMouthReset.start()
 								
 		
 		
@@ -99,8 +102,6 @@ func get_input():
 		$leg_R.flip_h = false			
 		
 			
-		
-
 				
 func _ready():
 	# idle
@@ -114,4 +115,24 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("wings_jump"):
 		if is_on_floor():
 			velocity.y = jump_speed
+			
+	if position.y > 1000: 
+		# player has fallen, is dead!
+		# hide()
+		# emit_signal('dead')
+		# show on HUD 'game over!'
+		yield(get_tree().create_timer(2.0), "timeout")
+		get_tree().change_scene("res://Main.tscn")
+		
+		
+
+
+
+func _on_TimerMouthReset_timeout():
+	# reset the mouth :)
+	$sound_growl.stop()
+	$sound_whistle.stop()
+	$sound_singing.stop()	
+	$mouth.animation = "default_smile"
+	$mouth.play()
 
