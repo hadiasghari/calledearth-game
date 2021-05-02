@@ -61,7 +61,7 @@ func _http_request1_completed(result, response_code, headers, body):
 			# we are assuming this is ordered by pk, this is to show only new texts
 			# if goal is replay, time should be compared with game_time instead.
 			if r.pk > last_text_pk:
-				spawn_words(r.location, r.text)
+				spawn_words(r.location, r.text, r.parti_code)
 				last_text_pk = r.pk
 		# NOTE wierd when server unavailable, body is not null, but parse_json fails
 	#else:
@@ -77,10 +77,10 @@ func _http_request2_completed(result, response_code, headers, body):
 
 
 
-func spawn_words(location, text):
+func spawn_words(location, text, ecode):
 	var w = Words.instance()
 	location = location if location else 0
-	w.init(Vector2(location, 0), text)
+	w.init(Vector2(location, 0), text, ecode)
 	add_child(w)
 
 
