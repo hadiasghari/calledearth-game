@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/yellow collect.png-bbf4e60020780d43abbb1693645a48c0.stex"
+path="res://.import/collect_item_aqua.png-7810e994b4ff66e67ab66c89258b0a3b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/collect items/yellow collect.png"
-dest_files=[ "res://.import/yellow collect.png-bbf4e60020780d43abbb1693645a48c0.stex" ]
+source_file="res://assets/art/collect items/collect_item_aqua.png"
+dest_files=[ "res://.import/collect_item_aqua.png-7810e994b4ff66e67ab66c89258b0a3b.stex" ]
 
 [params]
 
