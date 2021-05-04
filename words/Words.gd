@@ -1,10 +1,10 @@
 extends RigidBody2D
 
 
-func init(pos, text, ecode):
+func init(pos, text, ecode, textlen):
 	text = char(ecode) + text
 	$Label.text = text	# print(ord(text[0]))
-	var sz = Vector2(len(text) * 16 + 20, 32)
+	var sz = Vector2(textlen, 40)  # len(text) * 16 + 20 , 32
 	var sz2 = sz/2
 	$Rect.set_size(sz)
 	$Collision.shape.extents = sz2

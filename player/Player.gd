@@ -116,6 +116,8 @@ func _physics_process(delta):
 		if is_on_floor():
 			velocity.y = jump_speed
 			
+			# TODO: maybe make double jump possible
+			
 	if position.y > 1000: 
 		# player has fallen, is dead!
 		# emit_signal('dead') -- if others need it

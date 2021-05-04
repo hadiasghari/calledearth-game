@@ -1,6 +1,6 @@
 extends Node2D
 
-var Words = preload('res://items/Words.tscn')
+var Words = preload('res://words/Words.tscn')
 var Collectible = preload('res://items/Collectible.tscn')
 
 var last_text_pk = -1
@@ -11,7 +11,6 @@ var last_location = 0
 
 var server_url = "https://calledearth.herokuapp.com"
 #var server_url = "http://127.0.0.1:8000"
-
 
 
 
@@ -68,7 +67,7 @@ func _on_Timer_timeout():
 	var request1 = HTTPRequest.new()
 	add_child(request1)
 	request1.connect("request_completed", self, "_http_request1_completed")
-	request1.request(server_url + "/earth/gogettexts/" + gameid) 
+	request1.request(server_url + "/earth/gogettexts/" + gameid + "/" + str(nprompt-1)) 
 	# note: if necessary, add last time to only get new messages  
 	# note: wierd, no error here when server unavailable
 	#if error != OK:
@@ -93,7 +92,7 @@ func _http_request1_completed(result, response_code, headers, body):
 			# we are assuming this is ordered by pk, this is to show only new texts
 			# if goal is replay, time should be compared with game_time instead.
 			if r.pk > last_text_pk:
-				spawn_words(r.location, r.text, r.parti_code)
+				spawn_words(r.text, r.parti_code)
 				last_text_pk = r.pk
 	#else:
 	#	push_error("Empty HTTP response.") 
@@ -104,11 +103,12 @@ func _http_request2_completed(result, response_code, headers, body):
 		#print("GAME STATS:", response)   
 		# $LiveInfo.set_text(str(len(response['participants'])))
 
-func spawn_words(location, text, ecode):
+func spawn_words(text, ecode):
 	var w = Words.instance()
-	# TODO: location = location if location else 0
-	location = $player.position[0]  #last_location
-	w.init(Vector2(location, -500), text, ecode)
+	# TODO: either get location of collectible, or place it in front of avatar
+	#       (in which case see which way it's facing, and add +/- 100)
+	var pos = $player.position  
+	w.init(Vector2(pos[0], pos[1]-500), text, ecode, 300)
 	add_child(w)
 
 

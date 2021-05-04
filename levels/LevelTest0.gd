@@ -6,8 +6,8 @@ var last_text_pk = -1
 
 var gameid = ""
 
-var server_url = "https://calledearth.herokuapp.com"
-#var server_url = "http://127.0.0.1:8000"
+#var server_url = "https://calledearth.herokuapp.com"
+var server_url = "http://127.0.0.1:8000"
 
 
 func _ready():
@@ -23,15 +23,21 @@ func _http_request_newgame_completed(result, response_code, headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
 		gameid = str(response)
-		print(gameid)  		# TODO: for debug put this on HUD
+		print(gameid)  		
 		$Timer.start()		# start other timer only now :)
+		# TODO: put gameid this on HUD
+		# TODO : possibly unfreeze player only now
+		
+		$Mechanism1.init(server_url, gameid)  
+			# TODO: do this for all child button-mechanisms... or perhaps emit signal
+		
 		
 
 func _on_Timer_timeout():
-	var http_request1 = HTTPRequest.new()
-	add_child(http_request1)
-	http_request1.connect("request_completed", self, "_http_request1_completed")
-	http_request1.request(server_url + "/earth/gogettexts/" + gameid) 
+	#var http_request1 = HTTPRequest.new()
+	#add_child(http_request1)
+	#http_request1.connect("request_completed", self, "_http_request1_completed")
+	#http_request1.request(server_url + "/earth/gogettexts/" + gameid + "/0") 
 		 # TODO 1. update URL with game ID 2. add last time to only get new messages 
 	# assert error = OK
 	#if error != OK:
@@ -61,7 +67,7 @@ func _http_request1_completed(result, response_code, headers, body):
 			# we are assuming this is ordered by pk, this is to show only new texts
 			# if goal is replay, time should be compared with game_time instead.
 			if r.pk > last_text_pk:
-				spawn_words(r.location, r.text, r.parti_code)
+				spawn_words(r.text, r.parti_code)
 				last_text_pk = r.pk
 		# NOTE wierd when server unavailable, body is not null, but parse_json fails
 	#else:
@@ -72,16 +78,22 @@ func _http_request1_completed(result, response_code, headers, body):
 func _http_request2_completed(result, response_code, headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
-		print("GAME STATS:", response)   
+		#print("GAME STATS:", response)   
 		# $LiveInfo.set_text(str(len(response['participants'])))
 
 
 
-func spawn_words(location, text, ecode):
+func spawn_words(text, ecode):
 	var w = Words.instance()
-	location = location if location else 0
-	w.init(Vector2(location, 0), text, ecode)
+	#var pos = 0  # TODO: $Player.position  
+	w.init(Vector2(0, -500), text, ecode)
 	add_child(w)
 
 
+	
+func _on_Button1_pressed():
+	print("signal button1-pressed intercepted")  #pass # Replace with function body. # Replace with function body.
+	# TODO: send a signal to player to ignore buttons until unfreeze. also set sprites niece.
+	#       note `$Player.get_tree().paused = true` freezes also mechanism timers, so not that!
+	# TODO: unfreeze signal on player (which also resets camera) shall also be called somehow :)
 	

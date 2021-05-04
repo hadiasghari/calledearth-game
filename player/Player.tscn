@@ -38,69 +38,69 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 10 )
 region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=5]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 10 )
 region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 1024, 0, 512, 512 )
+region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=7]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 1536, 0, 512, 512 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=8]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 2048, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=9]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 2560, 0, 512, 512 )
+region = Rect2( 1536, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=10]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 3072, 0, 512, 512 )
+region = Rect2( 2048, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=11]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 3584, 0, 512, 512 )
+region = Rect2( 2560, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=12]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 4096, 0, 512, 512 )
+region = Rect2( 3072, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=13]
 flags = 4
-atlas = ExtResource( 10 )
-region = Rect2( 0, 0, 512, 512 )
+atlas = ExtResource( 1 )
+region = Rect2( 3584, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=14]
 flags = 4
-atlas = ExtResource( 10 )
-region = Rect2( 512, 0, 512, 512 )
+atlas = ExtResource( 1 )
+region = Rect2( 4096, 0, 512, 512 )
 
 [sub_resource type="SpriteFrames" id=15]
 animations = [ {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
-"loop": true,
-"name": "leg_left_walk",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 13 ), SubResource( 14 ) ],
+"frames": [ SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "leg_left_idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
+"loop": true,
+"name": "leg_left_walk",
 "speed": 5.0
 } ]
 
@@ -174,54 +174,54 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
-atlas = ExtResource( 8 )
-region = Rect2( 0, 0, 87, 74 )
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 111, 135 )
 
 [sub_resource type="AtlasTexture" id=29]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=30]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 512, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=31]
-flags = 4
-atlas = ExtResource( 3 )
-region = Rect2( 1024, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=32]
 flags = 4
 atlas = ExtResource( 11 )
 region = Rect2( 0, 0, 118, 122 )
 
+[sub_resource type="AtlasTexture" id=30]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=31]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 512, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=32]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 1024, 0, 512, 512 )
+
 [sub_resource type="AtlasTexture" id=33]
 flags = 4
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 111, 135 )
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 87, 74 )
 
 [sub_resource type="SpriteFrames" id=34]
 animations = [ {
 "frames": [ SubResource( 28 ) ],
 "loop": true,
-"name": "whistle",
+"name": "sing",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
-"loop": true,
-"name": "default_smile",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 32 ) ],
+"frames": [ SubResource( 29 ) ],
 "loop": true,
 "name": "growl",
 "speed": 5.0
 }, {
+"frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
+"loop": true,
+"name": "default_smile",
+"speed": 5.0
+}, {
 "frames": [ SubResource( 33 ) ],
 "loop": true,
-"name": "sing",
+"name": "whistle",
 "speed": 5.0
 } ]
 
