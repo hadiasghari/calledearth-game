@@ -16,6 +16,7 @@ fallback/0 = ExtResource( 3 )
 fallback/1 = ExtResource( 1 )
 
 [node name="Body2D" type="RigidBody2D"]
+mode = 2
 script = ExtResource( 2 )
 
 [node name="Rect" type="ColorRect" parent="."]
