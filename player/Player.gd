@@ -115,8 +115,10 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("wings_jump"):
 		if is_on_floor():
 			velocity.y = jump_speed
-			
 			# TODO: maybe make double jump possible
+			
+	if abs(velocity.x) < 1:
+		velocity.x = 0  # avoid very small slides for smoothness
 			
 	if position.y > 1000: 
 		# player has fallen, is dead!
