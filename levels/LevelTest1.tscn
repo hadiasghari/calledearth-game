@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/art/background images/game background.png" type="Texture" id=1]
 [ext_resource path="res://levels/LevelTest1.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/art/collect items/collect_item_aqua.png" type="Texture" id=7]
 [ext_resource path="res://assets/art/tile_set/500_tilemap.png" type="Texture" id=8]
 [ext_resource path="res://assets/art/decorative objects/Lvl 1 objects.png" type="Texture" id=9]
+[ext_resource path="res://assets/art/sounds/soundtrack_draft_lvl1.ogg" type="AudioStream" id=10]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Lvl 1 objects.png 0"
@@ -477,8 +478,13 @@ format = 1
 tile_data = PoolIntArray( -720865, 3, 0, -720823, 2, 0, -524249, 2, 0, -262121, 2, 0, -262075, 3, 0, -262044, 2, 0 )
 
 [node name="player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 202.543, -87.4255 )
+position = Vector2( 3209.3, -773.958 )
 scale = Vector2( 0.5, 0.5 )
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 3209.3, -773.958 )
+scale = Vector2( 0.5, 0.5 )
+stream = ExtResource( 10 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
