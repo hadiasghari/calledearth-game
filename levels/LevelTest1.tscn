@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/art/background images/game background.png" type="Texture" id=1]
 [ext_resource path="res://levels/LevelTest1.gd" type="Script" id=2]
@@ -8,6 +8,51 @@
 [ext_resource path="res://assets/art/collect items/collect item yellow.png" type="Texture" id=6]
 [ext_resource path="res://assets/art/collect items/collect_item_aqua.png" type="Texture" id=7]
 [ext_resource path="res://assets/art/tile_set/500_tilemap.png" type="Texture" id=8]
+[ext_resource path="res://assets/art/decorative objects/Lvl 1 objects.png" type="Texture" id=9]
+
+[sub_resource type="TileSet" id=26]
+0/name = "Lvl 1 objects.png 0"
+0/texture = ExtResource( 9 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 80, 147, 123, 127 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+2/name = "Lvl 1 objects.png 2"
+2/texture = ExtResource( 9 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 603, 3, 287, 274 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
+3/name = "Lvl 1 objects.png 3"
+3/texture = ExtResource( 9 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 345, 94, 231, 221 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
 
 [sub_resource type="ConvexPolygonShape2D" id=22]
 points = PoolVector2Array( 14.1667, 94.1667, 34.1667, 66.6667, 60.8334, 55.8333, 145.833, 68.3333, 175.833, 33.3333, 200.833, 24.1667, 231.667, 36.6667, 268.333, 70.8333, 313.333, 45, 347.5, 51.6667, 372.5, 92.5, 466.667, 92.5, 502.5, 110.833, 502.5, 148.333, 500, 202.5, 472.5, 251.667, 423.333, 322.5, 405.833, 313.333, 301.667, 390.833, 286.667, 388.333, 191.667, 375, 122.5, 319.167, 76.6667, 283.333, 30, 209.167, 19.1667, 154.167 )
@@ -409,6 +454,13 @@ position = Vector2( -759.772, -424.198 )
 scale = Vector2( 1.3, 1.3 )
 texture = ExtResource( 1 )
 centered = false
+
+[node name="TileMap_background" type="TileMap" parent="."]
+modulate = Color( 1, 1, 1, 0.568627 )
+tile_set = SubResource( 26 )
+cell_size = Vector2( 28, 28 )
+format = 1
+tile_data = PoolIntArray( -3080054, 2, 0, -3080043, 2, 0, -3080030, 2, 0, -3080018, 2, 0, -2686796, 0, 0, -2097040, 2, 0, -2096954, 536870915, 0, -2096950, 3, 0, -2031424, 536870912, 0, -2031419, 536870912, 0, -2031412, 536870915, 0, -1900332, 536870912, 0, -1114038, 1, 0, -1113975, 3, 0, -1113969, 3, 0, -1113891, 3, 0, -1048349, 0, 0, -982893, 0, 0, -982817, 536870912, 0, -917258, 536870915, 0, -786181, 0, 0, -458751, 2, 0, -458744, 2, 0, -458736, 2, 0, -393156, 536870913, 0, -393155, 536870913, 0, -393153, 1, 0, -393129, 3, 0, -393119, 1, 0, -327571, 536870913, 0, -262059, 0, 0, -262058, 0, 0, -131051, 0, 0, -130993, 0, 0, -130992, 0, 0, -65485, 1, 0 )
 
 [node name="TileMap_world" type="TileMap" parent="."]
 tile_set = SubResource( 21 )
