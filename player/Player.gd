@@ -1,141 +1,169 @@
 extends KinematicBody2D
 
+signal dead
 
 export (int) var speed = 20
 export (int) var jump_speed = -1800
 export (int) var gravity = 4000
-#export (float, 0, 1.0) var friction = 0.1
-#export (float, 0, 1.0) var acceleration = 0.25
-
-
 
 var velocity = Vector2.ZERO
+var devoffset = 0  # also should respond to pickup signals (later)
 
-
-# IF STATEMACHINE (future): 
-# enum {IDLE, WALKSLOW, RUN, JUMPFLY}  # DEAD, CROUCH, CLIMB, PUNCH?
-# var state
-
+				
+func _ready():
+	# set sounds to be played once (not in loop)
+	$mouth/growl.stream.set_loop(false)	
+	$mouth/singing.stream.set_loop(false)		
+	$mouth/whistle.stream.set_loop(false)		
+	$mouth/yawn.stream.set_loop(false)		
+	# defaults now: $arms/arm_L.animation = "push"
+	# $arms/arm_R.animation = "push"	
 
 func get_input():
-	velocity.x = 0
-	var leg_r_dir = 0
-	var leg_l_dir = 0
-	var moving_leg_l = false
-	var moving_leg_r = false
-	var moving_wings = false
+		# logic for rotating functions of four controllers
+	if Input.is_action_pressed("rotate"):
+		devoffset += 1
+		print_debug('device-offset: ' + str(devoffset))
+	var dev0 = "dev" + str((0 + devoffset) % 4)
+	var dev1 = "dev" + str((1 + devoffset) % 4)
+	var dev2 = "dev" + str((2 + devoffset) % 4)
+	var dev3 = "dev" + str((3 + devoffset) % 4)
 	
-	if Input.is_action_pressed("leg_l_right"):
-		leg_l_dir = 1
-		moving_leg_l = true
-	if Input.is_action_pressed("leg_l_left"):
-		leg_l_dir = -1
-		moving_leg_l = true
-	if Input.is_action_pressed("leg_r_right"):
-		leg_r_dir = 1
-		moving_leg_r = true
-	if Input.is_action_pressed("leg_r_left"):
-		leg_r_dir = -1
-		moving_leg_r = true
-	
-	if Input.is_action_pressed("mouth_growl"):
-		$mouth.animation = "growl"
-		$mouth.play()
-		$sound_growl.play()
-		$TimerMouthReset.start()
-	if Input.is_action_pressed("mouth_sing"):
-		$mouth.animation = "sing"
-		$mouth.play()
-		$sound_singing.play()
-		$TimerMouthReset.start()
-	if Input.is_action_pressed("mouth_whistle"):
-		$mouth.animation = "whistle"
-		$mouth.play()
-		$sound_whistle.play()
-		$TimerMouthReset.start()
-								
-		
-		
-	# Note, could maybe make funny movement if in different direction
-	velocity.x = pow(leg_r_dir + leg_l_dir, 3) * speed
-	
+	# I. leg movement (dev0 & dev1)	
+	var motion_legl = 0
+	var motion_legr = 0
+	if Input.is_action_pressed(dev0 + "_right"):
+		motion_legl = 1
+	if Input.is_action_pressed(dev0 + "_left"):
+		motion_legl = -1
+	if Input.is_action_pressed(dev1 + "_right"):
+		motion_legr = 1
+	if Input.is_action_pressed(dev1 + "_left"):
+		motion_legr = -1
+
+	velocity.x = pow(motion_legl + motion_legr, 3) * speed	
 	# friction/acceleration based speed (not in use)
 	#	velocity.x = lerp(velocity.x, dir * speed, acceleration)
 	#	velocity.x = lerp(velocity.x, 0, friction)		
-
 			
-	# should have state = run, idle, jump..
 	if velocity.x != 0:
-		if moving_leg_l:
+		if abs(motion_legl) > 0:
 			$leg_L.play()
 		else:
 			$leg_L.stop()
-		if moving_leg_r:
+		if abs(motion_legr) > 0:
 			$leg_R.play()
 		else:
 			$leg_R.stop()	
 	else:
 		# TODO maybe reset to still frames?
+		# (Note, could maybe make funny movement if in different direction)
 		$leg_L.stop()
-		$leg_R.stop()	
+		$leg_R.stop()
+		
+	if velocity.x < 0:	
+		$leg_L.flip_h = true	
+		$leg_R.flip_h = true						
+	elif velocity.x > 0:
+		$leg_L.flip_h = false	
+		$leg_R.flip_h = false			
 
-
-	if Input.is_action_pressed("wings_jump"):
-		velocity.x *= 5
-	
-	#if moving_wings == true:
+	# II. logic for wings (dev 2)
+	if Input.is_action_pressed(dev2 + "_action"):
+		#print_debug('jump')
+		velocity.x *= 5  # speed up during jump	
 	if not is_on_floor():
 		$wings.play()
 	else:
 		$wings.stop()
 	
+	# III. logic for arms (dev 3)
+	# first show correct direction of arms re legs	
 	if velocity.x < 0:
 		#change the location of the arm!! 
-		$arm_L.visible = true
-		$arm_R.visible = false
-		$leg_L.flip_h = true	
-		$leg_R.flip_h = true						
+		$arms/arm_L.visible = true
+		$arms/arm_R.visible = false
 	elif velocity.x > 0:
-		$arm_L.visible = false
-		$arm_R.visible = true	
-		$leg_L.flip_h = false	
-		$leg_R.flip_h = false			
-		
-			
+		$arms/arm_R.visible = true		
+		$arms/arm_L.visible = false
 				
-func _ready():
-	# idle
-	pass 
-
+	if Input.is_action_pressed(dev3 + "_action"):
+		#print_debug('arm-push')
+		if $arms/arm_L.visible:	
+			$arms/arm_L.play()
+		else:
+			$arms/arm_R.play()		
+		$arms/CollisionShape2D.disabled = false
+		$arms/arms_Timer.start()
+		# TODO: turn on specific collision sheet too 
+		# ALSO, SOUND?
+				
+	# IV. finally, logic for mouth (all devices)
+	# NOTE: if we odn't want mixing of sounds at one time, 
+	#       we should have one audio2d and stop/restart it
+	if Input.is_action_pressed(dev0 + "_mouth"):
+		$mouth.animation = "growl"
+		$mouth.play()
+		$mouth/growl.play()
+	if Input.is_action_pressed(dev1 + "_mouth"):
+		$mouth.animation = "whistle"
+		$mouth.play()
+		$mouth/whistle.play()
+	if Input.is_action_pressed(dev2 + "_mouth"):
+		$mouth.animation = "sing"
+		$mouth.play()
+		$mouth/singing.play()
+	if Input.is_action_pressed(dev3 + "_mouth"):
+		$mouth.animation = "yawn"
+		$mouth.play()
+		$mouth/yawn.play()
+								
 
 func _physics_process(delta):
-	get_input()
+	get_input()  # sets velocity.x and motions
+	
 	velocity.y += gravity * delta
 	velocity = move_and_slide(velocity, Vector2.UP)
-	if Input.is_action_just_pressed("wings_jump"):
-		if is_on_floor():
-			velocity.y = jump_speed
-			# TODO: maybe make double jump possible
-			
 	if abs(velocity.x) < 1:
 		velocity.x = 0  # avoid very small slides for smoothness
-			
+	
+	# some more of the logic for the jump
+	var dev2 = "dev" + str((2 + devoffset) % 4)
+	if Input.is_action_just_pressed(dev2 + "_action"):
+		if is_on_floor():
+			velocity.y = jump_speed
+		
+	# check if player has fallen, is dead!			
 	if position.y > 1000: 
-		# player has fallen, is dead!
-		# emit_signal('dead') -- if others need it
-		# TODO: show on HUD 'game over!'
-		yield(get_tree().create_timer(1.0), "timeout")
-		get_tree().change_scene("res://Main.tscn")
-		
-		
+		emit_signal('dead')   # for HUD plus restart game  ...
+		yield(get_tree().create_timer(1.0), "timeout")  # Take a moment :)
+		get_tree().change_scene("res://Main.tscn")  # TODO move to level/main (signal)
 
 
+func _on_sound_growl_finished():
+	if $mouth.animation == "growl":
+		$mouth.animation = "default_smile"
+		$mouth.play()
 
-func _on_TimerMouthReset_timeout():
-	# reset the mouth :)
-	$sound_growl.stop()
-	$sound_whistle.stop()
-	$sound_singing.stop()	
-	$mouth.animation = "default_smile"
-	$mouth.play()
+func _on_sound_singing_finished():
+	if $mouth.animation == "singing":
+		$mouth.animation = "default_smile"
+		$mouth.play()
 
+func _on_sound_whistle_finished():
+	if $mouth.animation == "whistle":	
+		$mouth.animation = "default_smile"
+		$mouth.play()
+
+func _on_sound_yawn_finished():
+	if $mouth.animation == "yawn":
+		$mouth.animation = "default_smile"
+		$mouth.play()
+
+func _on_arms_Timer_timeout():
+	$arms/CollisionShape2D.disabled = true
+	if $arms/arm_L.visible:
+		$arms/arm_L.play("", true)
+	elif $arms/arm_R.visible:
+		$arms/arm_R.play("", true)
+	
