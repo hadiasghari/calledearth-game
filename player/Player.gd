@@ -88,16 +88,14 @@ func get_input():
 		$arms/arm_R.visible = true		
 		$arms/arm_L.visible = false
 				
-	if Input.is_action_pressed(dev3 + "_action"):
+	if Input.is_action_just_pressed(dev3 + "_action"):
 		#print_debug('arm-push')
 		if $arms/arm_L.visible:	
 			$arms/arm_L.play()
+			#$arms/arm_L.seek(0, true) 	
 		else:
-			$arms/arm_R.play()		
-		$arms/CollisionShape2D.disabled = false
-		$arms/arms_Timer.start()
-		# TODO: turn on specific collision sheet too 
-		# ALSO, SOUND?
+			$arms/arm_R.play()	
+			#$arms/arm_R.seek(0, true) 		
 				
 	# IV. finally, logic for mouth (all devices)
 	# NOTE: if we odn't want mixing of sounds at one time, 
@@ -124,7 +122,8 @@ func _physics_process(delta):
 	get_input()  # sets velocity.x and motions
 	
 	velocity.y += gravity * delta
-	velocity = move_and_slide(velocity, Vector2.UP)
+	velocity = move_and_slide(velocity, Vector2.UP, 
+							  false, 4, 0.785398, false)
 	if abs(velocity.x) < 1:
 		velocity.x = 0  # avoid very small slides for smoothness
 	
@@ -157,10 +156,19 @@ func _on_sound_yawn_finished():
 	$mouth.animation = "default_smile"
 	$mouth.play()
 
-func _on_arms_Timer_timeout():
-	$arms/CollisionShape2D.disabled = true
-	if $arms/arm_L.visible:
-		$arms/arm_L.play("", true)
-	elif $arms/arm_R.visible:
-		$arms/arm_R.play("", true)
-	
+
+func _on_arm_R_animation_finished():
+	$arms/Collision_R.disabled = false	
+	yield(get_tree().create_timer(1), "timeout")
+	$arms/Collision_R.disabled = true	
+	# wouldn't retrigger not sure why, $arms/arm_R.play("", true)  
+	$arms/arm_R.frame = 0
+	$arms/arm_R.stop()
+
+func _on_arm_L_animation_finished():
+	$arms/Collision_L.disabled = false	
+	yield(get_tree().create_timer(1), "timeout")
+	$arms/Collision_L.disabled = true	
+	$arms/arm_R.frame = 0
+	$arms/arm_R.stop()
+

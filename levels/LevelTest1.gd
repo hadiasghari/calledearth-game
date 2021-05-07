@@ -44,7 +44,7 @@ func _on_Collectible_pickup():
 	# TODO: POST doesn't work yet. (easier to also send location)
 	#request.connect("request_completed", self, "_http_request3_completed")
 	#print($player.position)
-	last_location = $player.position[0]
+	last_location = $Player.position[0]
 	var err = request.request(server_url + "/earth/gosetprompt/" + gameid + "/" + str(nprompt)) 	
 	#var data = {"prompt": str(nprompt), "location": "0"}  # str(position)}
 	#var body = {"name": "Godette"}
@@ -60,14 +60,19 @@ func _http_request_newgame_completed(result, response_code, headers, body):
 		var response = parse_json(body.get_string_from_utf8())
 		gameid = str(response)
 		print("GAMEID:", gameid)  		# TODO: for debug put this on HUD
-		$Timer.start()		# start other timer only now :)
+		$TimerTexts0.start()		# start other timer only now :)
+		
+		$Mechanism1.init(server_url, gameid)  
+		# TODO: do this for all child button-mechanisms... or perhaps emit signal
 		
 
 func _on_Timer_timeout():
+	return  # TODO FOR NOW
 	var request1 = HTTPRequest.new()
 	add_child(request1)
 	request1.connect("request_completed", self, "_http_request1_completed")
-	request1.request(server_url + "/earth/gogettexts/" + gameid + "/" + str(nprompt-1)) 
+	request1.request(server_url + "/earth/gogettexts/" + gameid + "/" + str(nprompt-1))
+	#print_debug(server_url + "/earth/gogettexts/" + gameid + "/" + str(nprompt-1)) 
 	# note: if necessary, add last time to only get new messages  
 	# note: wierd, no error here when server unavailable
 	#if error != OK:
@@ -84,10 +89,11 @@ func _on_Timer_timeout():
 
 
 func _http_request1_completed(result, response_code, headers, body):
+	return  # TODO FOR NOW
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
 		# NOTE: wierd when server unavailable, body is not null, but parse_json fails
-		print("DBG HTTP:", response)   
+		#print("DBG HTTP:", response)   
 		for r in response:
 			# we are assuming this is ordered by pk, this is to show only new texts
 			# if goal is replay, time should be compared with game_time instead.
@@ -97,19 +103,20 @@ func _http_request1_completed(result, response_code, headers, body):
 	#else:
 	#	push_error("Empty HTTP response.") 
 
-func _http_request2_completed(result, response_code, headers, body):
-	if body.get_string_from_utf8():
-		var response = parse_json(body.get_string_from_utf8())
+#func _http_request2_completed(result, response_code, headers, body):
+#	if body.get_string_from_utf8():
+#		var response = parse_json(body.get_string_from_utf8())
 		#print("GAME STATS:", response)   
 		# $LiveInfo.set_text(str(len(response['participants'])))
 
 func spawn_words(text, ecode):
-	var w = Words.instance()
+	pass  # TODO FOR NOW
+#	var w = Words.instance()
 	# TODO: either get location of collectible, or place it in front of avatar
 	#       (in which case see which way it's facing, and add +/- 100)
-	var pos = $player.position  
-	w.init(Vector2(pos[0], pos[1]-500), text, ecode, 300)
-	add_child(w)
+#	var pos = $Player.position  
+#	w.init(Vector2(pos[0], pos[1]-500), text, ecode, 300)
+#	add_child(w)
 
 
 	
