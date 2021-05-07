@@ -11,7 +11,7 @@
 [ext_resource path="res://assets/art/sounds/soundtrack_draft_lvl1.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/art/collect items/Switch button.png" type="Texture" id=11]
 
-[sub_resource type="TileSet" id=15]
+[sub_resource type="TileSet" id=1]
 0/name = "Lvl 1 objects.png 0"
 0/texture = ExtResource( 9 )
 0/tex_offset = Vector2( 0, 0 )
@@ -346,7 +346,7 @@ resource_local_to_scene = true
 } ]
 13/z_index = 0
 
-[sub_resource type="TileSet" id=16]
+[sub_resource type="TileSet" id=15]
 0/name = "collect_item_aqua.png 0"
 0/texture = ExtResource( 7 )
 0/tex_offset = Vector2( 0, 0 )
@@ -443,6 +443,7 @@ script = ExtResource( 2 )
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+visible = false
 self_modulate = Color( 1, 1, 1, 0.670588 )
 position = Vector2( -756.948, -1486.4 )
 motion_scale = Vector2( 0.7, 0.7 )
@@ -452,12 +453,13 @@ __meta__ = {
 }
 
 [node name="stars" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+visible = false
 scale = Vector2( 0.672839, 0.586308 )
 centered = false
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2( 715.226, -1140.71 )
-motion_mirroring = Vector2( 5240, 0 )
+motion_mirroring = Vector2( 4032, 3024 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -465,13 +467,12 @@ __meta__ = {
 [node name="background 1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 modulate = Color( 1, 1, 1, 0.878431 )
 position = Vector2( -759.754, -424.198 )
-scale = Vector2( 1.3, 1.3 )
 texture = ExtResource( 1 )
 centered = false
 
 [node name="TileMap_background" type="TileMap" parent="."]
 modulate = Color( 1, 1, 1, 0.568627 )
-tile_set = SubResource( 15 )
+tile_set = SubResource( 1 )
 cell_size = Vector2( 28, 28 )
 format = 1
 tile_data = PoolIntArray( -3080054, 2, 0, -3080043, 2, 0, -3080030, 2, 0, -3080018, 2, 0, -2686796, 0, 0, -2097040, 2, 0, -2096954, 536870915, 0, -2096950, 3, 0, -2031424, 536870912, 0, -2031419, 536870912, 0, -2031412, 536870915, 0, -1900332, 536870912, 0, -1114038, 1, 0, -1113975, 3, 0, -1113969, 3, 0, -1113891, 3, 0, -1048349, 0, 0, -982893, 0, 0, -982817, 536870912, 0, -917258, 536870915, 0, -786181, 0, 0, -458751, 2, 0, -458744, 2, 0, -458736, 2, 0, -393156, 536870913, 0, -393155, 536870913, 0, -393153, 1, 0, -393129, 3, 0, -393119, 1, 0, -327571, 536870913, 0, -262059, 0, 0, -262058, 0, 0, -131051, 0, 0, -130993, 0, 0, -130992, 0, 0, -65485, 1, 0 )
@@ -484,7 +485,7 @@ format = 1
 tile_data = PoolIntArray( -2096957, 9, 0, -1900349, 10, 0, -1703741, 10, 0, -1507133, 10, 0, -1310650, 12, 0, -1310647, 5, 0, -1310638, 5, 0, -1310629, 11, 0, -1310525, 10, 0, -1113917, 10, 0, -982944, 0, 0, -917400, 0, 0, -917309, 10, 0, -786377, 13, 0, -786239, 9, 0, -786238, 9, 0, -720726, 12, 0, -720723, 5, 0, -720714, 5, 0, -720705, 11, 0, -720701, 10, 0, -655192, 9, 0, -655167, 9, 0, -524117, 10, 0, -524114, 10, 0, -524111, 10, 0, -524108, 10, 0, -524105, 10, 0, -524102, 10, 0, -524099, 10, 0, -524096, 10, 0, -524093, 10, 0, -458683, 0, 0, -458640, 0, 0, -458584, 10, 0, -393096, 0, 0, -262015, 10, 0, -262012, 10, 0, -262009, 10, 0, -262006, 10, 0, -262003, 10, 0, -262000, 10, 0, -261998, 8, 0, -261976, 10, 0, -65493, 536870923, 0, -65490, 536870917, 0, -65481, 536870917, 0, -65472, 11, 0, -65390, 10, 0, -65368, 10, 0, 1, 536870923, 0, 4, 5, 0, 13, 5, 0, 22, 5, 0, 31, 5, 0, 40, 11, 0, 166, 9, 0, 131218, 10, 0, 131238, 10, 0, 131240, 7, 0, 262310, 10, 0, 327826, 10, 0, 458917, 9, 0, 458918, 7, 0, 524434, 10, 0, 589989, 10, 0, 721042, 10, 0, 786597, 10, 0, 917650, 10, 0, 917653, 5, 0, 917661, 5, 0, 983188, 8, 0, 983204, 9, 0, 983205, 7, 0, 1114258, 6, 0, 1114261, 10, 0, 1114264, 10, 0, 1114267, 10, 0, 1114270, 10, 0, 1114273, 10, 0, 1114276, 7, 0 )
 
 [node name="Tilemap_pickups" type="TileMap" parent="."]
-tile_set = SubResource( 16 )
+tile_set = SubResource( 15 )
 cell_size = Vector2( 128, 128 )
 format = 1
 tile_data = PoolIntArray( -786397, 4, 0, -720861, 2, 0, -393191, 2, 0, -262044, 2, 0, -65520, 4, 0 )
