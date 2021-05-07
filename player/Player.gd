@@ -8,6 +8,7 @@ export (int) var gravity = 4000
 
 var velocity = Vector2.ZERO
 var devoffset = 0  # also should respond to pickup signals (later)
+var mouth_action = 0
 
 				
 func _ready():
@@ -21,7 +22,7 @@ func _ready():
 
 func get_input():
 		# logic for rotating functions of four controllers
-	if Input.is_action_pressed("rotate"):
+	if Input.is_action_just_pressed("rotate"):
 		devoffset += 1
 		print_debug('device-offset: ' + str(devoffset))
 	var dev0 = "dev" + str((0 + devoffset) % 4)
@@ -101,23 +102,23 @@ func get_input():
 	# IV. finally, logic for mouth (all devices)
 	# NOTE: if we odn't want mixing of sounds at one time, 
 	#       we should have one audio2d and stop/restart it
-	if Input.is_action_pressed(dev0 + "_mouth"):
+	if Input.is_action_just_pressed(dev0 + "_mouth"):
 		$mouth.animation = "growl"
-		$mouth.play()
+		#$mouth.play()
 		$mouth/growl.play()
-	if Input.is_action_pressed(dev1 + "_mouth"):
+	if Input.is_action_just_pressed(dev1 + "_mouth"):
 		$mouth.animation = "whistle"
-		$mouth.play()
+		#$mouth.play()
 		$mouth/whistle.play()
-	if Input.is_action_pressed(dev2 + "_mouth"):
+	if Input.is_action_just_pressed(dev2 + "_mouth"):
 		$mouth.animation = "sing"
-		$mouth.play()
+		#$mouth.play()
 		$mouth/singing.play()
-	if Input.is_action_pressed(dev3 + "_mouth"):
+	if Input.is_action_just_pressed(dev3 + "_mouth"):
 		$mouth.animation = "yawn"
-		$mouth.play()
+		#$mouth.play()
 		$mouth/yawn.play()
-								
+
 
 func _physics_process(delta):
 	get_input()  # sets velocity.x and motions
@@ -141,24 +142,20 @@ func _physics_process(delta):
 
 
 func _on_sound_growl_finished():
-	if $mouth.animation == "growl":
-		$mouth.animation = "default_smile"
-		$mouth.play()
+	$mouth.animation = "default_smile"
+	$mouth.play()
 
 func _on_sound_singing_finished():
-	if $mouth.animation == "singing":
-		$mouth.animation = "default_smile"
-		$mouth.play()
+	$mouth.animation = "default_smile"
+	$mouth.play()
 
 func _on_sound_whistle_finished():
-	if $mouth.animation == "whistle":	
-		$mouth.animation = "default_smile"
-		$mouth.play()
+	$mouth.animation = "default_smile"
+	$mouth.play()
 
 func _on_sound_yawn_finished():
-	if $mouth.animation == "yawn":
-		$mouth.animation = "default_smile"
-		$mouth.play()
+	$mouth.animation = "default_smile"
+	$mouth.play()
 
 func _on_arms_Timer_timeout():
 	$arms/CollisionShape2D.disabled = true
