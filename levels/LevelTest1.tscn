@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://assets/art/background images/game background.png" type="Texture" id=1]
 [ext_resource path="res://levels/LevelTest1.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://assets/art/tile_set/500_tilemap.png" type="Texture" id=8]
 [ext_resource path="res://assets/art/decorative objects/Lvl 1 objects.png" type="Texture" id=9]
 [ext_resource path="res://assets/art/sounds/soundtrack_draft_lvl1.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/art/collect items/Switch button.png" type="Texture" id=11]
 
 [sub_resource type="TileSet" id=15]
 0/name = "Lvl 1 objects.png 0"
@@ -421,6 +422,20 @@ resource_local_to_scene = true
 3/shape_one_way_margin = 0.0
 3/shapes = [  ]
 3/z_index = 0
+4/name = "Switch button.png 4"
+4/texture = ExtResource( 11 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( -8, -4, 144, 137 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape_one_way = false
+4/shape_one_way_margin = 0.0
+4/shapes = [  ]
+4/z_index = 0
 
 [node name="level" type="Node2D"]
 position = Vector2( -14.119, 577.044 )
@@ -468,7 +483,6 @@ tile_data = PoolIntArray( -3080054, 2, 0, -3080043, 2, 0, -3080030, 2, 0, -30800
 tile_set = SubResource( 14 )
 cell_size = Vector2( 55, 55 )
 cell_quadrant_size = 64
-show_collision = true
 format = 1
 tile_data = PoolIntArray( -2096957, 9, 0, -1900349, 10, 0, -1703741, 10, 0, -1507133, 10, 0, -1310650, 12, 0, -1310647, 5, 0, -1310638, 5, 0, -1310629, 11, 0, -1310525, 10, 0, -1113917, 10, 0, -982944, 0, 0, -917400, 0, 0, -917309, 10, 0, -786377, 13, 0, -786239, 9, 0, -786238, 9, 0, -720726, 12, 0, -720723, 5, 0, -720714, 5, 0, -720705, 11, 0, -720701, 10, 0, -655192, 9, 0, -655167, 9, 0, -524117, 10, 0, -524114, 10, 0, -524111, 10, 0, -524108, 10, 0, -524105, 10, 0, -524102, 10, 0, -524099, 10, 0, -524096, 10, 0, -524093, 10, 0, -458683, 0, 0, -458640, 0, 0, -458584, 10, 0, -393096, 0, 0, -262015, 10, 0, -262012, 10, 0, -262009, 10, 0, -262006, 10, 0, -262003, 10, 0, -262000, 10, 0, -261998, 8, 0, -261976, 10, 0, -65493, 536870923, 0, -65490, 536870917, 0, -65481, 536870917, 0, -65472, 11, 0, -65390, 10, 0, -65368, 10, 0, 1, 536870923, 0, 4, 5, 0, 13, 5, 0, 22, 5, 0, 31, 5, 0, 40, 11, 0, 166, 9, 0, 131218, 10, 0, 131238, 10, 0, 131240, 7, 0, 262310, 10, 0, 327826, 10, 0, 458917, 9, 0, 458918, 7, 0, 524434, 10, 0, 589989, 10, 0, 721042, 10, 0, 786597, 10, 0, 917650, 10, 0, 917653, 5, 0, 917661, 5, 0, 983188, 8, 0, 983204, 9, 0, 983205, 7, 0, 1114258, 6, 0, 1114261, 10, 0, 1114264, 10, 0, 1114267, 10, 0, 1114270, 10, 0, 1114273, 10, 0, 1114276, 7, 0 )
 
@@ -476,7 +490,7 @@ tile_data = PoolIntArray( -2096957, 9, 0, -1900349, 10, 0, -1703741, 10, 0, -150
 tile_set = SubResource( 16 )
 cell_size = Vector2( 128, 128 )
 format = 1
-tile_data = PoolIntArray( -720865, 3, 0, -720823, 2, 0, -524249, 2, 0, -262121, 2, 0, -262075, 3, 0, -262044, 2, 0 )
+tile_data = PoolIntArray( -786397, 4, 0, -720861, 2, 0, -393191, 2, 0, -262044, 2, 0, -65520, 4, 0 )
 
 [node name="player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 7232.66, -332.173 )
