@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/leg_L/chicleg_walk.png" type="Texture" id=1]
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/mouth/mouth_singing.png" type="Texture" id=2]
@@ -18,6 +18,58 @@
 [ext_resource path="res://assets/art/sounds/sound_mouth_singing.ogg" type="AudioStream" id=16]
 [ext_resource path="res://assets/art/sounds/sound_mouth_whistle.ogg" type="AudioStream" id=17]
 [ext_resource path="res://assets/art/character sprite sheet/avatar_sprite_sheets/mouth/Mouth yawn frames.png" type="Texture" id=18]
+[ext_resource path="res://assets/art/sounds/sound_mouth_yawn.ogg" type="AudioStream" id=19]
+
+[sub_resource type="AtlasTexture" id=48]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=49]
+flags = 4
+atlas = ExtResource( 9 )
+region = Rect2( 512, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=50]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=51]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 512, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=52]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 1024, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=53]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 1536, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=54]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 2048, 0, 512, 512 )
+
+[sub_resource type="SpriteFrames" id=55]
+animations = [ {
+"frames": [ SubResource( 48 ), SubResource( 49 ) ],
+"loop": true,
+"name": "idle",
+"speed": 2.0
+}, {
+"frames": [ SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ) ],
+"loop": false,
+"name": "push",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=56]
+extents = Vector2( 280.545, 52.787 )
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -173,11 +225,6 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="AtlasTexture" id=28]
-flags = 4
-atlas = ExtResource( 18 )
-region = Rect2( 0, 0, 512, 512 )
-
 [sub_resource type="AtlasTexture" id=29]
 flags = 4
 atlas = ExtResource( 18 )
@@ -215,7 +262,7 @@ region = Rect2( 0, 0, 111, 135 )
 
 [sub_resource type="SpriteFrames" id=36]
 animations = [ {
-"frames": [ SubResource( 28 ), SubResource( 29 ) ],
+"frames": [ SubResource( 29 ) ],
 "loop": true,
 "name": "yawn",
 "speed": 5.0
@@ -243,28 +290,28 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=37]
 flags = 4
-atlas = ExtResource( 4 )
+atlas = ExtResource( 13 )
 region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=38]
 flags = 4
-atlas = ExtResource( 4 )
+atlas = ExtResource( 13 )
 region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=39]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=40]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 512, 0, 512, 512 )
+region = Rect2( 1536, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=41]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 1024, 0, 512, 512 )
+region = Rect2( 2048, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=42]
 flags = 4
@@ -274,81 +321,33 @@ region = Rect2( 1536, 0, 512, 512 )
 [sub_resource type="AtlasTexture" id=43]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 2048, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=44]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 1536, 0, 512, 512 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=45]
 flags = 4
-atlas = ExtResource( 13 )
-region = Rect2( 1024, 0, 512, 512 )
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=46]
 flags = 4
-atlas = ExtResource( 13 )
+atlas = ExtResource( 4 )
 region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="SpriteFrames" id=47]
 animations = [ {
-"frames": [ SubResource( 37 ), SubResource( 38 ) ],
-"loop": true,
-"name": "wings_idle",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ) ],
+"frames": [ SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ) ],
 "loop": true,
 "name": "wings_fly",
 "speed": 20.0
-} ]
-
-[sub_resource type="AtlasTexture" id=48]
-flags = 4
-atlas = ExtResource( 9 )
-region = Rect2( 0, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=49]
-flags = 4
-atlas = ExtResource( 9 )
-region = Rect2( 512, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=50]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 0, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=51]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 512, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=52]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 1024, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=53]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 1536, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=54]
-flags = 4
-atlas = ExtResource( 7 )
-region = Rect2( 2048, 0, 512, 512 )
-
-[sub_resource type="SpriteFrames" id=55]
-animations = [ {
-"frames": [ SubResource( 48 ), SubResource( 49 ) ],
-"loop": true,
-"name": "idle",
-"speed": 2.0
 }, {
-"frames": [ SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ) ],
+"frames": [ SubResource( 45 ), SubResource( 46 ) ],
 "loop": true,
-"name": "push",
+"name": "wings_idle",
 "speed": 5.0
 } ]
 
@@ -356,6 +355,41 @@ animations = [ {
 collision_layer = 2
 collision_mask = 13
 script = ExtResource( 14 )
+
+[node name="arms" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 16
+
+[node name="arm_R" type="AnimatedSprite" parent="arms"]
+position = Vector2( 185.989, -29.2331 )
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 55 )
+animation = "push"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="arm_L" type="AnimatedSprite" parent="arms"]
+visible = false
+position = Vector2( -188.515, -35.6202 )
+scale = Vector2( 0.510711, 0.46639 )
+frames = SubResource( 55 )
+animation = "push"
+flip_h = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="arms"]
+position = Vector2( 0, -27.2481 )
+shape = SubResource( 56 )
+disabled = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="arms_Timer" type="Timer" parent="arms"]
+wait_time = 3.0
 
 [node name="body" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
@@ -397,6 +431,38 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="growl" type="AudioStreamPlayer2D" parent="mouth"]
+position = Vector2( -3.69528, -23.5099 )
+scale = Vector2( 0.970874, 1.0989 )
+stream = ExtResource( 15 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="singing" type="AudioStreamPlayer2D" parent="mouth"]
+position = Vector2( -3.69528, -23.5099 )
+scale = Vector2( 0.970874, 1.0989 )
+stream = ExtResource( 16 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="whistle" type="AudioStreamPlayer2D" parent="mouth"]
+position = Vector2( -3.69528, -23.5099 )
+scale = Vector2( 0.970874, 1.0989 )
+stream = ExtResource( 17 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="yawn" type="AudioStreamPlayer2D" parent="mouth"]
+position = Vector2( -3.69528, -23.5099 )
+scale = Vector2( 0.970874, 1.0989 )
+stream = ExtResource( 19 )
+__meta__ = {
+"_edit_lock_": true
+}
+
 [node name="wings" type="AnimatedSprite" parent="."]
 position = Vector2( -2.24114, -41.5938 )
 scale = Vector2( 0.99, 0.78 )
@@ -407,50 +473,22 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="arm_R" type="AnimatedSprite" parent="."]
-position = Vector2( 185.989, -29.2331 )
-scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 55 )
-animation = "idle"
-frame = 1
-speed_scale = 0.5
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="arm_L" type="AnimatedSprite" parent="."]
-visible = false
-position = Vector2( -194.884, -33.8384 )
-scale = Vector2( 0.510711, 0.46639 )
-frames = SubResource( 55 )
-animation = "idle"
-frame = 1
-speed_scale = 0.5
-flip_h = true
-__meta__ = {
-"_edit_lock_": true
-}
-
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 1.2, 1.2 )
+smoothing_enabled = true
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( 190.428, -5.04382, 120.836, -8.41121, 103.999, -9.53366, 87.1618, -43.2075, 18.6916, -81.3712, -32.9417, -78.0039, -81.2075, -49.9423, -105.902, -3.92136, -103.657, 45.467, -81.2075, 70.1611, -74.4727, 78.0184, -117.126, 136.386, -117.126, 228, -65.493, 228, -0.39, 228, 9.712, 228, 119.713, 228, 120.836, 163.326, 73.6922, 84.7531, 107.366, 38.7322, 118.591, 26.3851, 208.388, 17.4054, 217.367, -106.065, 192.673, -125.147, 173.591, -95.9632 )
+polygon = PoolVector2Array( 103.999, -9.53366, 87.1618, -43.2075, 18.6916, -81.3712, -32.9417, -78.0039, -81.2075, -49.9423, -105.902, -3.92136, -103.657, 45.467, -81.2075, 70.1611, -74.4727, 78.0184, -117.126, 136.386, -117.126, 228, -65.493, 228, -0.39, 228, 9.712, 228, 119.713, 228, 120.836, 163.326, 73.6922, 84.7531, 107.711, 34.891 )
+__meta__ = {
+"_edit_lock_": true
+}
 
-[node name="sound_growl" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 15 )
-
-[node name="sound_singing" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 16 )
-
-[node name="sound_whistle" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 17 )
-
-[node name="TimerMouthReset" type="Timer" parent="."]
-wait_time = 6.0
-
-[connection signal="timeout" from="TimerMouthReset" to="." method="_on_TimerMouthReset_timeout"]
+[connection signal="timeout" from="arms/arms_Timer" to="." method="_on_arms_Timer_timeout"]
+[connection signal="finished" from="mouth/growl" to="." method="_on_sound_growl_finished"]
+[connection signal="finished" from="mouth/singing" to="." method="_on_sound_singing_finished"]
+[connection signal="finished" from="mouth/whistle" to="." method="_on_sound_whistle_finished"]
+[connection signal="finished" from="mouth/yawn" to="." method="_on_sound_yawn_finished"]
