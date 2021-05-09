@@ -441,7 +441,7 @@ __meta__ = {
 tile_set = SubResource( 15 )
 cell_size = Vector2( 128, 128 )
 format = 1
-tile_data = PoolIntArray( -655307, 4, 0 )
+tile_data = PoolIntArray( -1245089, 536870916, 0, -1048442, 536870916, 0, -655307, 4, 0 )
 
 [node name="Mechanism1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 10732.7, -2102.46 )
