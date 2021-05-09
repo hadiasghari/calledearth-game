@@ -521,7 +521,6 @@ tile_data = PoolIntArray( -720797, 0, 0, -720796, 2, 0, -655279, 13, 0, -655278,
 
 [node name="Mechanism1" parent="." instance=ExtResource( 6 )]
 position = Vector2( 538.208, 80.5191 )
-prompt_key = 99999
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 258.636, 33.1288 )
