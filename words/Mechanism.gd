@@ -44,7 +44,11 @@ func _ready():
 	
 	if test_mode:
 		var test_strings = ["There were many words for her.", 
+		"Zoinks",
+		"Crikey",
 		"None of them were more than sound.", 
+		"Oh my God",
+		"WTF",
 		"By coincidence, or by choice, or by miraculous design, " \
 		+ "she settled into such a particular orbit around the sun that after the moon had been knocked from her belly " \
 		+ "and pulled the water into sapphire blue oceans " \

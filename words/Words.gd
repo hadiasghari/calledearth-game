@@ -13,7 +13,7 @@ func init(pos, text, ecode, maxlen, boxcolor_ix=-1):
 	# estimate box size
 	var textlen = len(text)*16 + 100  # estimate with margin
 	var lines = min((textlen / maxlen) + 1, 4)  # 4 lines limit
-	var boxl = min(textlen, maxlen)
+	var boxl = min(textlen, maxlen-100)
 	var boxh = lines * 50 + 20  # add margin		
 	var sz = Vector2(boxl, boxh)  # len(text) * 16 + 20 , 32
 	# resize all elements 
@@ -23,7 +23,7 @@ func init(pos, text, ecode, maxlen, boxcolor_ix=-1):
 	$Collision.shape.set_extents(sz/2)	
 	$Collision.transform[2] = sz/2  # centers it	
 	# position box at center (H needs work -- should be based on existing height)
-	position = pos + Vector2(maxlen/2 - boxl/2, -boxh/2 + 30)
+	position = pos #+ Vector2(maxlen/2 - boxl/2, -boxh/2 + 30)
 	# set bg color
 	if boxcolor_ix != -1: 
 		$Rect.color = BoxColors[boxcolor_ix % 4]
