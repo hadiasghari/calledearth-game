@@ -42,7 +42,6 @@ func _ready():
 	$Platform/CollisionShape2D.shape.extents[0] = platform_length/2
 	# TODO: if we are replaying, then we need to give current sate of this button and have all the words loaded immediately :)	
 	
-	# TEMP test mode
 	if test_mode:
 		var test_strings = ["There were many words for her.", 
 		"None of them were more than sound.", 
@@ -51,13 +50,15 @@ func _ready():
 		+ "and pulled the water into sapphire blue oceans " \
 		+ "the fire and brimstone had simmered, and the land had stopped buckling and heaving with such relentless vigor, " \
 		+ "she whispered a secret code amongst the atoms, and life was born.",
-		"She rocked her new creation and spun and danced around the bright sun as her children multiplied in number, wisdom, and beauty." 
+		"She rocked her new creation and spun and danced around the bright sun as her children multiplied in number, wisdom, and beauty." ,
+		"The End!"
 		]
+		$Platform/Camera2D.current = true		
 		for s in test_strings:
 			spawn_words(s, 127913)
 			yield(get_tree().create_timer(1), "timeout")	
-			
-		$Platform/Camera2D.current = true
+		emit_signal('activated') 	
+
 	
 
 func _on_HTTPTimer_timeout():
@@ -96,9 +97,9 @@ func _on_Button_area_entered(area):
 func _on_AnimatedSprite_animation_finished():
 	# TODO: SOUND	
 	yield(get_tree().create_timer(1), "timeout")
-	emit_signal('activated') 
 	$Platform/Camera2D.current = true  # TODO: can we pan to it?
-	
+	emit_signal('activated') 
+		
 	# set DB to this prompt!  (no timeout needed, we assume success)
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
