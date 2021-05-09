@@ -22,8 +22,12 @@ func init(pos, text, ecode, maxlen, boxcolor_ix=-1):
 	$Collision.shape = RectangleShape2D.new()  # we need a new one!
 	$Collision.shape.set_extents(sz/2)	
 	$Collision.transform[2] = sz/2  # centers it	
-	# position box at center (H needs work -- should be based on existing height)
-	position = pos #+ Vector2(maxlen/2 - boxl/2, -boxh/2 + 30)
+	# position box at center 
+	if boxcolor_ix % 2 == 1:
+		position = pos + Vector2(0, -30)
+	else: 
+		position = pos + Vector2(maxlen-boxl, -30)
+		# -boxh/2 + 30
 	# set bg color
 	if boxcolor_ix != -1: 
 		$Rect.color = BoxColors[boxcolor_ix % 4]

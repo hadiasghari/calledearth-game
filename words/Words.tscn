@@ -13,6 +13,9 @@ font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 4 )
 
 [node name="Body2D" type="RigidBody2D"]
+mass = 3.0
+linear_velocity = Vector2( 0, -40 )
+angular_velocity = 1.0
 script = ExtResource( 2 )
 
 [node name="Rect" type="ColorRect" parent="."]
