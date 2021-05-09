@@ -9,7 +9,7 @@
 [ext_resource path="res://assets/art/collect items/collect_item_aqua.png" type="Texture" id=7]
 [ext_resource path="res://assets/art/tile_set/500_tilemap.png" type="Texture" id=8]
 [ext_resource path="res://assets/art/decorative objects/Lvl 1 objects.png" type="Texture" id=9]
-[ext_resource path="res://assets/art/sounds/soundtrack_draft_lvl1.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/art/soundtrack/soundtrack_lvl_1.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/art/collect items/Switch button.png" type="Texture" id=11]
 
 [sub_resource type="TileSet" id=1]
@@ -493,10 +493,10 @@ __meta__ = {
 position = Vector2( 7900, -346 )
 platform_off_x = 750
 platform_off_y = 1250
-platform_length = 550
+platform_length = 800
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 7632.66, -332.173 )
+position = Vector2( 8601.96, 687.015 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]

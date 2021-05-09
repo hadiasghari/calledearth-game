@@ -12,6 +12,8 @@ var _gameid = ""
 var _server_url = ""
 var _last_text_pk = -1
 
+var _color_ix = randi()
+
 signal activated
 
 
@@ -33,11 +35,27 @@ func init(server_url, gameid):
 	# - what's the best way to call this, should this receive signals?
 	# - how can the platform offset shape/place show in the editor too? 
 
-
 func _ready():
 	$Platform.position = Vector2(platform_off_x, platform_off_y)
 	$Platform/CollisionShape2D.shape.extents[0] = platform_length/2
 	# TODO: if we are replaying, then we need to give current sate of this button and have all the words loaded immediately :)	
+	
+	# TEMP test mode
+	var testmode = ["There were many words for her.", 
+	"None of them were more than sound.", 
+	"By coincidence, or by choice, or by miraculous design, " \
+	+ "she settled into such a particular orbit around the sun that after the moon had been knocked from her belly " \
+	+ "and pulled the water into sapphire blue oceans " \
+	+ "the fire and brimstone had simmered, and the land had stopped buckling and heaving with such relentless vigor, " \
+	+ "she whispered a secret code amongst the atoms, and life was born.",
+	"She rocked her new creation and spun and danced around the bright sun as her children multiplied in number, wisdom, and beauty." 
+	]
+	for s in testmode:
+		spawn_words(s, 127913)
+		yield(get_tree().create_timer(1), "timeout")	
+		
+	$Platform/Camera2D.current = true
+	
 
 func _on_HTTPTimer_timeout():
 	var http_request = HTTPRequest.new()
@@ -46,8 +64,7 @@ func _on_HTTPTimer_timeout():
 	http_request.request(_server_url + "/earth/gogettexts/" + _gameid + "/" + str(prompt_key)) 
 	print_debug(_server_url + "/earth/gogettexts/" + _gameid + "/" + str(prompt_key))
 
-
-func _http_request_completed(result, response_code, headers, body):
+func _http_request_completed(_result, _response_code, _headers, body):
 	#print_debug("http-requst-complete")	
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
@@ -58,15 +75,16 @@ func _http_request_completed(result, response_code, headers, body):
 			if r.pk > _last_text_pk:
 				spawn_words(r.text, r.parti_code)
 				_last_text_pk = r.pk
-				yield(get_tree().create_timer(0.4), "timeout")
+				#yield(get_tree().create_timer(0.4), "timeout")
 	
-
 
 func spawn_words(text, ecode):
 	var w = Words.instance()
 	var pos = $Platform.position - Vector2(platform_length/2, 50)        
-	w.init(pos, text, ecode, platform_length)
+	w.init(pos, text, ecode, platform_length, _color_ix)
+	_color_ix += 1
 	add_child(w)
+
 
 func _on_Button_area_entered(area):
 	$Button/CollisionShape2D.disabled = true  # so not to trigger again

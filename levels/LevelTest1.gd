@@ -9,6 +9,9 @@ var gameid = ""
 var nprompt = 1
 var last_location = 0
 
+
+
+
 var server_url = "https://calledearth.herokuapp.com"
 #var server_url = "http://127.0.0.1:8000"
 
@@ -45,7 +48,7 @@ func _on_Collectible_pickup():
 	#request.connect("request_completed", self, "_http_request3_completed")
 	#print($player.position)
 	last_location = $Player.position[0]
-	var err = request.request(server_url + "/earth/gosetprompt/" + gameid + "/" + str(nprompt)) 	
+	var _err = request.request(server_url + "/earth/gosetprompt/" + gameid + "/" + str(nprompt)) 	
 	#var data = {"prompt": str(nprompt), "location": "0"}  # str(position)}
 	#var body = {"name": "Godette"}
 	#var error = request.request(server_url + "/earth/gosetprompt/" + gameid, [], true, 
@@ -55,7 +58,7 @@ func _on_Collectible_pickup():
 	
 
 
-func _http_request_newgame_completed(result, response_code, headers, body):
+func _http_request_newgame_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
 		gameid = str(response)
@@ -67,11 +70,11 @@ func _http_request_newgame_completed(result, response_code, headers, body):
 		
 
 func _on_Timer_timeout():
-	return  # TODO FOR NOW
-	var request1 = HTTPRequest.new()
-	add_child(request1)
-	request1.connect("request_completed", self, "_http_request1_completed")
-	request1.request(server_url + "/earth/gogettexts/" + gameid + "/" + str(nprompt-1))
+	return  # TODO/TEMP FOR NOW
+	#var request1 = HTTPRequest.new()
+	#add_child(request1)
+	#request1.connect("request_completed", self, "_http_request1_completed")
+	#request1.request(server_url + "/earth/gogettexts/" + gameid + "/" + str(nprompt-1))
 	#print_debug(server_url + "/earth/gogettexts/" + gameid + "/" + str(nprompt-1)) 
 	# note: if necessary, add last time to only get new messages  
 	# note: wierd, no error here when server unavailable
@@ -88,7 +91,7 @@ func _on_Timer_timeout():
 	# Temp code for pushing if we need it... 
 
 
-func _http_request1_completed(result, response_code, headers, body):
+func _http_request1_completed(_result, _response_code, _headers, body):
 	return  # TODO FOR NOW
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())

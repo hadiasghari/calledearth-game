@@ -27,7 +27,7 @@ func init(color, pos):
 func _on_CollisionShape2D_tree_entered():
 	pass
 
-func _on_Area2D_body_entered(body):
+func _on_Area2D_body_entered(_body):
 	emit_signal('pickup') 	# for other pickup logic e.g. spawning words!
 	$Audio.play()  # note, perhaps audio should be played in mai
 	$CollisionShape2D.disabled = true
