@@ -8,6 +8,8 @@ export var platform_off_x = 0
 export var platform_off_y = 0
 export var platform_length = 500
 
+export var test_mode = false
+
 var _gameid = ""
 var _server_url = ""
 var _last_text_pk = -1
@@ -41,20 +43,21 @@ func _ready():
 	# TODO: if we are replaying, then we need to give current sate of this button and have all the words loaded immediately :)	
 	
 	# TEMP test mode
-	var testmode = ["There were many words for her.", 
-	"None of them were more than sound.", 
-	"By coincidence, or by choice, or by miraculous design, " \
-	+ "she settled into such a particular orbit around the sun that after the moon had been knocked from her belly " \
-	+ "and pulled the water into sapphire blue oceans " \
-	+ "the fire and brimstone had simmered, and the land had stopped buckling and heaving with such relentless vigor, " \
-	+ "she whispered a secret code amongst the atoms, and life was born.",
-	"She rocked her new creation and spun and danced around the bright sun as her children multiplied in number, wisdom, and beauty." 
-	]
-	for s in testmode:
-		spawn_words(s, 127913)
-		yield(get_tree().create_timer(1), "timeout")	
-		
-	$Platform/Camera2D.current = true
+	if test_mode:
+		var test_strings = ["There were many words for her.", 
+		"None of them were more than sound.", 
+		"By coincidence, or by choice, or by miraculous design, " \
+		+ "she settled into such a particular orbit around the sun that after the moon had been knocked from her belly " \
+		+ "and pulled the water into sapphire blue oceans " \
+		+ "the fire and brimstone had simmered, and the land had stopped buckling and heaving with such relentless vigor, " \
+		+ "she whispered a secret code amongst the atoms, and life was born.",
+		"She rocked her new creation and spun and danced around the bright sun as her children multiplied in number, wisdom, and beauty." 
+		]
+		for s in test_strings:
+			spawn_words(s, 127913)
+			yield(get_tree().create_timer(1), "timeout")	
+			
+		$Platform/Camera2D.current = true
 	
 
 func _on_HTTPTimer_timeout():

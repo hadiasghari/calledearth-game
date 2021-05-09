@@ -3,6 +3,9 @@ extends RigidBody2D
 var BoxColors = ["#FFA7A7", "#00F6F6", "#A7FF63", "#FFE160"]
 
 func init(pos, text, ecode, maxlen, boxcolor_ix=-1):
+	if len(text) > 140:
+		text = text
+	
 	text = char(ecode) + text
 
 	
