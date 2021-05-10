@@ -139,4 +139,3 @@ shape = SubResource( 11 )
 [connection signal="animation_finished" from="Button/AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="timeout" from="HTTPTimer" to="." method="_on_HTTPTimer_timeout"]
 [connection signal="body_entered" from="AreaExit" to="." method="_on_AreaExit_body_entered"]
-[connection signal="body_exited" from="AreaExit" to="." method="_on_AreaExit_body_exited"]

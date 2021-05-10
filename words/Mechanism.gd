@@ -8,7 +8,8 @@ export var platform_off_y = 0
 export var platform_length = 500
 export var exitarea_off_x = 80  # could also add exit_height
 export var prompt_off_y = -200
-export var camera_zoom = 2
+export var camera_off_y = 0
+#export var camera_zoom = 2  # this cannot really be changed it seems?
 export var test_mode = false
 signal activated
 signal deactivated
@@ -33,7 +34,7 @@ func _on_Mechanism_tree_entered():
 	$Label.rect_position[0] = platform_off_x - platform_length/2 - 20
 	$Label.rect_position[1] += prompt_off_y  
 	$AreaExit.position[0] = platform_length + exitarea_off_x 
-	#$Platform/Camera2D.position[1] += camera_off_y
+	$Platform/Camera2D.position[1] += camera_off_y
 	#$Platform/Camera2D.zoom = Vector2(camera_zoom, camera_zoom)  # does wierd things
 	
 func _ready():

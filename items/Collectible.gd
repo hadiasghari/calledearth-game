@@ -15,7 +15,8 @@ signal pickup
 var textures = {'yellow': 'res://assets/collect items/collect item yellow.png',
 				'aqua': 'res://assets/art/collect items/collect_item_aqua.png',
 				'switch': 'res://assets/art/collect items/Switch button.png',
-				'spike': 'res://assets/art/collect items/Spikes.png'}
+				'spike': 'res://assets/art/collect items/Spikes.png',
+				'victory': 'res://assets/art/collect items/Victory button .png'}
 
 var _type = ""
 
@@ -29,6 +30,8 @@ func init(type, pos):
 		type = 'switch'
 	elif 'spike' in type:
 		type = 'spike'
+	#elif 'victory' in type:
+	#	type = 'victory'
 	else:
 		print_debug('UNKNOWN PICKUP: ' + str(type))
 		return ""	

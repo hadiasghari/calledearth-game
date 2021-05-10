@@ -45,7 +45,16 @@ func _on_pickup_switch():
 		$HUD.show_message("Limb Switch!*")
 		
 func _on_pickup_spike():
-	gameover(8)   # Take a long moment
+	yield(get_tree().create_timer(1), "timeout")  # wait a sec for gruseomeness...
+	gameover(7)   # Take a long moment
+
+func _on_pickup_victory():
+	# TODO we probably need to signal/call globla/signleton ehre for next level etc
+	# (also 	send server level 2)
+	$HUD.show_message("You Win!!")
+	$MusicLevel1.stop()
+	$MusicVictory.play()
+	
 
 func _http_request_newgame_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
@@ -74,23 +83,21 @@ func _http_request_getstats_completed(_result, _response_code, _headers, body):
 			s += char(p)
 		$HUD.update_users(s)
 
-var _last_entered = 0
-
-func _on_MusicShift_body_entered(body):
-	if 'KinematicBody2D' in str(body):	
-		_last_entered = body.position
-
-func _on_MusicShift_body_exited(body):
-	if 'KinematicBody2D' in str(body):		
-		var shift = body.position - _last_entered
-		print_debug(shift)
-		if shift[0] + shift[1] >= 0:  # TODO: this is very hacky logic :)			
-			$MusicSegue.volume_db = -10  # the normal blast
-			$MusicSegue.play()  # TODO: FADE THIS STUFF (needs tweens)
-			$MusicLevel1.stop()
-		else:
-			$MusicLevel1.play()
-			$MusicSegue.stop()
+#var _last_entered = 0
+#func _on_MusicShift_body_entered(body):
+#	if 'KinematicBody2D' in str(body):	
+#		_last_entered = body.position
+#func _on_MusicShift_body_exited(body):
+#	if 'KinematicBody2D' in str(body):		
+#		var shift = body.position - _last_entered
+#		print_debug(shift)
+#		if shift[0] + shift[1] >= 0:  # TODO: this is very hacky logic :)			
+#			$MusicSegue.volume_db = -10  # the normal blast
+#			$MusicSegue.play()  # TODO: FADE THIS STUFF (needs tweens)
+#			$MusicLevel1.stop()
+#		else:
+#			$MusicLevel1.play()
+#			$MusicSegue.stop()
 			
 func _on_Buttons_deactivated():
 	$Player/Camera2D.current = true  # return camera!

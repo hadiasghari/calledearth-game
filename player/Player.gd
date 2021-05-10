@@ -188,9 +188,3 @@ func _on_wings_body_entered(body):
 			print_debug(body)
 			body.apply_impulse(Vector2(), Vector2(0, -5000) )
  
-
-
-#func _on_wingTimer_timeout():
-#	print_debug()
-#	$wings/Sprite.stop()
-#	$wings/Collision.visible = false
