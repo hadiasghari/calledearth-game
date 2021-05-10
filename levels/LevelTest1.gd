@@ -17,11 +17,12 @@ func _ready():
 	http_request.request(server_url + "/earth/gonewgame") 
 	# TODO/Q: assert error==ok AND wait for gameID! ... else error / pause
 
-func gameover():
+func gameover(moment=2):
 	$HUD.show_message("Game Over!")
-	yield(get_tree().create_timer(2.0), "timeout")  # Take a moment :)
-	var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
 	# TODO: MUSIC GAMEOVER
+	yield(get_tree().create_timer(moment), "timeout")
+	# TODO: IF GAME IS SAVED DONT RESTART ALL OVER BUT GO TO LAST SAVE
+	var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
 
 func spawn_pickups():
 	var pickups = $Tilemap_pickups 
@@ -42,6 +43,9 @@ func _on_pickup_switch():
 		$HUD.show_message("Limb Switch!")
 	else:
 		$HUD.show_message("Limb Switch!*")
+		
+func _on_pickup_spike():
+	gameover(8)   # Take a long moment
 
 func _http_request_newgame_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
@@ -81,7 +85,7 @@ func _on_MusicShift_body_exited(body):
 		var shift = body.position - _last_entered
 		print_debug(shift)
 		if shift[0] + shift[1] >= 0:  # TODO: this is very hacky logic :)			
-			$MusicSegue.volume_db = 0  # at normal blast
+			$MusicSegue.volume_db = -10  # the normal blast
 			$MusicSegue.play()  # TODO: FADE THIS STUFF (needs tweens)
 			$MusicLevel1.stop()
 		else:
@@ -95,5 +99,8 @@ func _on_Buttons_deactivated():
 
 func _on_Buttons_activated():
 	# lower volume
-	$MusicSegue.volume_db = -10
-	$MusicSegue.play()
+	$MusicSegue.volume_db = -15
+	$MusicLevel1.stop()	
+	if not $MusicSegue.playing:
+		$MusicSegue.play()
+	

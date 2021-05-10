@@ -14,7 +14,10 @@ signal pickup
 
 var textures = {'yellow': 'res://assets/collect items/collect item yellow.png',
 				'aqua': 'res://assets/art/collect items/collect_item_aqua.png',
-				'switch': 'res://assets/art/collect items/Switch button.png'}
+				'switch': 'res://assets/art/collect items/Switch button.png',
+				'spike': 'res://assets/art/collect items/Spikes.png'}
+
+var _type = ""
 
 func init(type, pos):
 	type = type.to_lower()
@@ -24,14 +27,20 @@ func init(type, pos):
 		type = 'yellow'
 	elif 'switch' in type:
 		type = 'switch'
+	elif 'spike' in type:
+		type = 'spike'
 	else:
 		print_debug('UNKNOWN PICKUP: ' + str(type))
 		return ""	
 	$Sprite.texture = load(textures[type])
 	position = pos
+	_type = type
 	return type
 
 func _on_Area2D_body_entered(_body):
+	#if _type == 'spike': emit dead?
+		
+	
 	emit_signal('pickup') 	# for other pickup logic e.g. spawning words!
 	$Audio.play()  # note, perhaps audio should be played in mai
 	$CollisionShape2D.disabled = true
