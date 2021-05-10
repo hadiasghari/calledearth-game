@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://assets/art/background images/background 7-5.png" type="Texture" id=1]
 [ext_resource path="res://levels/LevelTest1.gd" type="Script" id=2]
@@ -11,12 +11,11 @@
 [ext_resource path="res://assets/art/decorative objects/Lvl 1 objects.png" type="Texture" id=9]
 [ext_resource path="res://assets/art/soundtrack/soundtrack_lvl_1.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/art/collect items/Switch button.png" type="Texture" id=11]
-[ext_resource path="res://assets/fonts/NewTegomin-Regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/art/soundtrack/soundtrack_segue.ogg" type="AudioStream" id=14]
 [ext_resource path="res://assets/art/collect items/Spikes.png" type="Texture" id=15]
 
-[sub_resource type="TileSet" id=18]
+[sub_resource type="TileSet" id=1]
 0/name = "Lvl 1 objects.png 0"
 0/texture = ExtResource( 9 )
 0/tex_offset = Vector2( 0, 0 )
@@ -419,15 +418,6 @@ resource_local_to_scene = true
 } ]
 13/z_index = 0
 
-[sub_resource type="DynamicFont" id=17]
-size = 32
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 12 )
-
-[sub_resource type="RectangleShape2D" id=18]
-extents = Vector2( 53.6289, 151.519 )
-
 [node name="level" type="Node2D"]
 position = Vector2( -14.119, 577.044 )
 script = ExtResource( 2 )
@@ -449,7 +439,7 @@ centered = false
 
 [node name="TileMap_background" type="TileMap" parent="."]
 modulate = Color( 1, 1, 1, 0.568627 )
-tile_set = SubResource( 18 )
+tile_set = SubResource( 1 )
 cell_size = Vector2( 28, 28 )
 format = 1
 tile_data = PoolIntArray( -8453611, 536870914, 0, -8453603, 536870914, 0, -8191466, 3, 0, -8060352, 536870915, 0, -7994817, 536870915, 0, -7929283, 3, 0, -7929278, 3, 0, -7601676, 536870915, 0, -7601674, 536870915, 0, -7470550, 0, 0, -7470549, 0, 0, -7405052, 0, 0, -7142817, 536870915, 0, -7011728, 536870914, 0, -7011720, 536870914, 0, -6487559, 2, 0, -6290798, 3, 0, -6225414, 3, 0, -6159723, 0, 0, -6159722, 0, 0, -6028747, 0, 0, -6028745, 0, 0, -6028744, 0, 0, -5963207, 0, 0, -5570083, 536870912, 0, -5570081, 536870912, 0, -5373351, 536870914, 0, -5373332, 536870914, 0, -5373322, 536870914, 0, -5373312, 536870914, 0, -5373302, 536870914, 0, -5045666, 536870915, 0, -5045654, 3, 0, -4914592, 0, 0, -4914580, 536870912, 0, -3211040, 536870914, 0, -3211028, 536870914, 0, -3211014, 536870914, 0, -3211002, 536870914, 0, -2948858, 3, 0, -2424541, 536870912, 0, -2293559, 3, 0, -2293554, 3, 0, -2293455, 536870915, 0, -2228021, 536870915, 0, -2228020, 536870915, 0, -2228018, 536870915, 0, -2227914, 536870915, 0, -2162482, 536870912, 0, -2096946, 0, 0, -1965750, 3, 0, -1900223, 536870912, 0, -1376032, 536870915, 0, -1310496, 536870912, 0, -1244959, 536870912, 0, -1114038, 1, 0, -917331, 0, 0, -720651, 536870914, 0, -720642, 536870914, 0, -655223, 3, 0, -589688, 3, 0, -524153, 0, 0, -458751, 2, 0, -458744, 2, 0, -458736, 2, 0, -458650, 536870914, 0, -458627, 536870914, 0, -458595, 536870914, 0, -458506, 536870915, 0, -458497, 536870915, 0, -393156, 536870913, 0, -393155, 536870913, 0, -393153, 1, 0, -393119, 1, 0, -327571, 536870913, 0, -262087, 3, 0, -262058, 536870915, 0, -262034, 3, 0, -262013, 3, 0, -131013, 0, 0, -131012, 0, 0, -130982, 536870912, 0, -130959, 536870912, 0, -130958, 536870912, 0, -130952, 0, 0, -130921, 0, 0, -130920, 0, 0, -130905, 536870912, 0, -130887, 0, 0, -130853, 536870912, 0, -130852, 536870912, 0, -65485, 1, 0 )
@@ -489,7 +479,6 @@ margin_left = 320.254
 margin_top = -506.676
 margin_right = 1753.25
 margin_bottom = -314.676
-custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "You are a wanderer on life’s highways, 
 but before you can explore 
@@ -504,7 +493,6 @@ margin_left = 2706.98
 margin_top = -399.385
 margin_right = 4139.97
 margin_bottom = -207.385
-custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "and jump... "
 autowrap = true
@@ -517,7 +505,6 @@ margin_left = 5792.11
 margin_top = 80.3892
 margin_right = 7225.1
 margin_bottom = 272.389
-custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "watch out..."
 autowrap = true
@@ -530,7 +517,6 @@ margin_left = 6597.8
 margin_top = -1488.49
 margin_right = 8030.8
 margin_bottom = -1296.49
-custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "sometimes things just change...
 "
@@ -544,7 +530,6 @@ margin_left = 10473.6
 margin_top = -2643.38
 margin_right = 11906.6
 margin_bottom = -2451.38
-custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "And sometimes you have to push...."
 autowrap = true
@@ -553,7 +538,7 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 12501.8, -2439.49 )
+position = Vector2( 18716.3, -1442.76 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="MusicLevel1" type="AudioStreamPlayer" parent="."]
@@ -575,18 +560,15 @@ position = Vector2( 9399.49, -827.688 )
 
 [node name="Collision1" type="CollisionShape2D" parent="MusicShift"]
 position = Vector2( 28.541, 19.0272 )
-shape = SubResource( 18 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Collision2" type="CollisionShape2D" parent="MusicShift"]
 position = Vector2( 7829.35, -976.579 )
-shape = SubResource( 18 )
 
 [node name="Collision3" type="CollisionShape2D" parent="MusicShift"]
 position = Vector2( 9469.83, -1530.95 )
-shape = SubResource( 18 )
 
 [connection signal="activated" from="Button1" to="." method="_on_Buttons_activated"]
 [connection signal="deactivated" from="Button1" to="." method="_on_Buttons_deactivated"]
@@ -594,4 +576,3 @@ shape = SubResource( 18 )
 [connection signal="deactivated" from="Button2" to="." method="_on_Buttons_deactivated"]
 [connection signal="timeout" from="TimerStats" to="." method="_on_Timer_timeout"]
 [connection signal="body_entered" from="MusicShift" to="." method="_on_MusicShift_body_entered"]
-[connection signal="body_exited" from="MusicShift" to="." method="_on_MusicShift_body_exited"]

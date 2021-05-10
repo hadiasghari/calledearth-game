@@ -2,8 +2,8 @@ extends Node2D
 
 var Collectible = preload('res://items/Collectible.tscn')
 var gameid = ""
-#var server_url = "https://calledearth.herokuapp.com"
-var server_url = "http://127.0.0.1:8000"
+var server_url = "https://calledearth.herokuapp.com"
+#var server_url = "http://127.0.0.1:8000"
 
 func _ready():
 	$Tilemap_pickups.hide()
