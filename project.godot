@@ -15,7 +15,7 @@ _global_script_class_icons={
 [application]
 
 config/name="We Called It Earth"
-run/main_scene="res://ui/StartScreen.tscn"
+run/main_scene="res://ui/TitleScreen.tscn"
 config/icon="res://icon.png"
 
 [display]

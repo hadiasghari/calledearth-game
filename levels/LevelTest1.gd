@@ -20,7 +20,7 @@ func _ready():
 func gameover():
 	$HUD.show_message("Game Over!")
 	yield(get_tree().create_timer(2.0), "timeout")  # Take a moment :)
-	get_tree().change_scene("res://ui/StartScreen.tscn") 
+	get_tree().change_scene("res://ui/TitleScreen.tscn") 
 	# TODO: MUSIC GAMEOVER
 
 func spawn_pickups():
@@ -36,8 +36,12 @@ func spawn_pickups():
 			c.connect('pickup', self, '_on_pickup_' + type) 
 
 func _on_pickup_switch():
+	# This should probably be moved into the player itself, if we can connect their signals
 	$Player.devoffset += 1	
-	$HUD.show_message("Limb Switch!")
+	if $Player.devoffset % 4 != 0:
+		$HUD.show_message("Limb Switch!")
+	else:
+		$HUD.show_message("Limb Switch!*")
 
 func _http_request_newgame_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
@@ -45,12 +49,11 @@ func _http_request_newgame_completed(_result, _response_code, _headers, body):
 		gameid = str(response)
 		print("GAMEID:", gameid)  
 		$HUD.update_server(server_url)
-		$TimerStats.start()		# start other timer only now :)
-		$MusicSegue.play()		# TODO: doesn't work
-		
-		# TODO/Q: what's a better way to do this for all child button-mechanisms? perhaps emit signal?
-		$Mechanism1.init(server_url, gameid)  
-		$Mechanism2.init(server_url, gameid)  
+		$TimerStats.start()		# start other timer only now :)		
+		# TODO/Q: what's a better way to do this for all child button-mechanisms? 
+		#         this grouping thingie? or perhaps emit signal?
+		$Button1.init(server_url, gameid)  
+		$Button2.init(server_url, gameid)  
 
 func _on_Timer_timeout():
 	var request = HTTPRequest.new()
@@ -67,18 +70,30 @@ func _http_request_getstats_completed(result, response_code, headers, body):
 			s += char(p)
 		$HUD.update_users(s)
 
-
-var last_entered = 0
+var _last_entered = 0
 
 func _on_MusicShift_body_entered(body):
-	# TODO/Q only respond if body is KinematicBody2D?
-	last_entered = body.position[0]
+	if 'KinematicBody2D' in str(body):	
+		_last_entered = body.position
 
 func _on_MusicShift_body_exited(body):
-	print_debug(body.position[0] - last_entered)
-	# TODO: if positive, play SEGUE, else play LEVEL
-	# TODO: use tweens later for fade
-
-
-func _on_Mechanism1_deactivated():
+	if 'KinematicBody2D' in str(body):		
+		var shift = body.position - _last_entered
+		print_debug(shift)
+		if shift[0] + shift[1] >= 0:  # TODO: this is very hacky logic :)			
+			$MusicSegue.volume_db = 0  # at normal blast
+			$MusicSegue.play()  # TODO: FADE THIS STUFF (needs tweens)
+			$MusicLevel1.stop()
+		else:
+			$MusicLevel1.play()
+			$MusicSegue.stop()
+			
+func _on_Buttons_deactivated():
 	$Player/Camera2D.current = true  # return camera!
+	$MusicSegue.stop()
+	$MusicLevel1.play()
+
+func _on_Buttons_activated():
+	# lower volume
+	$MusicSegue.volume_db = -10
+	$MusicSegue.play()

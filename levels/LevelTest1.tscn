@@ -401,7 +401,7 @@ use_filter = true
 font_data = ExtResource( 12 )
 
 [sub_resource type="RectangleShape2D" id=17]
-extents = Vector2( 20, 120 )
+extents = Vector2( 53.6289, 151.519 )
 
 [node name="level" type="Node2D"]
 position = Vector2( -14.119, 577.044 )
@@ -448,17 +448,17 @@ cell_size = Vector2( 128, 128 )
 format = 1
 tile_data = PoolIntArray( -1245089, 536870916, 0, -1048442, 536870916, 0, -655307, 4, 0 )
 
-[node name="Mechanism1" parent="." instance=ExtResource( 4 )]
+[node name="Button1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 10732.7, -2102.46 )
 platform_off_x = 600
 platform_off_y = 800
 platform_length = 720
 
-[node name="Mechanism2" parent="." instance=ExtResource( 4 )]
+[node name="Button2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 18825.9, -1421.81 )
-platform_off_x = 600
-platform_off_y = 1200
-platform_length = 720
+platform_off_x = 420
+platform_off_y = 1250
+platform_length = 550
 
 [node name="Instructions" type="Node2D" parent="."]
 
@@ -531,15 +531,14 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 10543.5, -2106 )
+position = Vector2( 18655.1, -1494.18 )
 scale = Vector2( 0.5, 0.5 )
 
-[node name="MusicLevel1" type="AudioStreamPlayer2D" parent="."]
-position = Vector2( 3209.3, -773.958 )
-scale = Vector2( 0.5, 0.5 )
+[node name="MusicLevel1" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
+autoplay = true
 
-[node name="MusicSegue" type="AudioStreamPlayer2D" parent="."]
+[node name="MusicSegue" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 14 )
 
 [node name="TimerStats" type="Timer" parent="."]
@@ -550,11 +549,25 @@ wait_time = 5.0
 [node name="MusicShift" type="Area2D" parent="."]
 position = Vector2( 9399.49, -827.688 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MusicShift"]
+[node name="Collision1" type="CollisionShape2D" parent="MusicShift"]
 position = Vector2( 28.541, 19.0272 )
 shape = SubResource( 17 )
+__meta__ = {
+"_edit_lock_": true
+}
 
-[connection signal="deactivated" from="Mechanism1" to="." method="_on_Mechanism1_deactivated"]
+[node name="Collision2" type="CollisionShape2D" parent="MusicShift"]
+position = Vector2( 7829.35, -976.579 )
+shape = SubResource( 17 )
+
+[node name="Collision3" type="CollisionShape2D" parent="MusicShift"]
+position = Vector2( 9469.83, -1530.95 )
+shape = SubResource( 17 )
+
+[connection signal="activated" from="Button1" to="." method="_on_Buttons_activated"]
+[connection signal="deactivated" from="Button1" to="." method="_on_Buttons_deactivated"]
+[connection signal="activated" from="Button2" to="." method="_on_Buttons_activated"]
+[connection signal="deactivated" from="Button2" to="." method="_on_Buttons_deactivated"]
 [connection signal="timeout" from="TimerStats" to="." method="_on_Timer_timeout"]
 [connection signal="body_entered" from="MusicShift" to="." method="_on_MusicShift_body_entered"]
 [connection signal="body_exited" from="MusicShift" to="." method="_on_MusicShift_body_exited"]

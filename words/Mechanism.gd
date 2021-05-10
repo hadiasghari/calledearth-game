@@ -105,9 +105,10 @@ func _http_request_prompt_completed(_result, _response_code, _headers, body):
 
 
 func _on_AreaExit_body_exited(body):
-	if 'KinematicBody2D' in str(body):
-		print('exit')
-		emit_signal('deactivated') 
+	pass
+	#if 'KinematicBody2D' in str(body):
+	#	print('exit')
+	#	emit_signal('deactivated') 
 
 
 func _on_AreaExit_body_entered(body):
