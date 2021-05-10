@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://assets/art/background images/background 7-5.png" type="Texture" id=1]
 [ext_resource path="res://levels/LevelTest1.gd" type="Script" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://assets/fonts/NewTegomin-Regular.ttf" type="DynamicFontData" id=12]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/art/soundtrack/soundtrack_segue.ogg" type="AudioStream" id=14]
+[ext_resource path="res://assets/art/collect items/Spikes.png" type="Texture" id=15]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Lvl 1 objects.png 0"
@@ -58,6 +59,74 @@
 3/shape_one_way_margin = 0.0
 3/shapes = [  ]
 3/z_index = 0
+
+[sub_resource type="ConvexPolygonShape2D" id=18]
+points = PoolVector2Array( 22, 361, 124, 22, 272, 159, 429, 360 )
+
+[sub_resource type="TileSet" id=15]
+2/name = "collect_item_aqua.png 2"
+2/texture = ExtResource( 7 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 0, 0, 128, 128 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
+3/name = "collect item yellow.png 3"
+3/texture = ExtResource( 6 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 0, 0, 128, 128 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
+4/name = "Switch button.png 4"
+4/texture = ExtResource( 11 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( -8, -4, 144, 137 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape_one_way = false
+4/shape_one_way_margin = 0.0
+4/shapes = [  ]
+4/z_index = 0
+5/name = "Spikes.png 5"
+5/texture = ExtResource( 15 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 37, 77, 460, 363 )
+5/tile_mode = 0
+5/occluder_offset = Vector2( 0, 0 )
+5/navigation_offset = Vector2( 0, 0 )
+5/shape_offset = Vector2( 0, 0 )
+5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+5/shape = SubResource( 18 )
+5/shape_one_way = false
+5/shape_one_way_margin = 1.0
+5/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 18 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+5/z_index = 0
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 14.1667, 94.1667, 34.1667, 66.6667, 60.8334, 55.8333, 145.833, 68.3333, 175.833, 33.3333, 200.833, 24.1667, 231.667, 36.6667, 268.333, 70.8333, 313.333, 45, 347.5, 51.6667, 372.5, 92.5, 466.667, 92.5, 502.5, 110.833, 502.5, 148.333, 500, 202.5, 472.5, 251.667, 423.333, 322.5, 405.833, 313.333, 301.667, 390.833, 286.667, 388.333, 191.667, 375, 122.5, 319.167, 76.6667, 283.333, 30, 209.167, 19.1667, 154.167 )
@@ -350,50 +419,6 @@ resource_local_to_scene = true
 } ]
 13/z_index = 0
 
-[sub_resource type="TileSet" id=15]
-2/name = "collect_item_aqua.png 2"
-2/texture = ExtResource( 7 )
-2/tex_offset = Vector2( 0, 0 )
-2/modulate = Color( 1, 1, 1, 1 )
-2/region = Rect2( 0, 0, 128, 128 )
-2/tile_mode = 0
-2/occluder_offset = Vector2( 0, 0 )
-2/navigation_offset = Vector2( 0, 0 )
-2/shape_offset = Vector2( 0, 0 )
-2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-2/shape_one_way = false
-2/shape_one_way_margin = 0.0
-2/shapes = [  ]
-2/z_index = 0
-3/name = "collect item yellow.png 3"
-3/texture = ExtResource( 6 )
-3/tex_offset = Vector2( 0, 0 )
-3/modulate = Color( 1, 1, 1, 1 )
-3/region = Rect2( 0, 0, 128, 128 )
-3/tile_mode = 0
-3/occluder_offset = Vector2( 0, 0 )
-3/navigation_offset = Vector2( 0, 0 )
-3/shape_offset = Vector2( 0, 0 )
-3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-3/shape_one_way = false
-3/shape_one_way_margin = 0.0
-3/shapes = [  ]
-3/z_index = 0
-4/name = "Switch button.png 4"
-4/texture = ExtResource( 11 )
-4/tex_offset = Vector2( 0, 0 )
-4/modulate = Color( 1, 1, 1, 1 )
-4/region = Rect2( -8, -4, 144, 137 )
-4/tile_mode = 0
-4/occluder_offset = Vector2( 0, 0 )
-4/navigation_offset = Vector2( 0, 0 )
-4/shape_offset = Vector2( 0, 0 )
-4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-4/shape_one_way = false
-4/shape_one_way_margin = 0.0
-4/shapes = [  ]
-4/z_index = 0
-
 [sub_resource type="DynamicFont" id=16]
 size = 32
 use_mipmaps = true
@@ -432,18 +457,18 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Tilemap_pickups" type="TileMap" parent="."]
+tile_set = SubResource( 15 )
+cell_size = Vector2( 128, 128 )
+format = 1
+tile_data = PoolIntArray( -1245089, 536870916, 0, -1048442, 536870916, 0, -655307, 4, 0, 196756, 5, 0, 196757, 5, 0, 196758, 536870917, 0 )
+
 [node name="TileMap_world" type="TileMap" parent="."]
 tile_set = SubResource( 14 )
 cell_size = Vector2( 55, 55 )
 cell_quadrant_size = 64
 format = 1
 tile_data = PoolIntArray( -3997425, 13, 0, -3931869, 0, 0, -3866369, 1, 0, -3538640, 0, 0, -3342066, 13, 0, -3276482, 536870925, 0, -3014372, 0, 0, -3014326, 536870925, 0, -2817809, 1, 0, -2752299, 10, 0, -2752296, 10, 0, -2752293, 10, 0, -2752290, 10, 0, -2752287, 10, 0, -2752284, 7, 0, -2752242, 0, 0, -2621105, 10, 0, -2621102, 10, 0, -2621099, 10, 0, -2555691, 10, 0, -2555688, 10, 0, -2555686, 7, 0, -2490200, 9, 0, -2490197, 10, 0, -2490194, 8, 0, -2490063, 536870923, 0, -2490060, 11, 0, -2490052, 536870923, 0, -2490049, 536870917, 0, -2490041, 536870917, 0, -2424576, 2, 0, -2424497, 7, 0, -2424491, 536870922, 0, -2359106, 9, 0, -2359104, 10, 0, -2359101, 10, 0, -2359083, 10, 0, -2359080, 7, 0, -2358991, 536870922, 0, -2358988, 536870922, 0, -2358980, 10, 0, -2358964, 536870922, 0, -2293592, 10, 0, -2293571, 9, 0, -2293451, 536870921, 0, -2293381, 536870920, 0, -2293378, 536870921, 0, -2227883, 536870922, 0, -2162501, 9, 0, -2162499, 7, 0, -2162493, 10, 0, -2162475, 10, 0, -2162383, 536870922, 0, -2162380, 536870922, 0, -2162379, 536870922, 0, -2162372, 10, 0, -2162370, 8, 0, -2162356, 536870922, 0, -2096984, 10, 0, -2096981, 8, 0, -2096837, 536870920, 0, -2096773, 536870922, 0, -2096770, 536870922, 0, -2031275, 536870922, 0, -1965894, 10, 0, -1965891, 8, 0, -1965885, 10, 0, -1965867, 10, 0, -1965784, 10, 0, -1965781, 10, 0, -1965778, 10, 0, -1965775, 10, 0, -1965772, 10, 0, -1965771, 536870918, 0, -1965765, 536870922, 0, -1965764, 10, 0, -1965761, 10, 0, -1965758, 10, 0, -1965756, 536870918, 0, -1900376, 6, 0, -1900373, 10, 0, -1900165, 536870922, 0, -1900162, 536870922, 0, -1769286, 6, 0, -1769283, 10, 0, -1769277, 10, 0, -1769259, 10, 0, -1769167, 6, 0, -1769166, 6, 0, -1769164, 10, 0, -1769142, 9, 0, -1769140, 10, 0, -1769138, 8, 0, -1703765, 10, 0, -1703762, 10, 0, -1703760, 8, 0, -1703626, 8, 0, -1703557, 536870922, 0, -1703554, 536870922, 0, -1638093, 6, 0, -1572675, 10, 0, -1572669, 6, 0, -1572666, 10, 0, -1572663, 10, 0, -1572660, 10, 0, -1572657, 10, 0, -1572654, 10, 0, -1572651, 7, 0, -1572556, 10, 0, -1572553, 10, 0, -1572550, 10, 0, -1572547, 10, 0, -1572544, 10, 0, -1572541, 10, 0, -1572538, 10, 0, -1572535, 10, 0, -1572532, 10, 0, -1572529, 10, 0, -1572526, 10, 0, -1572523, 10, 0, -1507157, 10, 0, -1506955, 536870920, 0, -1506953, 536870918, 0, -1506952, 536870922, 0, -1506949, 536870922, 0, -1506946, 536870922, 0, -1376142, 536870923, 0, -1376139, 5, 0, -1376130, 536870917, 0, -1376121, 11, 0, -1376067, 10, 0, -1375915, 536870922, 0, -1375884, 536870920, 0, -1375883, 536870922, 0, -1310549, 10, 0, -1179504, 0, 0, -1179464, 9, 0, -1179462, 10, 0, -1179459, 10, 0, -1179307, 536870922, 0, -1179293, 536870922, 0, -1179290, 536870922, 0, -1179287, 536870922, 0, -1179284, 536870922, 0, -1179281, 536870922, 0, -1179278, 536870922, 0, -1179275, 536870922, 0, -1048475, 1, 0, -1048423, 0, 0, -982851, 10, 0, -982699, 536870922, 0, -982685, 536870922, 0, -982682, 536870918, 0, -917342, 0, 0, -851611, 536870918, 0, -786261, 10, 0, -786258, 10, 0, -786255, 10, 0, -786252, 10, 0, -786249, 10, 0, -786246, 10, 0, -786243, 10, 0, -786091, 536870922, 0, -786077, 536870922, 0, -589710, 536870923, 0, -589707, 11, 0, -589653, 10, 0, -589650, 10, 0, -589647, 10, 0, -589644, 10, 0, -589641, 10, 0, -589638, 10, 0, -589635, 10, 0, -589483, 536870922, 0, -589469, 536870922, 0, -524202, 10, 0, -393045, 10, 0, -393042, 10, 0, -393039, 10, 0, -393036, 10, 0, -393033, 10, 0, -393030, 10, 0, -393027, 7, 0, -392875, 536870922, 0, -392861, 536870922, 0, -327621, 10, 0, -327610, 9, 0, -327608, 10, 0, -327605, 10, 0, -327594, 10, 0, -327591, 10, 0, -196267, 10, 0, -196253, 6, 0, -196252, 8, 0, -131025, 10, 0, -131013, 10, 0, -131003, 10, 0, -131000, 10, 0, -130997, 10, 0, -130986, 10, 0, -130983, 10, 0, -130980, 10, 0, -65412, 13, 0, 1, 536870923, 0, 4, 5, 0, 13, 5, 0, 22, 5, 0, 31, 5, 0, 40, 5, 0, 49, 5, 0, 58, 5, 0, 67, 5, 0, 76, 5, 0, 85, 5, 0, 94, 5, 0, 101, 11, 0, 341, 10, 0, 356, 10, 0, 65647, 13, 0, 196949, 10, 0, 196964, 10, 0, 393557, 10, 0, 393572, 10, 0, 590165, 10, 0, 590180, 10, 0, 786773, 6, 0, 786776, 10, 0, 786779, 10, 0, 786782, 10, 0, 786785, 10, 0, 786788, 7, 0 )
-
-[node name="Tilemap_pickups" type="TileMap" parent="."]
-tile_set = SubResource( 15 )
-cell_size = Vector2( 128, 128 )
-format = 1
-tile_data = PoolIntArray( -1245089, 536870916, 0, -1048442, 536870916, 0, -655307, 4, 0 )
 
 [node name="Button1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 10732.7, -2102.46 )
