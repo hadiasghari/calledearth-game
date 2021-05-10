@@ -30,8 +30,8 @@ func init(type, pos):
 		type = 'switch'
 	elif 'spike' in type:
 		type = 'spike'
-	#elif 'victory' in type:
-	#	type = 'victory'
+	elif 'victory' in type:
+		type = 'victory'
 	else:
 		print_debug('UNKNOWN PICKUP: ' + str(type))
 		return ""	

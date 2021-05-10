@@ -9,6 +9,7 @@ func _ready():
 	$Tilemap_pickups.hide()
 	spawn_pickups()
 	var _err = $Player.connect("dead", self, "gameover")
+	$Spikes.connect("hit", self, "gameover")
 	_err = $Player.connect("switch", self, "_on_pickup_switch")
 
 	var http_request = HTTPRequest.new()
@@ -17,10 +18,10 @@ func _ready():
 	http_request.request(server_url + "/earth/gonewgame") 
 	# TODO/Q: assert error==ok AND wait for gameID! ... else error / pause
 
-func gameover(moment=2):
-	$HUD.show_message("Game Over!")
+func gameover():
+	$HUD.show_message("Game Over!", true)
 	# TODO: MUSIC GAMEOVER
-	yield(get_tree().create_timer(moment), "timeout")
+	yield(get_tree().create_timer(5), "timeout")
 	# TODO: IF GAME IS SAVED DONT RESTART ALL OVER BUT GO TO LAST SAVE
 	var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
 
@@ -44,14 +45,11 @@ func _on_pickup_switch():
 	else:
 		$HUD.show_message("Limb Switch!*")
 		
-func _on_pickup_spike():
-	yield(get_tree().create_timer(1), "timeout")  # wait a sec for gruseomeness...
-	gameover(7)   # Take a long moment
 
 func _on_pickup_victory():
 	# TODO we probably need to signal/call globla/signleton ehre for next level etc
 	# (also 	send server level 2)
-	$HUD.show_message("You Win!!")
+	$HUD.show_message(char(127881) + "Let's Dance!", true)
 	$MusicLevel1.stop()
 	$MusicVictory.play()
 	

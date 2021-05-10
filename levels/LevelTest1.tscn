@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://assets/art/background images/background 7-5.png" type="Texture" id=1]
 [ext_resource path="res://levels/LevelTest1.gd" type="Script" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://assets/art/collect items/Spikes.png" type="Texture" id=15]
 [ext_resource path="res://assets/art/collect items/Victory button .png" type="Texture" id=16]
 [ext_resource path="res://assets/art/soundtrack/soundtrack_victory.ogg" type="AudioStream" id=17]
+[ext_resource path="res://items/Spikes.tscn" type="PackedScene" id=18]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Lvl 1 objects.png 0"
@@ -465,7 +466,7 @@ tile_data = PoolIntArray( -8453611, 536870914, 0, -8453603, 536870914, 0, -81914
 tile_set = SubResource( 3 )
 cell_size = Vector2( 128, 128 )
 format = 1
-tile_data = PoolIntArray( -1245089, 536870916, 0, -1048442, 536870916, 0, -982877, 6, 0, -655307, 4, 0, -65387, 5, 0, -65386, 5, 0, -65384, 5, 0 )
+tile_data = PoolIntArray( -1245089, 536870916, 0, -1048442, 536870916, 0, -982877, 6, 0, -655307, 4, 0 )
 
 [node name="TileMap_world" type="TileMap" parent="."]
 tile_set = SubResource( 16 )
@@ -484,12 +485,17 @@ platform_length = 770
 [node name="Button2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 18825.9, -1421.81 )
 prompt_key = 2
-platform_off_x = 420
-platform_off_y = 1400
-platform_length = 550
-camera_off_y = -200
+platform_off_x = 480
+platform_off_y = 1550
+platform_length = 740
+exitarea_off_x = 0
+prompt_off_y = 0
+camera_off_y = -250
 
 [node name="Instructions" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Instructions1" type="Label" parent="Instructions"]
 margin_left = 320.254
@@ -503,6 +509,7 @@ but before you can explore
 you must learn to walk... "
 autowrap = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -516,6 +523,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "and jump... "
 autowrap = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -529,6 +537,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "watch out..."
 autowrap = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -543,6 +552,7 @@ text = "sometimes things just change...
 "
 autowrap = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -556,11 +566,15 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "And sometimes you have to push...."
 autowrap = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
+[node name="Spikes" parent="." instance=ExtResource( 18 )]
+position = Vector2( 18864.7, -273.033 )
+
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 18632.9, -1487.83 )
+position = Vector2( 20226.7, -1119.55 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="MusicLevel1" type="AudioStreamPlayer" parent="."]
