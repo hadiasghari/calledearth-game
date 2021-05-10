@@ -59,7 +59,7 @@ func _on_pickup_switch():
 func _on_pickup_victory():
 	# TODO we probably need to signal/call globla/signleton ehre for next level etc
 	# (also 	send server level 2)
-	$HUD.show_message(char(127881) + "Let's Dance!", -1)
+	$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)
 	$MusicLevel1.stop()
 	$MusicVictory.play()
 	

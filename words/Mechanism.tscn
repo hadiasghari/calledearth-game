@@ -123,6 +123,7 @@ scale = Vector2( 2.11364, 0.204545 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
 shape = SubResource( 10 )
+disabled = true
 __meta__ = {
 "_edit_lock_": true
 }

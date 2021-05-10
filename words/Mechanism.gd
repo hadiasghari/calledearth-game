@@ -80,6 +80,7 @@ func _on_AnimatedSprite_animation_finished():
 	# the mechanism button has been pressed! activate!
 	yield(get_tree().create_timer(1), "timeout")
 	$Platform/Camera2D.current = true  # Q: can we pan to it?
+	$Platform/CollisionShape2D.disabled = false
 	emit_signal('activated') 
 	# set DB to this prompt!  (no timeout needed, we assume success)
 	
