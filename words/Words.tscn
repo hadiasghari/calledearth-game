@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/fonts/NewTegomin-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://words/Words.gd" type="Script" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://assets/art/sounds/sound_text5.ogg" type="AudioStream" id=8]
 [ext_resource path="res://assets/art/sounds/sound_text6.ogg" type="AudioStream" id=9]
 
+[sub_resource type="RectangleShape2D" id=2]
+
 [sub_resource type="DynamicFont" id=1]
 size = 32
 use_mipmaps = true
@@ -18,7 +20,7 @@ font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 4 )
 
 [node name="Body2D" type="RigidBody2D"]
-mass = 0.08
+collision_mask = 17
 linear_velocity = Vector2( 0, -40 )
 angular_velocity = 1.0
 script = ExtResource( 2 )
@@ -33,6 +35,7 @@ __meta__ = {
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2( 52, 16 )
+shape = SubResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -47,6 +50,7 @@ align = 1
 valign = 1
 autowrap = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 

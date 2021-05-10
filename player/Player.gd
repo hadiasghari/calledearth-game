@@ -17,7 +17,7 @@ func _ready():
 	$mouth/singing.stream.set_loop(false)		
 	$mouth/whistle.stream.set_loop(false)		
 	$mouth/yawn.stream.set_loop(false)		
-	$wings/jump.stream.set_loop(false)			
+	$wings/Sound.stream.set_loop(false)			
 	# defaults now: $arms/arm_L.animation = "push"
 	# $arms/arm_R.animation = "push"	
 
@@ -73,11 +73,20 @@ func get_input():
 	# II. logic for wings (dev 2)
 	if Input.is_action_pressed(dev2 + "_action"):
 		velocity.x *= 5  # speed up during jump	
-	if not is_on_floor():
-		$wings.play()
-	else:
-		$wings.stop()
-		$wings/jump.play()		
+	if Input.is_action_just_pressed(dev2 + "_action"):
+		# make sound when just pressed
+		$wings/Sound.play()	
+		$wings/Collision.visible = true				
+	if Input.is_action_just_pressed(dev2 + "_action") or not is_on_floor():
+		# flap wings when just pressed or otherwise in air
+		$wings/Sprite.play()
+	if is_on_floor() and $wings/Sprite.playing:
+		# if hit ground, wait a sec before stopping flapping!		
+		#print('on floor, lets stop!')
+		yield(get_tree().create_timer(0.2), "timeout")  # TODO perhaps too long
+		$wings/Sprite.stop()
+		$wings/Sprite.frame = 4
+		$wings/Collision.visible = false
 	
 	# III. logic for arms (dev 3)
 	# first show correct direction of arms re legs	
@@ -161,3 +170,27 @@ func _on_arm_L_animation_finished():
 	$arms/arm_L.frame = 0
 	$arms/arm_L.stop()
 
+func _on_arms_body_entered(body):
+	# This is entered when we PUSH WORDS
+	# TODO: this is somewhat clunky, even with arms & wings... (learn `impulse`)
+	# 	   (- maybe we also need some inertia when the creature is on top	)
+	if 'RigidBody' in str(body):
+		if $arms/arm_R.visible:
+			print('push word left')
+			body.apply_impulse(Vector2(), Vector2(3000, 0) )
+		elif $arms/arm_L.visible:
+			print('push word right')			
+			body.apply_impulse(Vector2(), Vector2(-3000, 0) )
+
+func _on_wings_body_entered(body):
+	if 'RigidBody' in str(body):
+		if $wings/Collision.visible:  # is this necessary?
+			print_debug(body)
+			body.apply_impulse(Vector2(), Vector2(0, -5000) )
+ 
+
+
+#func _on_wingTimer_timeout():
+#	print_debug()
+#	$wings/Sprite.stop()
+#	$wings/Collision.visible = false

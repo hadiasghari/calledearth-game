@@ -40,3 +40,4 @@ func init(pos, text, ecode, maxlen, box_ix=-1):
 	audio.stream.set_loop(false)	
 	audio.play()
 	# (NOTE/TODO: two types of words, jumpable (sticky/groove), moveable..)	
+
