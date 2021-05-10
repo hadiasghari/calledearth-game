@@ -9,7 +9,7 @@ func _ready():
 
 
 
-func _on_Spike_body_entered(body):
+func _on_Spike_body_entered(_body):
 	emit_signal("hit")
 	# TODO : something gruseome here...
 

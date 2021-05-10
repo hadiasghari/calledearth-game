@@ -3,13 +3,14 @@ extends Node2D
 var Collectible = preload('res://items/Collectible.tscn')
 var gameid = ""
 var server_url = "https://calledearth.herokuapp.com"
+var _last_save = ""
 #var server_url = "http://127.0.0.1:8000"
 
 func _ready():
 	$Tilemap_pickups.hide()
 	spawn_pickups()
 	var _err = $Player.connect("dead", self, "gameover")
-	$Spikes.connect("hit", self, "gameover")
+	_err = $Spikes.connect("hit", self, "gameover")
 	_err = $Player.connect("switch", self, "_on_pickup_switch")
 
 	var http_request = HTTPRequest.new()
@@ -19,11 +20,20 @@ func _ready():
 	# TODO/Q: assert error==ok AND wait for gameID! ... else error / pause
 
 func gameover():
-	$HUD.show_message("Game Over!", true)
-	# TODO: MUSIC GAMEOVER
+	  # TODO: 1. use animation object  2. should gameover music be here or elsewhere or in singleton..?
+	$MusicLevel1.stop()
+	$MusicOver.stream.set_loop(false) 
+	$MusicOver.play()
+	$HUD.show_message("Game Over!", 5)	
 	yield(get_tree().create_timer(5), "timeout")
-	# TODO: IF GAME IS SAVED DONT RESTART ALL OVER BUT GO TO LAST SAVE
-	var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
+	# IF GAME IS SAVED DONT RESTART ALL OVER BUT GO TO LAST SAVE
+	if _last_save == "btn1":
+		# TODO/Q this kinda logic should be in global/singleton 
+		$Player.position = $Button1.position + $Button1/AreaExit.position + Vector2(300, -400)
+		$MusicLevel1.play()
+		# nothign else needs to be reset, right?
+	else:
+		var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
 
 func spawn_pickups():
 	var pickups = $Tilemap_pickups 
@@ -49,7 +59,7 @@ func _on_pickup_switch():
 func _on_pickup_victory():
 	# TODO we probably need to signal/call globla/signleton ehre for next level etc
 	# (also 	send server level 2)
-	$HUD.show_message(char(127881) + "Let's Dance!", true)
+	$HUD.show_message(char(127881) + "Let's Dance!", -1)
 	$MusicLevel1.stop()
 	$MusicVictory.play()
 	
@@ -76,7 +86,8 @@ func _on_Timer_timeout():
 func _http_request_getstats_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
-		var s = ""
+		_last_save = response['lastsave']
+		var s = ""		
 		for p in response['participants']:
 			s += char(p)
 		$HUD.update_users(s)

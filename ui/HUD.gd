@@ -4,10 +4,11 @@ extends CanvasLayer
 func _ready():
 	pass
 
-func show_message(text, keep=false):
+func show_message(text, timeout=2):
 	$Message.text = text
 	$Message.visible = true
-	if not keep:
+	if timeout != -1:
+		$TimerHideMessage.wait_time = timeout
 		$TimerHideMessage.start()
 	# TODO: follow this link for an animation player 
 	# https://kidscancode.org/godot_recipes/games/circle_jump/circle_jump_05/
