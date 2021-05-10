@@ -6,8 +6,8 @@ export var prompt_key = 99999
 export var platform_off_x = 0
 export var platform_off_y = 0
 export var platform_length = 500
+export var exitarea_offset = 80  # could also add exit_height
 export var test_mode = false
-# TODO: maybe offset for AreaExit
 signal activated
 signal deactivated
 
@@ -17,20 +17,18 @@ var _last_text_pk = -1
 var _color_ix = randi()
 
 # TODO: needs redo ability (words load from database)
-# TODO: needs some fulfil condition (i.e. got enough words), set inside AND OUTISDE of it (thus by a signal too!)
 # TODO: how can the platform offset shape/place show in the editor too? 
 
 func init(server_url, gameid):
 	_gameid = gameid
 	_server_url = server_url
-	print("Mechanism got gameid:" + _gameid)
+	#print("Mechanism got gameid:" + _gameid)
 
 func _ready():
 	$Platform.position = Vector2(platform_off_x, platform_off_y)
 	$Platform/CollisionShape2D.shape.extents[0] = platform_length/2
-	#TODO: ?$Label.position ?  color? 
-	$Label.set_size(Vector2(platform_length, 50))  
-	$AreaExit.position[0] = platform_length + 80  # transform[2] 
+	$Label.set_size(Vector2(platform_length, 50))  # TODO: position, color
+	$AreaExit.position[0] = platform_length + exitarea_offset  # transform[2] 
 	
 	if test_mode:
 		var test_strings = ["There were many words for her.", "Zoinks", 
@@ -78,8 +76,9 @@ func spawn_words(text, ecode):
 	_color_ix += 1
 	add_child(w)
 
-func _on_Button_area_entered(area):
+func _on_Button_area_entered(_area):
 	$Button/CollisionShape2D.disabled = true  # so not to trigger again
+	# TODO: above gives error, suggests to use set_deferred to change monitoring state
 	$Button/Audio.play()
 	$Button/AnimatedSprite.play()
 
@@ -101,15 +100,8 @@ func _http_request_prompt_completed(_result, _response_code, _headers, body):
 		print("DBG prompt " + str(response))
 		$Label.text = str(response)
 		
-
-
-
-func _on_AreaExit_body_exited(body):
+func _on_AreaExit_body_exited(_body):
 	pass
-	#if 'KinematicBody2D' in str(body):
-	#	print('exit')
-	#	emit_signal('deactivated') 
-
 
 func _on_AreaExit_body_entered(body):
 	if 'KinematicBody2D' in str(body):

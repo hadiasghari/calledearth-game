@@ -457,8 +457,9 @@ platform_length = 720
 [node name="Button2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 18825.9, -1421.81 )
 platform_off_x = 420
-platform_off_y = 1250
+platform_off_y = 1270
 platform_length = 550
+exitarea_offset = 0
 
 [node name="Instructions" type="Node2D" parent="."]
 

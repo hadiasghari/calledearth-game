@@ -2,7 +2,7 @@ extends RigidBody2D
 
 var BoxColors = ["#FFA7A7", "#00F6F6", "#A7FF63", "#FFE160"]
 
-func init(pos, text, ecode, maxlen, boxcolor_ix=-1):
+func init(pos, text, ecode, maxlen, box_ix=-1):
 	# we use the same font-size so the box adjusts
 	# we thus set a limit of 140 characters to make sizing easier
 	if len(text) > 140:
@@ -22,20 +22,15 @@ func init(pos, text, ecode, maxlen, boxcolor_ix=-1):
 	$Collision.shape = RectangleShape2D.new()  # we need a new one!
 	$Collision.shape.set_extents(sz/2)	
 	$Collision.transform[2] = sz/2  # centers it	
-	# position box at center 
-	if boxcolor_ix % 2 == 1:
-		position = pos + Vector2(0, -30)
-	else: 
-		position = pos + Vector2(maxlen-boxl, -30)
-		# -boxh/2 + 30
+	# position box at right or left 
+	position = pos + Vector2((0 if box_ix%2==1 else maxlen-boxl), -40)
 	# set bg color
-	if boxcolor_ix != -1: 
-		$Rect.color = BoxColors[boxcolor_ix % 4]
+	$Rect.color = BoxColors[box_ix%4]
 	
 	# finally, some sound	
 	
 	var audio
-	match (boxcolor_ix % 6):
+	match (box_ix % 6):
 		0: 	audio = $Audio1
 		1:  audio = $Audio2
 		2:  audio = $Audio3

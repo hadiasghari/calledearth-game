@@ -8,19 +8,19 @@ var server_url = "https://calledearth.herokuapp.com"
 func _ready():
 	$Tilemap_pickups.hide()
 	spawn_pickups()
-	$Player.connect("dead", self, "gameover")
-	$Player.connect("switch", self, "_on_pickup_switch")
+	var _err = $Player.connect("dead", self, "gameover")
+	_err = $Player.connect("switch", self, "_on_pickup_switch")
 
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
-	http_request.connect("request_completed", self, "_http_request_newgame_completed")
+	_err = http_request.connect("request_completed", self, "_http_request_newgame_completed")
 	http_request.request(server_url + "/earth/gonewgame") 
 	# TODO/Q: assert error==ok AND wait for gameID! ... else error / pause
 
 func gameover():
 	$HUD.show_message("Game Over!")
 	yield(get_tree().create_timer(2.0), "timeout")  # Take a moment :)
-	get_tree().change_scene("res://ui/TitleScreen.tscn") 
+	var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
 	# TODO: MUSIC GAMEOVER
 
 func spawn_pickups():
@@ -62,7 +62,7 @@ func _on_Timer_timeout():
 	request.request(server_url + "/earth/gogetstats/" + gameid) 	
 	# TODO/Q: do we need to free these nodes?
 
-func _http_request_getstats_completed(result, response_code, headers, body):
+func _http_request_getstats_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
 		var s = ""
