@@ -1,14 +1,24 @@
-extends MarginContainer
+extends CanvasLayer
 
-onready var life_counter = [$HBoxContainer/LifeCounter/L1,
-							$HBoxContainer/LifeCounter/L2,
-							$HBoxContainer/LifeCounter/L3,
-							$HBoxContainer/LifeCounter/L4,
-							$HBoxContainer/LifeCounter/L5]
 
-func _on_Player_life_changed(value):
-	for heart in range(life_counter.size()):
-		life_counter[heart].visible = value > heart
+func _ready():
+	pass
 
-func _on_score_changed(value):
-	$HBoxContainer/ScoreLabel.text = str(value)
+func show_message(text):
+	$Message.text = text
+	$Message.visible = true
+	$TimerHideMessage.start()
+	# TODO: follow this link for an animation player 
+	# https://kidscancode.org/godot_recipes/games/circle_jump/circle_jump_05/
+	#$AnimationPlayer.play("show_message")
+
+func update_server(url):
+	$OnlineInfo/HBox/VBox/LabelServer.text = url
+	update_users("")
+
+func update_users(users):
+	$OnlineInfo/HBox/VBox/LabelUsers1.text = "Online Users: " + str(len(users))
+	$OnlineInfo/HBox/VBox/LabelUsers2.text = users
+
+func _on_TimerHideMessage_timeout():
+	$Message.visible = false

@@ -33,7 +33,15 @@ func init(pos, text, ecode, maxlen, boxcolor_ix=-1):
 		$Rect.color = BoxColors[boxcolor_ix % 4]
 	
 	# finally, some sound	
-	$Audio.stream.set_loop(false)
-	$Audio.play()
-
+	
+	var audio
+	match (boxcolor_ix % 6):
+		0: 	audio = $Audio1
+		1:  audio = $Audio2
+		2:  audio = $Audio3
+		3:  audio = $Audio4
+		4:  audio = $Audio5
+		5:  audio = $Audio6
+	audio.stream.set_loop(false)	
+	audio.play()
 	# (NOTE/TODO: two types of words, jumpable (sticky/groove), moveable..)	

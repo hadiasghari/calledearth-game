@@ -1,9 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/fonts/NewTegomin-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://words/Words.gd" type="Script" id=2]
+[ext_resource path="res://assets/art/sounds/sound_text1.ogg" type="AudioStream" id=3]
 [ext_resource path="res://assets/fonts/NotoColorEmoji.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://assets/art/sounds/text_sound.mp3" type="AudioStream" id=5]
+[ext_resource path="res://assets/art/sounds/sound_text2.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/art/sounds/sound_text3.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/art/sounds/sound_text4.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/art/sounds/sound_text5.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/art/sounds/sound_text6.ogg" type="AudioStream" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -13,7 +18,7 @@ font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 4 )
 
 [node name="Body2D" type="RigidBody2D"]
-mass = 3.0
+mass = 0.08
 linear_velocity = Vector2( 0, -40 )
 angular_velocity = 1.0
 script = ExtResource( 2 )
@@ -45,5 +50,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+[node name="Audio1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+
+[node name="Audio2" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 5 )
+
+[node name="Audio3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="Audio4" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 7 )
+
+[node name="Audio5" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
+
+[node name="Audio6" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 9 )

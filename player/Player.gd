@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 signal dead
-
+signal switch
 export (int) var speed = 20
 export (int) var jump_speed = -1800
 export (int) var gravity = 4000
@@ -17,13 +17,14 @@ func _ready():
 	$mouth/singing.stream.set_loop(false)		
 	$mouth/whistle.stream.set_loop(false)		
 	$mouth/yawn.stream.set_loop(false)		
+	$wings/jump.stream.set_loop(false)			
 	# defaults now: $arms/arm_L.animation = "push"
 	# $arms/arm_R.animation = "push"	
 
 func get_input():
 		# logic for rotating functions of four controllers
 	if Input.is_action_just_pressed("rotate"):
-		devoffset += 1
+		emit_signal('switch')  # rotate devoffset += 1 via Level to get HUD
 		print_debug('device-offset: ' + str(devoffset))
 	var dev0 = "dev" + str((0 + devoffset) % 4)
 	var dev1 = "dev" + str((1 + devoffset) % 4)
@@ -71,12 +72,12 @@ func get_input():
 
 	# II. logic for wings (dev 2)
 	if Input.is_action_pressed(dev2 + "_action"):
-		#print_debug('jump')
 		velocity.x *= 5  # speed up during jump	
 	if not is_on_floor():
 		$wings.play()
 	else:
 		$wings.stop()
+		$wings/jump.play()		
 	
 	# III. logic for arms (dev 3)
 	# first show correct direction of arms re legs	
@@ -89,34 +90,26 @@ func get_input():
 		$arms/arm_L.visible = false
 				
 	if Input.is_action_just_pressed(dev3 + "_action"):
-		#print_debug('arm-push')
 		if $arms/arm_L.visible:	
 			$arms/arm_L.play()
-			#$arms/arm_L.seek(0, true) 	
 		else:
 			$arms/arm_R.play()	
-			#$arms/arm_R.seek(0, true) 		
 				
 	# IV. finally, logic for mouth (all devices)
 	# NOTE: if we odn't want mixing of sounds at one time, 
 	#       we should have one audio2d and stop/restart it
 	if Input.is_action_just_pressed(dev0 + "_mouth"):
 		$mouth.animation = "growl"
-		#$mouth.play()
 		$mouth/growl.play()
 	if Input.is_action_just_pressed(dev1 + "_mouth"):
 		$mouth.animation = "whistle"
-		#$mouth.play()
 		$mouth/whistle.play()
 	if Input.is_action_just_pressed(dev2 + "_mouth"):
 		$mouth.animation = "sing"
-		#$mouth.play()
 		$mouth/singing.play()
 	if Input.is_action_just_pressed(dev3 + "_mouth"):
 		$mouth.animation = "yawn"
-		#$mouth.play()
 		$mouth/yawn.play()
-
 
 func _physics_process(delta):
 	get_input()  # sets velocity.x and motions
@@ -136,9 +129,6 @@ func _physics_process(delta):
 	# check if player has fallen, is dead!			
 	if position.y > 1000: 
 		emit_signal('dead')   # for HUD plus restart game  ...
-		yield(get_tree().create_timer(1.0), "timeout")  # Take a moment :)
-		get_tree().change_scene("res://Main.tscn")  # TODO move to level/main (signal)
-
 
 func _on_sound_growl_finished():
 	$mouth.animation = "default_smile"
@@ -156,7 +146,6 @@ func _on_sound_yawn_finished():
 	$mouth.animation = "default_smile"
 	$mouth.play()
 
-
 func _on_arm_R_animation_finished():
 	$arms/Collision_R.disabled = false	
 	yield(get_tree().create_timer(1), "timeout")
@@ -169,6 +158,6 @@ func _on_arm_L_animation_finished():
 	$arms/Collision_L.disabled = false	
 	yield(get_tree().create_timer(1), "timeout")
 	$arms/Collision_L.disabled = true	
-	$arms/arm_R.frame = 0
-	$arms/arm_R.stop()
+	$arms/arm_L.frame = 0
+	$arms/arm_L.stop()
 
