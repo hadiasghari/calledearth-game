@@ -18,6 +18,10 @@ config/name="We Called It Earth"
 run/main_scene="res://ui/TitleScreen.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://Global.gd"
+
 [display]
 
 window/size/width=1920

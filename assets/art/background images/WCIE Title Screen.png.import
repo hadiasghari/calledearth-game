@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/WCIE Title Screen.png-17f3cd5d13d1b833a77f02aa2230fbdb.stex"
+path="res://.import/WCIE Title Screen.png-f7bd0a7f1250d4f8149cb9fe9d31ee4b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/WCIE Title Screen.png"
-dest_files=[ "res://.import/WCIE Title Screen.png-17f3cd5d13d1b833a77f02aa2230fbdb.stex" ]
+source_file="res://assets/art/background images/WCIE Title Screen.png"
+dest_files=[ "res://.import/WCIE Title Screen.png-f7bd0a7f1250d4f8149cb9fe9d31ee4b.stex" ]
 
 [params]
 

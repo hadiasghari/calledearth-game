@@ -19,8 +19,14 @@ func update_server(url):
 	update_users("")
 
 func update_users(users):
+	# func run from levels
 	$OnlineInfo/HBox/VBox/LabelUsers1.text = "Online Users: " + str(len(users))
 	$OnlineInfo/HBox/VBox/LabelUsers2.text = users
 
+func show_gameid(gameid):
+	# func run from titlescreen
+	$OnlineInfo/HBox/VBox/LabelUsers1.text = "Game " + str(gameid)
+	$OnlineInfo/HBox/VBox/LabelUsers2.text = ""
+	
 func _on_TimerHideMessage_timeout():
 	$Message.visible = false

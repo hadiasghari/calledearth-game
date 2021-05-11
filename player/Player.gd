@@ -80,7 +80,7 @@ func get_input():
 	if Input.is_action_just_pressed(dev2 + "_action") or not is_on_floor():
 		# flap wings when just pressed or otherwise in air
 		$wings/Sprite.play()
-	if is_on_floor() and $wings/Sprite.playing:
+	elif is_on_floor() and $wings/Sprite.playing:
 		# if hit ground, wait a sec before stopping flapping!		
 		#print('on floor, lets stop!')
 		yield(get_tree().create_timer(0.2), "timeout")  # TODO perhaps too long
@@ -137,6 +137,10 @@ func _physics_process(delta):
 		
 	# check if player has fallen, is dead!			
 	if position.y > 1000: 
+		# TODO: This is buggy method, it seems to get stuck repeating here while other processes/signal
+		#       get postponed.... 
+		#       this is a problem for the death music (which wouldn't work even played from here)
+		#velocity.y = 0
 		emit_signal('dead')   # for HUD plus restart game  ...
 
 func _on_sound_growl_finished():

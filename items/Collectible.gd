@@ -36,17 +36,16 @@ func init(type, pos):
 		print_debug('UNKNOWN PICKUP: ' + str(type))
 		return ""	
 	$Sprite.texture = load(textures[type])
+	# TODO: the collision shape should match the textures, which are not same size :(
+	#       either have different collisionmaps, different objects, or get from tilemap...
 	position = pos
 	_type = type
 	return type
 
 func _on_Area2D_body_entered(_body):
-	#if _type == 'spike': emit dead?
-		
-	
 	emit_signal('pickup') 	# for other pickup logic e.g. spawning words!
 	$Audio.play()  # note, perhaps audio should be played in mai
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.disabled = true  # TODO: USE DEFER()
 	yield(get_tree().create_timer(0.2), "timeout")
 	#$Tween.start()
 	queue_free() # hide it! -- in Tween
