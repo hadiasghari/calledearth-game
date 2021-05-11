@@ -594,7 +594,7 @@ __meta__ = {
 position = Vector2( 18864.7, -273.033 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( 295.843, -90.7622 )
+position = Vector2( 185.659, -99.2383 )
 scale = Vector2( 0.5, 0.5 )
 
 [node name="MusicLevel1" type="AudioStreamPlayer" parent="."]

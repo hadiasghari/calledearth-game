@@ -83,7 +83,7 @@ func get_input():
 	elif is_on_floor() and $wings/Sprite.playing:
 		# if hit ground, wait a sec before stopping flapping!		
 		#print('on floor, lets stop!')
-		yield(get_tree().create_timer(0.2), "timeout")  # TODO perhaps too long
+		yield(get_tree().create_timer(0.1), "timeout")  # was 0.2
 		$wings/Sprite.stop()
 		$wings/Sprite.frame = 4
 		$wings/Collision.visible = false

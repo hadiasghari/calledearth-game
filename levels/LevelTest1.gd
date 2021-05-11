@@ -5,7 +5,7 @@ var Collectible = preload('res://items/Collectible.tscn')
 onready var GLOBAL = get_node("/root/Global")
 
 func _ready():
-	$Tilemap_pickups.hide()
+
 	spawn_pickups()
 	var _err = $Player.connect("dead", self, "gameover")
 	_err = $Spikes.connect("hit", self, "gameover")
@@ -14,7 +14,8 @@ func _ready():
 	$HUD.update_server(GLOBAL.server_url)	
 	$Button1.init(GLOBAL.server_url, GLOBAL.game_id)  
 	$Button2.init(GLOBAL.server_url, GLOBAL.game_id)  
-	$TimerStats.start()		# start other timer only now :)		
+	# TODO error if immediate _on_Timer_timeout()  # updates stats
+	$TimerStats.start()		# periodically...
 
 func gameover():
 	  # TODO: 1. use animation object  2. should gameover music be here or elsewhere or in singleton..?
@@ -29,10 +30,16 @@ func gameover():
 		$Player.position = $Button1.position + $Button1/AreaExit.position + Vector2(300, -400)
 		$MusicLevel1.play()
 		# nothign else needs to be reset, right? => collectibles maybe?
+	elif GLOBAL.last_save == "":
+		# TODO: reset player direction :) ... what about limbs?
+		# TODO: respawn collectibles but only for thoes that are gone!
+		$Player.position = Vector2(300, -400)
+		$MusicLevel1.play()
 	else:
 		var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
 
 func spawn_pickups():
+	$Tilemap_pickups.hide()	
 	var pickups = $Tilemap_pickups 
 	for cell in pickups.get_used_cells():
 		var id = pickups.get_cellv(cell)
@@ -56,6 +63,11 @@ func _on_pickup_victory():
 	# TODO we probably need to signal/call globla/signleton ehre for next level etc
 	# (also 	send server level 2)
 	$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)
+	# change prompt to dance too!
+	# TODO: these request creations should be sent to a factory method
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	var err = http_request.request(GLOBAL.server_url + "/earth/gosavegame/" + GLOBAL.game_id + "/dance1") 		
 	$MusicLevel1.stop()
 	$MusicVictory.play()
 	
@@ -69,7 +81,7 @@ func _on_Timer_timeout():
 func _http_request_getstats_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
-		GLOBAL.last_save = response['lastsave']
+		GLOBAL.last_save = response['lastsave'] 
 		var s = ""		
 		for p in response['participants']:
 			s += char(p)
