@@ -141,6 +141,7 @@ func _physics_process(delta):
 		#       get postponed.... 
 		#       this is a problem for the death music (which wouldn't work even played from here)
 		#velocity.y = 0
+		set_physics_process(false)		
 		emit_signal('dead')   # for HUD plus restart game  ...
 
 func _on_sound_growl_finished():

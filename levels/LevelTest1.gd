@@ -1,11 +1,11 @@
 extends Node2D
 
 var Collectible = preload('res://items/Collectible.tscn')
+var Energy = preload('res://items/Energy.tscn')
 
 onready var GLOBAL = get_node("/root/Global")
 
 func _ready():
-
 	spawn_pickups()
 	var _err = $Player.connect("dead", self, "gameover")
 	_err = $Spikes.connect("hit", self, "gameover")
@@ -16,6 +16,9 @@ func _ready():
 	$Button2.init(GLOBAL.server_url, GLOBAL.game_id)  
 	# TODO error if immediate _on_Timer_timeout()  # updates stats
 	$TimerStats.start()		# periodically...
+	
+	$Player.position = $Button1.position - Vector2(100, 0) 	# TODO FOR TEST: comment out, or make it setable in main
+
 
 func gameover():
 	  # TODO: 1. use animation object  2. should gameover music be here or elsewhere or in singleton..?
@@ -29,14 +32,17 @@ func gameover():
 		# TODO/Q this kinda logic should be in global/singelton scene too
 		$Player.position = $Button1.position + $Button1/AreaExit.position + Vector2(300, -400)
 		$MusicLevel1.play()
+		$Player.set_physics_process(true)  # in case we stopped it 		
 		# nothign else needs to be reset, right? => collectibles maybe?
 	elif GLOBAL.last_save == "":
 		# TODO: reset player direction :) ... what about limbs?
 		# TODO: respawn collectibles but only for thoes that are gone!
 		$Player.position = Vector2(300, -400)
 		$MusicLevel1.play()
+		$Player.set_physics_process(true)  # in case we stopped it		
 	else:
 		var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
+
 
 func spawn_pickups():
 	$Tilemap_pickups.hide()	
@@ -50,6 +56,7 @@ func spawn_pickups():
 		if type:
 			add_child(c)
 			c.connect('pickup', self, '_on_pickup_' + type) 
+
 
 func _on_pickup_switch():
 	# This should probably be moved into the player itself, if we can connect their signals
@@ -71,26 +78,41 @@ func _on_pickup_victory():
 	$MusicLevel1.stop()
 	$MusicVictory.play()
 	
+	
 func _on_Timer_timeout():
 	var request = HTTPRequest.new()
 	add_child(request)
 	request.connect("request_completed", self, "_http_request_getstats_completed")
 	request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id) 	
-	# TODO/Q: do we need to free these nodes?
+	# Q: do we need to free these nodes?
+
 
 func _http_request_getstats_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
-		GLOBAL.last_save = response['lastsave'] 
-		var s = ""		
-		for p in response['participants']:
-			s += char(p)
-		$HUD.update_users(s)
+		if response:
+			GLOBAL.last_save = response['lastsave'] 
+			var s = ""		
+			for emoji in response['participants']:
+				s += char(emoji)
+			$HUD.update_users(s)
+			for energy in response['energies']:
+				# energy[0] is the emoji of sender in case we want it
+				print(energy)
+				for e in energy[1]:
+					var ei = Energy.instance()  				
+					# TODO: actually show a heart for each!
+					var pos = $Player.position + Vector2(-500+randi()%1000, -500+randi()%1000)
+					ei.init("", pos)
+					add_child(ei)				
+			
 		
 func _on_Buttons_deactivated():
 	$Player/Camera2D.current = true  # return camera!
 	$MusicSegue.stop()
 	$MusicLevel1.play()
+	$Player.set_physics_process(true)	# TODO however now sth needs to activate this
+
 
 func _on_Buttons_activated():
 	# lower volume
@@ -98,4 +120,5 @@ func _on_Buttons_activated():
 	$MusicLevel1.stop()	
 	if not $MusicSegue.playing:
 		$MusicSegue.play()
+	$Player.set_physics_process(false)
 	
