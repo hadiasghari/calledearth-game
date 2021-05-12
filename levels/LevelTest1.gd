@@ -17,7 +17,7 @@ func _ready():
 	# TODO error if immediate _on_Timer_timeout()  # updates stats
 	$TimerStats.start()		# periodically...
 	
-	$Player.position = $Button1.position - Vector2(100, 0) 	# TODO FOR TEST: comment out, or make it setable in main
+	#$Player.position = $Button1.position - Vector2(100, 0) 	# TODO FOR TEST: comment out, or make it setable in main
 
 
 func gameover():
