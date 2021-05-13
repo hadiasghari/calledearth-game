@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sound_mouth_whistle.ogg-d8cc341547e7e05b132e502bf12bd433.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/sound_mouth_whistle.ogg"
+dest_files=[ "res://.import/sound_mouth_whistle.ogg-d8cc341547e7e05b132e502bf12bd433.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

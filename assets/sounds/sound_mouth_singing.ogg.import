@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sound_mouth_singing.ogg-cb3fb8c3550c699a139a48ead5a2adb3.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/sound_mouth_singing.ogg"
+dest_files=[ "res://.import/sound_mouth_singing.ogg-cb3fb8c3550c699a139a48ead5a2adb3.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

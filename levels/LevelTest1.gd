@@ -74,37 +74,39 @@ func _on_pickup_victory():
 	# TODO: these request creations should be sent to a factory method
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
-	var err = http_request.request(GLOBAL.server_url + "/earth/gosavegame/" + GLOBAL.game_id + "/dance1") 		
+	var _err = http_request.request(GLOBAL.server_url + "/earth/gosavegame/" + GLOBAL.game_id + "/dance1") 		
 	$MusicLevel1.stop()
 	$MusicVictory.play()
+
 	
+var q_lastk = 0
 	
 func _on_Timer_timeout():
 	var request = HTTPRequest.new()
 	add_child(request)
 	request.connect("request_completed", self, "_http_request_getstats_completed")
-	request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id) 	
+	request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id + "?qa=" + str(q_lastk)) 	
 	# Q: do we need to free these nodes?
+
 
 
 func _http_request_getstats_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
 		if response:
+			print(response)
 			GLOBAL.last_save = response['lastsave'] 
 			var s = ""		
 			for emoji in response['participants']:
 				s += char(emoji)
 			$HUD.update_users(s)
-			for energy in response['energies']:
-				# energy[0] is the emoji of sender in case we want it
-				print(energy)
-				for e in energy[1]:
-					var ei = Energy.instance()  				
-					# TODO: actually show a heart for each!
-					var pos = $Player.position + Vector2(-500+randi()%1000, -500+randi()%1000)
-					ei.init("", pos)
-					add_child(ei)				
+			q_lastk = response['q_lastk']
+			for energy in response['q_energy']:
+				var ei = Energy.instance()  				
+				# TODO: position this only above player
+				var pos = $Player.position + Vector2(-300+randi()%600, -200-randi()%100)
+				ei.init(energy, "?", pos)
+				add_child(ei)				
 			
 		
 func _on_Buttons_deactivated():

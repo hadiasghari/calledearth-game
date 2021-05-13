@@ -2,11 +2,10 @@ extends Area2D
 
 signal hit
 
+# TODO: REPLACE SPIKES WITH TILEMAP
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
-
 
 
 func _on_Spike_body_entered(_body):

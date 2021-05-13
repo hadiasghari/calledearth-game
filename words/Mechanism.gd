@@ -39,6 +39,12 @@ func _on_Mechanism_tree_entered():
 	
 func _ready():
 	pass	
+	
+func _process(delta):
+	if Input.is_action_just_pressed("button_failsafe"):
+		_on_AreaExit_body_entered("fakeKinematicBody2D")
+		# TODO we need addition deactivations but this is failsafe
+		
 
 func _on_HTTPTimer_timeout():
 	var http_request = HTTPRequest.new()
@@ -52,16 +58,18 @@ var _last_dbg = 0
 func _http_request_texts_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
-		if len(response) != _last_dbg:
-			print("DBG HTTP prompt " + str(prompt_key) + ": " + str(len(response)))
-			_last_dbg = len(response)
-		for r in response:
-			# we are assuming this is ordered by pk, this is to show only new texts
-			# if goal is replay, time should be compared with game_time instead.
-			if r.pk > _last_text_pk:
-				spawn_words(r.text, r.parti_code)
-				_last_text_pk = r.pk
-				yield(get_tree().create_timer(0.3), "timeout")
+		# TODO: 'error parsing json unexpected chracter. hmmm. 
+		if response:
+			if len(response) != _last_dbg:
+				print("DBG HTTP prompt " + str(prompt_key) + ": " + str(len(response)))
+				_last_dbg = len(response)
+			for r in response:
+				# we are assuming this is ordered by pk, this is to show only new texts
+				# if goal is replay, time should be compared with game_time instead.
+				if r.pk > _last_text_pk:
+					spawn_words(r.text, r.parti_code)
+					_last_text_pk = r.pk
+					yield(get_tree().create_timer(0.3), "timeout")
 
 func spawn_words(text, ecode):
 	var w = Words.instance()

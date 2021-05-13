@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/soundtrack_segue.ogg-fbed835400f172d4de19d6537305f605.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/soundtrack/soundtrack_segue.ogg"
+dest_files=[ "res://.import/soundtrack_segue.ogg-fbed835400f172d4de19d6537305f605.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

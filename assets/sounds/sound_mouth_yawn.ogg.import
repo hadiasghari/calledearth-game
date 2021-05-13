@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sound_mouth_yawn.ogg-ef2c5a66001d42b436e44381b3a9d810.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/sound_mouth_yawn.ogg"
+dest_files=[ "res://.import/sound_mouth_yawn.ogg-ef2c5a66001d42b436e44381b3a9d810.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

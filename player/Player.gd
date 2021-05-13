@@ -137,11 +137,7 @@ func _physics_process(delta):
 		
 	# check if player has fallen, is dead!			
 	if position.y > 1000: 
-		# TODO: This is buggy method, it seems to get stuck repeating here while other processes/signal
-		#       get postponed.... 
-		#       this is a problem for the death music (which wouldn't work even played from here)
-		#velocity.y = 0
-		set_physics_process(false)		
+		set_physics_process(false)  # necessary to avoid hogging system
 		emit_signal('dead')   # for HUD plus restart game  ...
 
 func _on_sound_growl_finished():
