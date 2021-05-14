@@ -136,7 +136,7 @@ func _physics_process(delta):
 			velocity.y = jump_speed
 		
 	# check if player has fallen, is dead!			
-	if position.y > 1000: 
+	if position.y > 2000: 
 		set_physics_process(false)  # necessary to avoid hogging system
 		emit_signal('dead')   # for HUD plus restart game  ...
 
