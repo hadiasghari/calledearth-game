@@ -82,11 +82,13 @@ func _on_pickup_victory():
 var q_lastk = 0
 	
 func _on_Timer_timeout():
+	#return  # TODO to test if CPU load goes down
 	var request = HTTPRequest.new()
 	add_child(request)
 	request.connect("request_completed", self, "_http_request_getstats_completed")
 	request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id + "?qa=" + str(q_lastk)) 	
-	# Q: do we need to free these nodes?
+	# TODO: Q: do we need to free these nodes? -- it seems we do
+	# TODO also 
 
 
 
@@ -94,7 +96,7 @@ func _http_request_getstats_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
 		if response:
-			print(response)
+			#print(response)
 			GLOBAL.last_save = response['lastsave'] 
 			var s = ""		
 			for emoji in response['participants']:
@@ -107,6 +109,8 @@ func _http_request_getstats_completed(_result, _response_code, _headers, body):
 				var pos = $Player.position + Vector2(-300+randi()%600, -200-randi()%100)
 				ei.init(energy, "?", pos)
 				add_child(ei)				
+		else:
+			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
 			
 		
 func _on_Buttons_deactivated():

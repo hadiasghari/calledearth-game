@@ -40,7 +40,7 @@ func _on_Mechanism_tree_entered():
 func _ready():
 	pass	
 	
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("button_failsafe"):
 		_on_AreaExit_body_entered("fakeKinematicBody2D")
 		# TODO we need addition deactivations but this is failsafe
