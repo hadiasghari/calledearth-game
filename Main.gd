@@ -16,7 +16,7 @@ onready var GLOBAL = get_node("/root/Global")
 #var gameState = GameStates.LEVEL00
 
 export var TestStartLevel = 0  # game level, 0/1/2/99
-export var TestStartLevelSub = 0  # TODO we should also define multiple save points in levels
+export var TestStartLevelSub = ""  # TODO we should also define multiple save points in levels
 
 # currently Continue & Revival Screens are handled by main. not yet fully sure of that :)
 # 		- well revival technicalyl should be a message on top of the level that just reached GameOver
@@ -34,9 +34,9 @@ func _ready():
 	
 	scene_level00.connect("start_next", self, "next_level")
 	# TODO:
-	#scene_level01.connect("playerdead", self, "_on_level_playerdead")
-	#scene_level01.connect("limbswitched", self, "_on_level_limbswitched")
-	#scene_level01.connect("letsdance", self, "_on_level_letsdance")
+	scene_level01.connect("player_dead", self, "_on_level_player_dead")
+	scene_level01.connect("limb_switched", self, "_on_level_limbswitched")
+	scene_level01.connect("dance_next", self, "_on_level_dance_next")
 	
 	GLOBAL.currentLevel = TestStartLevel
 	GLOBAL.currentLevelSub = TestStartLevelSub
@@ -74,6 +74,8 @@ func reload_level():
 			# TODO: also connect two signals
 
 
+# TODO: should we log to DB also playerdead, limbswitch, dance....? (at least two are necessary for prompts!)
+
 func _on_level_playerdead():
 	# TODO: 1. this should check if we have enough energy to revive or not (hopefulyl we do otherwise mssages to get energy)
 		# (re TODO: revival code will be part of this scene!)
@@ -92,6 +94,7 @@ func _on_level_playerdead():
 	#	var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
 	
 	# MUSIC GAMEOVER HERE, NO?
+	print_debug("dead")	
 	$Audio/MusicOver.play()
 	$HUD.show_message("Game Over!", 5)		
 	yield(get_tree().create_timer(5), "timeout")
@@ -102,7 +105,7 @@ func _on_level_playerdead():
 
 func _on_level_dancenext():
 	# TODO: this will have singleton for (i) change prompts on HUD & mobile (ii) timeout at some point (iii) eventually next level logic
-
+	print_debug("dance")
 	$Audio/MusicVictory.play()
 	$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)	
 	# TODO: this should end at some point, 
@@ -118,6 +121,7 @@ func _on_level_dancenext():
 
 
 func _on_level_limbswitch(offset):
+	print_debug("limbswitch " + str(offset))
 	match offset:
 		0: $HUD.show_message("Limb Switch!*")
 		_: $HUD.show_message("Limb Switch!")

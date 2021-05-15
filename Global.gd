@@ -11,7 +11,7 @@ export var server_url = "https://calledearth.herokuapp.com"
 #var last_save = ""  # should be related to current tate in main too...!
 var energybar = 100  # between 0 to 100
 var currentLevel = -1
-var currentLevelSub = -1
+var currentLevelSub = ""
 
 #var hud_message
 

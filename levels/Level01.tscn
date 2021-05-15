@@ -496,21 +496,23 @@ position = Vector2( 18864.7, -273.033 )
 
 [node name="Button1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 10732.7, -2102.46 )
-prompt_key = 1
+prompt_key = 2
 platform_off_x = 550
 platform_off_y = 800
 platform_length = 850
 exitarea_off_x = 30
+fake_data = true
 
 [node name="Button2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 18825.9, -1421.81 )
-prompt_key = 2
+prompt_key = 3
 platform_off_x = 480
 platform_off_y = 1550
 platform_length = 740
 exitarea_off_x = 0
 prompt_off_y = 0
 camera_off_y = -250
+fake_data = true
 
 [node name="Instructions" type="Node2D" parent="."]
 __meta__ = {
