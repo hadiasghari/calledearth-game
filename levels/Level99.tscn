@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://ui/CreditScreen.gd" type="Script" id=1]
+[ext_resource path="res://levels/Level99.gd" type="Script" id=1]
 
 [node name="CreditScreen" type="CanvasLayer"]
 script = ExtResource( 1 )

@@ -29,3 +29,7 @@ func _on_ButtonPlatform_deactivated():
 	pass # Replace with function body.
 	# no camera to return, no player to restart, no music to change...
 	# probably just go to ther 
+
+
+func _on_ButtonPlatform_script_changed():
+	pass # Replace with function body.

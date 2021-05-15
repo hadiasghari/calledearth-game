@@ -53,7 +53,7 @@ use_filter = true
 font_data = ExtResource( 5 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 91, 10 )
+extents = Vector2( 250, 10 )
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 10, 491.112 )
@@ -93,10 +93,10 @@ __meta__ = {
 wait_time = 4.0
 
 [node name="Label" type="Label" parent="."]
-margin_left = 104.0
-margin_top = -5.0
-margin_right = 144.0
-margin_bottom = 9.0
+margin_left = -270.0
+margin_top = -1005.0
+margin_right = 230.0
+margin_bottom = -935.0
 custom_fonts/font = SubResource( 9 )
 align = 1
 valign = 1
@@ -107,7 +107,6 @@ __meta__ = {
 }
 
 [node name="Platform" type="StaticBody2D" parent="."]
-position = Vector2( 192, 102 )
 
 [node name="Camera2D" type="Camera2D" parent="Platform"]
 offset = Vector2( 0, -500 )
@@ -128,14 +127,16 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="AreaExit" type="Area2D" parent="."]
+[node name="ExitArea" type="Area2D" parent="."]
+position = Vector2( 580, 0 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaExit"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea"]
 position = Vector2( 408, 15 )
 shape = SubResource( 11 )
 
-[connection signal="tree_entered" from="." to="." method="_on_Mechanism_tree_entered"]
+[connection signal="script_changed" from="." to="." method="_on_ButtonPlatform_script_changed"]
+[connection signal="tree_entered" from="." to="." method="_on_tree_entered"]
 [connection signal="area_entered" from="Button" to="." method="_on_Button_area_entered"]
-[connection signal="animation_finished" from="Button/AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
+[connection signal="animation_finished" from="Button/AnimatedSprite" to="." method="_on_Button_animation_finished"]
 [connection signal="timeout" from="HTTPTimer" to="." method="_on_HTTPTimer_timeout"]
-[connection signal="body_entered" from="AreaExit" to="." method="_on_AreaExit_body_entered"]
+[connection signal="body_entered" from="ExitArea" to="." method="_on_ExitArea_bodyentered"]

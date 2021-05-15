@@ -22,15 +22,16 @@ func reposition(loc):
 		var unknown:
 			# also e.g. write before these buttons $Player.position = $Button1.position - Vector2(100, 0) 				
 			# one could add position 'C' is write before/after dancing...
-			print_debug('Unknown location for reposition requested')
+			print_debug('Unknown location for reposition requested: ' + str(unknown))
 	
 	
 
 func _ready():
 	spawn_pickups()
-	$Player.connect("dead", self, "_on_gameover")
-	$Player.connect("limbswitched", self, "_on_player_limbswitched")
-	$Spikes.connect("hit", self, "_on_gameover")
+	var _err
+	_err = $Player.connect("dead", self, "_on_gameover")
+	_err = $Player.connect("limbswitched", self, "_on_player_limbswitched")
+	_err = $Spikes.connect("hit", self, "_on_gameover")
 	# TODO: SET REPOSITION somewhere
 
 

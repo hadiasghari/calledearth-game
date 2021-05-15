@@ -23,7 +23,7 @@ script = ExtResource( 1 )
 
 [node name="Audio" type="Node" parent="."]
 
-[node name="MusicVictory" type="AudioStreamPlayer" parent="Audio"]
+[node name="MusicDance" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource( 5 )
 
 [node name="MusicOver" type="AudioStreamPlayer" parent="Audio"]
@@ -31,3 +31,4 @@ stream = ExtResource( 4 )
 
 [connection signal="request_completed" from="HTTP/HTTPRequestGame" to="." method="_on_HTTPRequestGame_completed"]
 [connection signal="timeout" from="HTTP/TimerOnlineUsers" to="." method="_on_TimerOnlineUsers_timeout"]
+[connection signal="finished" from="Audio/MusicDance" to="." method="_on_MusicDance_finished"]

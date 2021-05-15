@@ -7,12 +7,16 @@ extends Node2D
 
 onready var GLOBAL = get_node("/root/Global")
 
-enum GameStates {LEVEL00, LEVEL01A, LEVEL01B, CONTIINUE, LEVEL02A, LEVEL02B, CREDITS,
-				 L1_Revival, L1_Dance, L2_Dance, L2_Revival, }
+#enum GameStates {LEVEL00, LEVEL01A, LEVEL01B, CONTIINUE, LEVEL02A, LEVEL02B, CREDITS,
+#				 L1_Revival, L1_Dance, L2_Dance, L2_Revival, }
 
-var gameState = GameStates.LEVEL00
+# TODO: interim states are part of the main screen now! :)
+#       (so they would for instance hide the main scenes or sth 
 
-export var levelStart = ""  # TODO set 0/1A/1B/...
+#var gameState = GameStates.LEVEL00
+
+export var TestStartLevel = 0  # game level, 0/1/2/99
+export var TestStartLevelSub = 0  # TODO we should also define multiple save points in levels
 
 # currently Continue & Revival Screens are handled by main. not yet fully sure of that :)
 # 		- well revival technicalyl should be a message on top of the level that just reached GameOver
@@ -20,19 +24,22 @@ export var levelStart = ""  # TODO set 0/1A/1B/...
 #      - Continue is also an HUD message. to decide where it should happen. needs voting. 
 
 
-var scene_level00 = preload("res://levels/Level00.tscn").instance()
+var scene_level00 = preload("res://levels/Level00.tscn").instance()  # title
 var scene_level01 = preload("res://levels/Level01.tscn").instance()
 var scene_level02 = preload("res://levels/Level02.tscn").instance()
-var scene_credits = preload("res://ui/CreditScreen.tscn").instance()
+var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
 
 func _ready():
 	randomize()		
 	
 	scene_level00.connect("start_next", self, "next_level")
-	scene_level01.connect("playerdead", self, "_on_level_playerdead")
-	scene_level01.connect("limbswitched", self, "_on_level_limbswitched")
-	scene_level01.connect("letsdance", self, "_on_level_letsdance")
+	# TODO:
+	#scene_level01.connect("playerdead", self, "_on_level_playerdead")
+	#scene_level01.connect("limbswitched", self, "_on_level_limbswitched")
+	#scene_level01.connect("letsdance", self, "_on_level_letsdance")
 	
+	GLOBAL.currentLevel = TestStartLevel
+	GLOBAL.currentLevelSub = TestStartLevelSub
 		
 	$Audio/MusicOver.stream.set_loop(false) 
 	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
@@ -41,9 +48,10 @@ func _ready():
 
 
 func next_level():	
-	match gameState:
-		GameStates.LEVEL00:
-			gameState = GameStates.LEVEL01A
+	match GLOBAL.currentLevel:
+		0:
+			GLOBAL.currentLevel = 1
+			GLOBAL.currentLevelSub = 0
 			reload_level()
 
 	# TODO: probably we want to send/log the new state to Django Server too
@@ -55,11 +63,11 @@ func reload_level():
 	for c in $CurrentScene.get_children():
 		$CurrentScene.remove_child(c)  # we could keep existing node if we wish
 	
-	match gameState:				
-		GameStates.LEVEL00:
+	match GLOBAL.currentLevel:				
+		0:
 			$CurrentScene.add_child(scene_level00)
 	
-		GameStates.LEVEL01A:
+		1:
 			$CurrentScene.add_child(scene_level01)
 			
 			
@@ -160,3 +168,8 @@ func _on_HTTPRequestOnlineUsers_completed(_result, _response_code, _headers, bod
 
 
 
+
+
+func _on_MusicDance_finished():
+	pass # Replace with function body.
+	# TODO: ready to advance level :D
