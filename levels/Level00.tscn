@@ -62,9 +62,8 @@ margin_top = 882.015
 margin_right = 1920.0
 margin_bottom = 976.015
 custom_fonts/font = SubResource( 2 )
-text = "Press <X> to start"
+text = "Press --X-- to Start"
 align = 1
-valign = 2
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -72,9 +71,12 @@ __meta__ = {
 
 [node name="InvisibleBounds" type="StaticBody2D" parent="."]
 position = Vector2( 978.634, 582.655 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="InvisibleBounds"]
-polygon = PoolVector2Array( -948.682, -576.913, -894.803, -576.913, -894.803, 334.525, 883.174, 312.075, 883.174, -567.934, 923.582, -567.934, 928.072, 397.382, -935.212, 406.362, -939.702, -437.728 )
-
-[connection signal="activated" from="ButtonPlatform" to="." method="_on_ButtonPlatform_activated"]
-[connection signal="deactivated" from="ButtonPlatform" to="." method="_on_ButtonPlatform_deactivated"]
+polygon = PoolVector2Array( -948.682, -576.913, -894.803, -576.913, -894.803, 334.525, 802.357, 294.116, 793.377, -567.934, 923.582, -567.934, 928.072, 397.382, -935.212, 406.362, -939.702, -437.728 )
+__meta__ = {
+"_edit_lock_": true
+}

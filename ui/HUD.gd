@@ -24,6 +24,9 @@ func update_users(users):
 
 func update_gameid(gameid):
 	$OnlineInfo/HBox/VBox/LabelGame.text = "Game " + str(gameid)
+
+#func update_controllers(n):
+#	$OnlineInfo/HBox/VBox/LabelControllers.text = "Controllers: " + str(n)
 	
 func _on_TimerHideMessage_timeout():
 	$Message.visible = false
