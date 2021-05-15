@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/City decorations 2.png-50725cf0a39211697537dc5ba1de2ab2.stex"
+path="res://.import/City decorations 2.png-2f65a15637debe409264693e76c552af.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/City decorations 2.png"
-dest_files=[ "res://.import/City decorations 2.png-50725cf0a39211697537dc5ba1de2ab2.stex" ]
+source_file="res://assets/art/decorative objects/City decorations 2.png"
+dest_files=[ "res://.import/City decorations 2.png-2f65a15637debe409264693e76c552af.stex" ]
 
 [params]
 
