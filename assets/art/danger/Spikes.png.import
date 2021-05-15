@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Spikes.png-a17406b86cbf4a97c967192361e83b27.stex"
+path="res://.import/Spikes.png-8d99e2ff616d2fdbf8bbb68a9d54980c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/collect items/Spikes.png"
-dest_files=[ "res://.import/Spikes.png-a17406b86cbf4a97c967192361e83b27.stex" ]
+source_file="res://assets/art/danger/Spikes.png"
+dest_files=[ "res://.import/Spikes.png-8d99e2ff616d2fdbf8bbb68a9d54980c.stex" ]
 
 [params]
 
