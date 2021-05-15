@@ -1,14 +1,14 @@
 extends KinematicBody2D
 
 signal dead
-signal switch
+signal limbswitched(offset)
 export (int) var speed = 20
 export (int) var jump_speed = -1800
 export (int) var gravity = 4000
+export (int) var posy_dead = 2000
 
 var velocity = Vector2.ZERO
-var devoffset = 0  # also should respond to pickup signals (later)
-var mouth_action = 0
+var devoffset = 0  # responds to rotate and limb_switch
 
 				
 func _ready():
@@ -24,8 +24,8 @@ func _ready():
 func get_input():
 		# logic for rotating functions of four controllers
 	if Input.is_action_just_pressed("rotate"):
-		emit_signal('switch')  # rotate devoffset += 1 via Level to get HUD
-		print_debug('device-offset: ' + str(devoffset))
+		limb_switch()
+
 	var dev0 = "dev" + str((0 + devoffset) % 4)
 	var dev1 = "dev" + str((1 + devoffset) % 4)
 	var dev2 = "dev" + str((2 + devoffset) % 4)
@@ -120,6 +120,7 @@ func get_input():
 		$mouth.animation = "yawn"
 		$mouth/yawn.play()
 
+
 func _physics_process(delta):
 	get_input()  # sets velocity.x and motions
 	
@@ -136,9 +137,10 @@ func _physics_process(delta):
 			velocity.y = jump_speed
 		
 	# check if player has fallen, is dead!			
-	if position.y > 2000: 
+	if position.y > posy_dead: 
 		set_physics_process(false)  # necessary to avoid hogging system
 		emit_signal('dead')   # for HUD plus restart game  ...
+
 
 func _on_sound_growl_finished():
 	$mouth.animation = "default_smile"
@@ -156,6 +158,7 @@ func _on_sound_yawn_finished():
 	$mouth.animation = "default_smile"
 	$mouth.play()
 
+
 func _on_arm_R_animation_finished():
 	$arms/Collision_R.disabled = false	
 	yield(get_tree().create_timer(1), "timeout")
@@ -171,6 +174,7 @@ func _on_arm_L_animation_finished():
 	$arms/arm_L.frame = 0
 	$arms/arm_L.stop()
 
+
 func _on_arms_body_entered(body):
 	# This is entered when we PUSH WORDS
 	# TODO: this is somewhat clunky, even with arms & wings... (learn `impulse`)
@@ -183,9 +187,15 @@ func _on_arms_body_entered(body):
 			print('push word right')			
 			body.apply_impulse(Vector2(), Vector2(-3000, 0) )
 
+
 func _on_wings_body_entered(body):
 	if 'RigidBody' in str(body):
 		if $wings/Collision.visible:  # is this necessary?
 			print_debug(body)
 			body.apply_impulse(Vector2(), Vector2(0, -5000) )
  
+
+func limb_switch():
+	devoffset += 1		
+	print_debug('device-offset: ' + str(devoffset))
+	emit_signal('limbswitched', devoffset%4)  # inform eg for HUD

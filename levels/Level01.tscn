@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://assets/art/background images/background 7-5.png" type="Texture" id=1]
 [ext_resource path="res://levels/Level01.gd" type="Script" id=2]
@@ -12,13 +12,10 @@
 [ext_resource path="res://assets/sounds/soundtrack/soundtrack_segue.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/art/collect items/Switch button.png" type="Texture" id=11]
 [ext_resource path="res://assets/fonts/instruction_font.tres" type="DynamicFont" id=12]
-[ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=13]
-[ext_resource path="res://assets/sounds/soundtrack/soundtrack_victory.ogg" type="AudioStream" id=14]
 [ext_resource path="res://assets/art/danger/Spikes.png" type="Texture" id=15]
 [ext_resource path="res://assets/art/collect items/Victory button .png" type="Texture" id=16]
 [ext_resource path="res://assets/sounds/soundtrack/soundtrack_lvl_1.ogg" type="AudioStream" id=17]
 [ext_resource path="res://items/Spikes.tscn" type="PackedScene" id=18]
-[ext_resource path="res://assets/sounds/sound_game_over.ogg" type="AudioStream" id=19]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Lvl 1 objects.png 0"
@@ -597,28 +594,16 @@ __meta__ = {
 position = Vector2( 310.083, -93.2527 )
 scale = Vector2( 0.5, 0.5 )
 
-[node name="MusicLevel1" type="AudioStreamPlayer" parent="."]
+[node name="MusicLevel" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
 volume_db = -10.0
 autoplay = true
 
 [node name="MusicSegue" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
-volume_db = -10.0
-
-[node name="MusicVictory" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 14 )
-
-[node name="MusicOver" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 19 )
-
-[node name="TimerStats" type="Timer" parent="."]
-wait_time = 2.0
-
-[node name="HUD" parent="." instance=ExtResource( 13 )]
+volume_db = -15.0
 
 [connection signal="activated" from="Button1" to="." method="_on_Buttons_activated"]
 [connection signal="deactivated" from="Button1" to="." method="_on_Buttons_deactivated"]
 [connection signal="activated" from="Button2" to="." method="_on_Buttons_activated"]
 [connection signal="deactivated" from="Button2" to="." method="_on_Buttons_deactivated"]
-[connection signal="timeout" from="TimerStats" to="." method="_on_Timer_timeout"]

@@ -1,6 +1,7 @@
 extends Node2D
 
 var Words = preload('./Words.tscn')
+onready var GLOBAL = get_node("/root/Global")
 
 export var prompt_key = 99999
 export var platform_off_x = 0
@@ -9,23 +10,15 @@ export var platform_length = 500
 export var exitarea_off_x = 80  # could also add exit_height
 export var prompt_off_y = -200
 export var camera_off_y = 0
-#export var camera_zoom = 2  # this cannot really be changed it seems?
 export var test_mode = false
 signal activated
 signal deactivated
 
-var _gameid = ""
-var _server_url = ""
 var _last_text_pk = -1
 var _color_ix = randi()
 
 # TODO: how can the platform offset shape/place show in the editor too? 
-# TODO: possibly needs redo ability (words load from database)
-
-func init(server_url, gameid):
-	_gameid = gameid
-	_server_url = server_url
-	#print("Mechanism got gameid:" + _gameid)
+# TODO: should the HTTP communication be removed from this class fully?
 	
 func _on_Mechanism_tree_entered():
 	$Platform.position = Vector2(platform_off_x, platform_off_y)
@@ -41,7 +34,7 @@ func _ready():
 	pass	
 	
 func _process(_delta):
-	if Input.is_action_just_pressed("button_failsafe"):
+	if Input.is_action_just_pressed("test_skip_next"):
 		_on_AreaExit_body_entered("fakeKinematicBody2D")
 		# TODO we need addition deactivations but this is failsafe
 		
@@ -50,8 +43,7 @@ func _on_HTTPTimer_timeout():
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 	http_request.connect("request_completed", self, "_http_request_texts_completed")
-	http_request.request(_server_url + "/earth/gogettexts/" + _gameid + "/" + str(prompt_key)) 
-	#print_debug(_server_url + "/earth/gogettexts/" + _gameid + "/" + str(prompt_key))
+	http_request.request(GLOBAL.server_url + "/earth/gogettexts/" + GLOBAL.game_id + "/" + str(prompt_key)) 
 
 var _last_dbg = 0
 
@@ -109,7 +101,7 @@ func _on_AnimatedSprite_animation_finished():
 		var http_request = HTTPRequest.new()
 		add_child(http_request)
 		http_request.connect("request_completed", self, "_http_request_prompt_completed")	
-		var err = http_request.request(_server_url + "/earth/gosetprompt/" + _gameid + "/" + str(prompt_key)) 	
+		var err = http_request.request(GLOBAL.server_url + "/earth/gosetprompt/" + GLOBAL.game_id + "/" + str(prompt_key)) 	
 		print("Mechanism sent prompt " + str(prompt_key) + " → " + str(err))
 		$HTTPTimer.start()	
 
@@ -126,7 +118,7 @@ func _on_AreaExit_body_entered(body):
 		if 	not test_mode:
 			var http_request = HTTPRequest.new()
 			add_child(http_request)
-			var err = http_request.request(_server_url + "/earth/gosavegame/" + _gameid + "/btn" + str(prompt_key)) 	
+			var err = http_request.request(GLOBAL.server_url + "/earth/gosavegame/" + GLOBAL.game_id + "/btn" + str(prompt_key)) 	
 			print("Mechanism deactivated " + str(prompt_key) + " → " + str(err))
 			
 

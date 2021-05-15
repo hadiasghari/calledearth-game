@@ -1,4 +1,4 @@
-extends Node2D
+extends CanvasLayer
 
 # TODO: this scene shows the statistics at the end
 

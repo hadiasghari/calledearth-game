@@ -1,47 +1,37 @@
 extends Node2D
 
 var Collectible = preload('res://items/Collectible.tscn')
-var Energy = preload('res://items/Energy.tscn')
+#var Energy = preload('res://items/Energy.tscn')
+#onready var GLOBAL = get_node("/root/Global")
 
-onready var GLOBAL = get_node("/root/Global")
+signal player_dead
+signal dance_next
+signal limb_switched(offset)  # this is simply for HUD
+
+func reposition(loc):
+	# in case we stopped these on death:	
+	$MusicLevel.play()
+	$Player.set_physics_process(true)  
+	# note, we don't respawn collectibles, or reset limbs, which turned out better during the prototype test
+	# finally, set player location
+	match loc:
+		'A': 
+			$Player.position = Vector2(300, -400)			
+		'B': 
+			$Player.position = $Button1.position + $Button1/AreaExit.position + Vector2(300, -400)
+		var unknown:
+			# also e.g. write before these buttons $Player.position = $Button1.position - Vector2(100, 0) 				
+			# one could add position 'C' is write before/after dancing...
+			print_debug('Unknown location for reposition requested')
+	
+	
 
 func _ready():
 	spawn_pickups()
-	var _err = $Player.connect("dead", self, "gameover")
-	_err = $Spikes.connect("hit", self, "gameover")
-	_err = $Player.connect("switch", self, "_on_pickup_switch")
-	
-	$HUD.update_server(GLOBAL.server_url)	
-	$Button1.init(GLOBAL.server_url, GLOBAL.game_id)  
-	$Button2.init(GLOBAL.server_url, GLOBAL.game_id)  
-	# TODO error if immediate _on_Timer_timeout()  # updates stats
-	$TimerStats.start()		# periodically...
-	
-	#$Player.position = $Button1.position - Vector2(100, 0) 	# TODO FOR TEST: comment out, or make it setable in main
-
-
-func gameover():
-	  # TODO: 1. use animation object  2. should gameover music be here or elsewhere or in singleton..?
-	$MusicLevel1.stop()
-	$MusicOver.stream.set_loop(false) 
-	$MusicOver.play()
-	$HUD.show_message("Game Over!", 5)	
-	yield(get_tree().create_timer(5), "timeout")
-	# IF GAME IS SAVED DONT RESTART ALL OVER BUT GO TO LAST SAVE
-	if GLOBAL.last_save == "btn1":
-		# TODO/Q this kinda logic should be in global/singelton scene too
-		$Player.position = $Button1.position + $Button1/AreaExit.position + Vector2(300, -400)
-		$MusicLevel1.play()
-		$Player.set_physics_process(true)  # in case we stopped it 		
-		# nothign else needs to be reset, right? => collectibles maybe?
-	elif GLOBAL.last_save == "":
-		# TODO: reset player direction :) ... what about limbs?
-		# TODO: respawn collectibles but only for thoes that are gone!
-		$Player.position = Vector2(300, -400)
-		$MusicLevel1.play()
-		$Player.set_physics_process(true)  # in case we stopped it		
-	else:
-		var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
+	$Player.connect("dead", self, "_on_gameover")
+	$Player.connect("limbswitched", self, "_on_player_limbswitched")
+	$Spikes.connect("hit", self, "_on_gameover")
+	# TODO: SET REPOSITION somewhere
 
 
 func spawn_pickups():
@@ -59,71 +49,37 @@ func spawn_pickups():
 
 
 func _on_pickup_switch():
+	# Q from a design perspective could the pickup directly call the player, etc? do we need to go through level?
+	$Player.limb_switch()
+
+
+func _on_gameover():
+	$MusicLevel.stop()
+	emit_signal("player_dead")
+	
+
+func _on_player_limbswitched(offset):
 	# This should probably be moved into the player itself, if we can connect their signals
-	$Player.devoffset += 1	
-	if $Player.devoffset % 4 != 0:
-		$HUD.show_message("Limb Switch!")
-	else:
-		$HUD.show_message("Limb Switch!*")
+	# Q: from a design perspective where should this HUD be best set?
+	# (for now we just pass it to Main that is calling us)
+	emit_signal("limb_switched", offset)
+		
 		
 func _on_pickup_victory():
-	# TODO we probably need to signal/call globla/signleton ehre for next level etc
-	# (also 	send server level 2)
-	$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)
-	# change prompt to dance too!
-	# TODO: these request creations should be sent to a factory method
-	var http_request = HTTPRequest.new()
-	add_child(http_request)
-	var _err = http_request.request(GLOBAL.server_url + "/earth/gosavegame/" + GLOBAL.game_id + "/dance1") 		
-	$MusicLevel1.stop()
-	$MusicVictory.play()
+	$MusicLevel.stop()
+	emit_signal('dance_next')  
 
-	
-var q_lastk = 0
-	
-func _on_Timer_timeout():
-	#return  # TODO to test if CPU load goes down
-	var request = HTTPRequest.new()
-	add_child(request)
-	request.connect("request_completed", self, "_http_request_getstats_completed")
-	request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id + "?qa=" + str(q_lastk)) 	
-	# TODO: Q: do we need to free these nodes? -- it seems we do
-	# TODO also 
-
-
-
-func _http_request_getstats_completed(_result, _response_code, _headers, body):
-	if body.get_string_from_utf8():
-		var response = parse_json(body.get_string_from_utf8())
-		if response:
-			#print(response)
-			GLOBAL.last_save = response['lastsave'] 
-			var s = ""		
-			for emoji in response['participants']:
-				s += char(emoji)
-			$HUD.update_users(s)
-			q_lastk = response['q_lastk']
-			for energy in response['q_energy']:
-				var ei = Energy.instance()  				
-				# TODO: position this only above player
-				var pos = $Player.position + Vector2(-300+randi()%600, -200-randi()%100)
-				ei.init(energy, "?", pos)
-				add_child(ei)				
-		else:
-			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
 			
-		
 func _on_Buttons_deactivated():
 	$Player/Camera2D.current = true  # return camera!
 	$MusicSegue.stop()
-	$MusicLevel1.play()
+	$MusicLevel.play()
 	$Player.set_physics_process(true)	# TODO however now sth needs to activate this
 
 
 func _on_Buttons_activated():
-	# lower volume
-	$MusicSegue.volume_db = -15
-	$MusicLevel1.stop()	
+	# volume already set to $MusicSegue.volume_db = -15
+	$MusicLevel.stop()	
 	if not $MusicSegue.playing:
 		$MusicSegue.play()
 	$Player.set_physics_process(false)
