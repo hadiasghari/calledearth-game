@@ -8,10 +8,11 @@ var game_id = ""
 export var server_url = "https://calledearth.herokuapp.com"
 #export var server_url = "http://127.0.0.1:8000"
 
+# TODO: are any of these necessary here?
 #var last_save = ""  # should be related to current tate in main too...!
-var energybar = 100  # between 0 to 100
-var currentLevel = -1
-var currentLevelSub = ""
+var energy = 0  # between 0 to 100
+var current_level = -1
+var current_sublevel = ""
 
 #var hud_message
 

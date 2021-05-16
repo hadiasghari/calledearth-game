@@ -1,7 +1,9 @@
 extends KinematicBody2D
 
 signal dead
+signal energy(value)
 signal switched(offset)
+
 export (int) var speed = 20
 export (int) var jump_speed = -1800
 export (int) var gravity = 4000
@@ -19,7 +21,7 @@ func _ready():
 	$mouth/yawn.stream.set_loop(false)		
 	$wings/Sound.stream.set_loop(false)			
 	# (defaults already: $arms/arm_L.animation = "push")
-	flip_sprites_dead(1)  # FOR TEST
+	# flip_sprites_dead(1)  # FOR TEST
 	
 
 func flip_sprites_dead(is_dead):
@@ -95,6 +97,7 @@ func get_input():
 		# make sound when just pressed
 		$wings/Sound.play()	
 		$wings/Collision.visible = true				
+		emit_signal("energy", -1)		
 	if Input.is_action_just_pressed(dev2 + "_action") or not is_on_floor():
 		# flap wings when just pressed or otherwise in air
 		$wings/Sprite.play()
@@ -106,7 +109,6 @@ func get_input():
 		$wings/Sprite.frame = 4
 		$wings/Collision.visible = false
 
-	
 	# III. logic for arms (dev 3)
 	# first show correct direction of arms re legs	
 	if velocity.x < 0:
@@ -158,6 +160,7 @@ func _physics_process(delta):
 	# check if player has fallen, is dead!			
 	if position.y > posy_dead: 
 		set_physics_process(false)  # necessary to avoid hogging system
+		flip_sprites_dead(1)
 		emit_signal('dead')   # for HUD plus restart game  ...
 
 
@@ -182,7 +185,7 @@ func _on_arm_R_animation_finished():
 	$arms/Collision_R.disabled = false	
 	yield(get_tree().create_timer(1), "timeout")
 	$arms/Collision_R.disabled = true	
-	# wouldn't retrigger not sure why, $arms/arm_R.play("", true)  
+	# wouldn't retrigger, not sure why: $arms/arm_R.play("", true)  
 	$arms/arm_R.frame = 0
 	$arms/arm_R.stop()
 
@@ -209,7 +212,7 @@ func _on_arms_body_entered(body):
 
 func _on_wings_body_entered(body):
 	if 'RigidBody' in str(body):
-		if $wings/Collision.visible:  # is this necessary?
+		if $wings/Collision.visible:  # why is this necessary?
 			print_debug(body)
 			body.apply_impulse(Vector2(), Vector2(0, -5000) )
  
@@ -218,3 +221,7 @@ func limb_switch():
 	devoffset += 1		
 	print_debug('device-offset: ' + str(devoffset))
 	emit_signal('switched', devoffset%4)  # inform eg for HUD
+
+
+func _on_TimerEnergy_timeout():
+	emit_signal("energy", -1) 

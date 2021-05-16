@@ -15,8 +15,10 @@ onready var GLOBAL = get_node("/root/Global")
 
 #var gameState = GameStates.LEVEL00
 
-export var TestStartLevel = 0  # game level, 0/1/2/99
-export var TestStartLevelSub = ""  # TODO we should also define multiple save points in levels
+export var start_level = 0  # game level, 0/1/2/99
+export var start_sublevel = ""  # TODO we should also define multiple save points in levels
+export var start_energy = 90
+
 
 # currently Continue & Revival Screens are handled by main. not yet fully sure of that :)
 # 		- well revival technicalyl should be a message on top of the level that just reached GameOver
@@ -28,107 +30,118 @@ var scene_level00 = preload("res://levels/Level00.tscn").instance()  # title
 var scene_level01 = preload("res://levels/Level01.tscn").instance()
 var scene_level02 = preload("res://levels/Level02.tscn").instance()
 var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
+var current_scene  # updated to whatever current scene is
+
 
 func _ready():
 	randomize()		
 	
 	var _err
 	_err = scene_level00.connect("start_next", self, "next_level")
-	print_debug(_err)
-	_err = scene_level01.connect("player_dead", self, "_on_level_playerdead")
-	print_debug(_err)	
-	_err = scene_level01.connect("switched", self, "_on_level_limbswitched")
-	print_debug(_err)	
+	_err = scene_level01.connect("player_dead", self, "_on_player_dead")
+	_err = scene_level01.connect("player_switched", self, "_on_player_switched")
+	_err = scene_level01.connect("player_energy", self, "_on_player_energychange")
 	_err = scene_level01.connect("dance_next", self, "_on_level_dancenext")
-	print_debug(_err)	
-	
-	GLOBAL.currentLevel = TestStartLevel
-	GLOBAL.currentLevelSub = TestStartLevelSub
-		
-	$Audio/MusicDead.stream.set_loop(false) 
+	# TODO: connect level02	
+	GLOBAL.current_level = start_level
+	GLOBAL.current_sublevel = start_sublevel
+	GLOBAL.energy = start_energy
 	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
 	reload_level()	
 	
+	
+	# NOTE: Design point (cons/pros) re whether player should be in this scene or in levels
+	# - to test levels standalone, it needs to be in those scenes. (but can they be tested without the gameover logic etc?)
+	# - also, it makes sense that player doesn't directly access HUD re `(de)coupling` (so uses signals/functions)
+	# - now, only wierdness is this piping of signals... (we need to capture them and resubmit them and vice-versa)
 
 
 func next_level():	
-	match GLOBAL.currentLevel:
+	match GLOBAL.current_level:
 		0:
-			GLOBAL.currentLevel = 1
-			GLOBAL.currentLevelSub = 0
+			GLOBAL.current_level = 1
+			#GLOBAL.currentLevelSub = 0
 			reload_level()
-
-	# TODO: probably we want to send/log the new state to Django Server too
+		1:
+			GLOBAL.current_level = 2
+			# TODO: ASK IF PEOPLE WANT TO CONTINUE
+			reload_level()
+		2: 
+			GLOBAL.current_level = 99
+			reload_level()
 	
+	# TODO: probably we want to send/log the new state to Django Server too
+
+
+#func update_game_state(state):
+	# TODO: state is various locations in ganem, plus revival, prompts, dancing.
+	#       actually dancing is a signal, prompt gets set elsewehre, and revival will be a state here
+#	pass
+# TODO: should we log to DB also playerdead, limbswitch, dance....? (at least two are necessary for prompts!)
+
 
 func reload_level():
 	# based on https://docs.godotengine.org/en/latest/tutorials/scripting/change_scenes_manually.html (option 3,)
-	#         
+	# the form of removal we use should keep the node data
 	for c in $CurrentScene.get_children():
-		$CurrentScene.remove_child(c)  # we could keep existing node if we wish
+		$CurrentScene.remove_child(c)
 	
-	match GLOBAL.currentLevel:				
-		0:
-			$CurrentScene.add_child(scene_level00)
-	
-		1:
-			$CurrentScene.add_child(scene_level01)
+	match GLOBAL.current_level:				
+		0: 
+			current_scene = scene_level00			
+			$HUD.hide_energy()
+		1: 
+			current_scene = scene_level01
+			$HUD.update_energy(GLOBAL.energy)
+		2: 
+			current_scene = scene_level02
+			$HUD.update_energy(GLOBAL.energy)
+		99: 
+			current_scene = scene_level99
+			$HUD.hide_energy()
 			
-			
-			# TODO: also connect two signals
+	$CurrentScene.add_child(current_scene)	
+
+func _on_player_switched(offset):
+	# simply update HUD (see design notes at top)
+	# (we could log this even to db too but unnecessary) 
+	match offset:
+		0: $HUD.show_message("Limb Switch!*")
+		_: $HUD.show_message("Limb Switch!")
 
 
-# TODO: should we log to DB also playerdead, limbswitch, dance....? (at least two are necessary for prompts!)
-
-func _on_level_playerdead():
-	# TODO: 1. this should check if we have enough energy to revive or not (hopefulyl we do otherwise mssages to get energy)
-		# (re TODO: revival code will be part of this scene!)
-	# TODO: 2. then decide where to RESTART. BASED ON GAMESTATE. 
+func _on_player_energychange(value):
+	# TODO: reduce energy-level
+	update_energy(value)
 	
-	# IF GAME IS SAVED DONT RESTART ALL OVER BUT GO TO LAST SAVE
-	#if GLOBAL.last_save == "btn1":
-		# TODO/Q this kinda logic should be in global/singelton scene too
-		#$Player.position = $Button1.position + $Button1/AreaExit.position + Vector2(300, -400)
-		# nothign else needs to be reset, right? => collectibles maybe?
-	#elif GLOBAL.last_save == "":
-		# TODO: reset player direction :) ... what about limbs?
-		# TODO: respawn collectibles but only for thoes that are gone!
-		#$Player.position = Vector2(300, -400)
-	#else:
-	#	var _err = get_tree().change_scene("res://ui/TitleScreen.tscn") 
-	
-	# MUSIC GAMEOVER HERE, NO?
-	print_debug("dead")	
+
+func update_energy(value):
+	GLOBAL.energy += value
+	GLOBAL.energy = min(max(0, GLOBAL.energy), 100)  # 0 to 100
+	$HUD.update_energy(GLOBAL.energy)
+
+
+func _on_player_dead():
+	$HUD.show_message("Uh-oh!", 5)		
+	update_energy(-30)
+	$Audio/MusicDead.stream.set_loop(false) 	
 	$Audio/MusicDead.play()
-	$HUD.show_message("Game Over!", 5)		
-	yield(get_tree().create_timer(5), "timeout")
-
-	# TODO: this should test revival or not :)
-   # TODO: 1. use animation object  2. should gameover music be here or elsewhere or in singleton..?
+	# revival will happen  once the dead music finishes playing
 
 
 func _on_level_dancenext():
 	# TODO: this will have singleton for (i) change prompts on HUD & mobile (ii) timeout at some point (iii) eventually next level logic
 	print_debug("dance")
+	$Audio/MusicDance.stream.set_loop(false) 	
 	$Audio/MusicDance.play()
 	$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)	
 	# TODO: this should end at some point, 
 	#  and then we move to the scene asking whether to continue game or not! (or they are the same)
-
 	
-	# TODO UPDATE STATE TO SERVER PROPERLY
+	# TODO UPDATE DANCE STATE TO SERVER PROPERLY! NEED NEW FUNCTION
 	var http_request = HTTPRequest.new()
 	add_child(http_request)
 	var _err = http_request.request(GLOBAL.server_url + "/earth/gosavegame/" + GLOBAL.game_id + "/dance1")  
-
-
-
-
-func _on_level_limbswitched(offset):
-	print_debug("limbswitch " + str(offset))
-	match offset:
-		0: $HUD.show_message("Limb Switch!*")
-		_: $HUD.show_message("Limb Switch!")
 
 
 func _on_HTTPRequestGame_completed(_result, _response_code, _headers, body):
@@ -155,21 +168,16 @@ func _on_HTTPRequestOnlineUsers_completed(_result, _response_code, _headers, bod
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
 		if response:
-			#print(response)
-			#GLOBAL.last_save = response['lastsave']   # MAY 15 unnecssary since here
 			var s = ""		
 			for emoji in response['participants']:
 				s += char(emoji)
 			$HUD.update_users(s)
-			# q_lastk = response['q_lastk']
-			for energy in response['q_energy']:
-				# TODO: 1. update EnergyBar!
-				# TODO: 2. instanciate these somehow [to current scene, or better a signal, or global]
-				pass
-				#var ei = Energy.instance()  				
-				#var pos = $Player.position + Vector2(-300+randi()%600, -200-randi()%100)  # TODO: position this only above player, smalelr
-				#ei.init(energy, "?", pos)
-				#add_child(ei)				
+			for e in response['q_energy']:
+				current_scene.spawn_energy(e) 
+				if e == "m" or e == "s":
+					update_energy(-1)
+				else:
+					update_energy(1)
 		else:
 			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
 
@@ -184,6 +192,14 @@ func _on_MusicDance_finished():
 
 
 func _on_MusicDead_finished():
-	pass # Replace with function body.
-	# TODO: only if we don't have enough energy!
-	$Audio/MusicHeart.play()
+	# REVIVAL LOGIC SCENE
+	# TODO: check if we have enough energy to revive or not (hopefulyl we do otherwise mssages to get energy)
+	
+	# TESTING CODE, NEED MORE LOGIC HERE		
+
+	$Audio/MusicHeart.play()  # MusicHeart set to loop and +5db vol via Inspector
+	$HUD.show_message("Energy critical, recharge!!", 5)		
+	yield(get_tree().create_timer(10), "timeout")  # for dramatic effect now....
+	$Audio/MusicHeart.stop()
+	current_scene.reposition("0")  # TODO SET CORRECT REPOSITIONING! from sublevel saved earlier
+	

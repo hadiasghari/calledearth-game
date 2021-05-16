@@ -1,18 +1,20 @@
 extends Node2D
 
-var Collectible = preload('res://items/Collectible.tscn')
-#var Energy = preload('res://items/Energy.tscn')
-#onready var GLOBAL = get_node("/root/Global")
-
 signal player_dead
+signal player_energy(value)  # to update energy
+signal player_switched(offset)  # this is simply for HUD
 signal dance_next
-signal switched(offset)  # this is simply for HUD
+
+var Collectible = preload('res://items/Collectible.tscn')
+var Energy = preload('res://items/Energy.tscn')
+
 
 func reposition(loc):
 	# In case we stopped Music or physics on last death:	
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype test
 	$MusicLevel.play()
 	$Player.set_physics_process(true)  
+	$Player.flip_sprites_dead(0)  # also in case!
 	# reposition player
 	match loc:
 		'0': 
@@ -33,12 +35,13 @@ func reposition(loc):
 func _ready():
 	spawn_pickups()
 	var _err
-	_err = $Player.connect("dead", self, "_on_gameover")
+	_err = $Player.connect("dead", self, "_on_player_dead")
 	_err = $Player.connect("switched", self, "_on_player_switched")
-	_err = $Spikes.connect("hit", self, "_on_gameover")
-	# TODO: SET REPOSITION somewhere
+	_err = $Player.connect("energy", self, "_on_player_energychange")
+	_err = $Spikes.connect("hit", self, "_on_player_dead")
 	
-	reposition("B+")
+	
+	reposition("0")  # TODO: SET REPOSITION somewhere  -- from input
 
 
 func spawn_pickups():
@@ -60,18 +63,15 @@ func _on_pickup_switch():
 	$Player.limb_switch()
 
 
-func _on_gameover():
+func _on_player_dead():
 	$MusicLevel.stop()
-	print_debug("Level01 gameover")
 	emit_signal("player_dead")
 	
-
 func _on_player_switched(offset):
-	# This should probably be moved into the player itself, if we can connect their signals
-	# Q: from a design perspective where should this HUD be best set?
-	# (for now we just pass it to Main that is calling us)
-	print_debug('Level01 switched')
-	emit_signal("switched", offset)
+	emit_signal("player_switched", offset)
+
+func _on_player_energychange(value):
+	emit_signal("player_energy", value)
 		
 		
 func _on_pickup_victory():
@@ -92,4 +92,13 @@ func _on_Buttons_activated():
 	if not $MusicSegue.playing:
 		$MusicSegue.play()
 	$Player.set_physics_process(false)
+	
+	
+func spawn_energy(etype):
+	var ei = Energy.instance()  				
+	# position above player	
+	var pos = $Player.position + Vector2(-500+randi()%600, -400-randi()%100)
+	ei.init(etype, "?", pos)
+	add_child(ei)				
+
 	

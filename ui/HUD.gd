@@ -14,6 +14,15 @@ func show_message(text, timeout=2):
 	# https://kidscancode.org/godot_recipes/games/circle_jump/circle_jump_05/
 	#$AnimationPlayer.play("show_message")
 
+func update_energy(value):
+	#print_debug('update energy called: ' + str(value))
+	$EBar/Number.text = str(value)
+	$EBar/TextureProgress.value = value
+	$EBar.show()
+	
+func hide_energy():
+	$EBar.hide()
+
 func update_server(url):
 	$OnlineInfo/HBox/VBox/LabelServer.text = url
 

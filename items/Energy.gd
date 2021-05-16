@@ -28,7 +28,7 @@ func _on_Timer_timeout():
 	var tween = get_node("Tween")	
 	# TODO: also add a tween so it moves upwards before	disappearing
 	tween.interpolate_property($Sprite, "scale",
-			Vector2(1, 1), Vector2(0.1, 0.1), 1,
+			Vector2(0.5, 0.5), Vector2(0.1, 0.1), 1,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 
