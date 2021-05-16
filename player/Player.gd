@@ -19,7 +19,7 @@ func _ready():
 	$mouth/yawn.stream.set_loop(false)		
 	$wings/Sound.stream.set_loop(false)			
 	# (defaults already: $arms/arm_L.animation = "push")
-	flip_sprites_dead(0)  # FOR TEST
+	flip_sprites_dead(1)  # FOR TEST
 	
 
 func flip_sprites_dead(is_dead):
@@ -29,8 +29,15 @@ func flip_sprites_dead(is_dead):
 	$arms/arm_L.self_modulate = filter
 	$leg_L.self_modulate = filter
 	$leg_R.self_modulate = filter
-	$wings/Sprite.speed_scale = 0.2 if is_dead else 1
-	
+	$mouth.self_modulate = filter
+	if is_dead:
+		$wings/Sprite.speed_scale = 0.2
+		$mouth.animation = "dies"
+	else:
+		$wings/Sprite.speed_scale = 1
+		$mouth.animation = "default_smile"
+		$mouth.play()
+
 
 func get_input():
 		# logic for rotating functions of four controllers
