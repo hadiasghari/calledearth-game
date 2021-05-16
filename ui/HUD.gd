@@ -16,12 +16,16 @@ func show_message(text, timeout=2):
 
 func update_energy(value):
 	#print_debug('update energy called: ' + str(value))
-	$EBar/Number.text = str(value)
-	$EBar/TextureProgress.value = value
-	$EBar.show()
+	$EnergyBar/Number.text = str(value)
+	$EnergyBar/TextureProgress.value = value
+	if value < 1:
+		$TimerEBarBlink.start()
+	else: 
+		$TimerEBarBlink.stop()
+	$EnergyBar.show()
 	
 func hide_energy():
-	$EBar.hide()
+	$EnergyBar.hide()
 
 func update_server(url):
 	$OnlineInfo/HBox/VBox/LabelServer.text = url
@@ -39,3 +43,11 @@ func update_gameid(gameid):
 	
 func _on_TimerHideMessage_timeout():
 	$Message.visible = false
+
+
+func _on_TimerEBarBlink_timeout():
+	match $EnergyBar.visible:
+		false: $EnergyBar.show()
+		true: $EnergyBar.hide()
+		var wtf: print_debug("WTF ebar: " + str(wtf))
+		

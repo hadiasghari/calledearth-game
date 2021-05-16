@@ -13,8 +13,7 @@ func reposition(loc):
 	# In case we stopped Music or physics on last death:	
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype test
 	$MusicLevel.play()
-	$Player.set_physics_process(true)  
-	$Player.flip_sprites_dead(0)  # also in case!
+	$Player.freeze_player(false) 
 	# reposition player
 	match loc:
 		'0': 
@@ -102,3 +101,9 @@ func spawn_energy(etype):
 	add_child(ei)				
 
 	
+func freeze_player(pause_state):
+	if pause_state:
+		$Player.freeze_player(true)
+	else:
+		$Player.freeze_player(false)
+

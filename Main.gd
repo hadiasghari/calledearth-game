@@ -17,7 +17,8 @@ onready var GLOBAL = get_node("/root/Global")
 
 export var start_level = 0  # game level, 0/1/2/99
 export var start_sublevel = ""  # TODO we should also define multiple save points in levels
-export var start_energy = 90
+export var energy_start = 80
+export var energy_loss_fall = -50
 
 
 # currently Continue & Revival Screens are handled by main. not yet fully sure of that :)
@@ -40,12 +41,12 @@ func _ready():
 	_err = scene_level00.connect("start_next", self, "next_level")
 	_err = scene_level01.connect("player_dead", self, "_on_player_dead")
 	_err = scene_level01.connect("player_switched", self, "_on_player_switched")
-	_err = scene_level01.connect("player_energy", self, "_on_player_energychange")
+	_err = scene_level01.connect("player_energy", self, "on_player_energy")
 	_err = scene_level01.connect("dance_next", self, "_on_level_dancenext")
 	# TODO: connect level02	
 	GLOBAL.current_level = start_level
 	GLOBAL.current_sublevel = start_sublevel
-	GLOBAL.energy = start_energy
+	GLOBAL.energy = energy_start
 	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
 	reload_level()	
 	
@@ -110,23 +111,83 @@ func _on_player_switched(offset):
 		_: $HUD.show_message("Limb Switch!")
 
 
-func _on_player_energychange(value):
-	# TODO: reduce energy-level
-	update_energy(value)
+func _on_player_energy(value):
+	update_energy(value, true)
 	
 
-func update_energy(value):
+func update_energy(value, freeze_if_zero):
 	GLOBAL.energy += value
 	GLOBAL.energy = min(max(0, GLOBAL.energy), 100)  # 0 to 100
 	$HUD.update_energy(GLOBAL.energy)
 
+	if freeze_if_zero and GLOBAL.energy < 1:
+		current_scene.freeze_player(true)  # perhaps need to ensure current level has a player?
+		while GLOBAL.energy < 1:
+			$Audio/MusicHeart.play()  
+			$HUD.show_message("Energy critical, recharge!!", 1)	
+			yield(get_tree().create_timer(1), "timeout") 			
+		$Audio/MusicHeart.stop()
+		current_scene.freeze_player(false)
+	
+
+
+func _on_HTTPRequestGame_completed(_result, _response_code, _headers, body):
+	if body.get_string_from_utf8():
+		var response = parse_json(body.get_string_from_utf8())
+		GLOBAL.game_id = str(response)
+		print_debug("GAMEID:", GLOBAL.game_id)  
+		$HUD.update_server(GLOBAL.server_url)
+		$HUD.update_gameid(GLOBAL.game_id)
+		$HTTP/TimerOnlineInfo.start()
+
+
+func _on_TimerOnlineInfo_timeout():
+	var request = HTTPRequest.new()
+	$HTTP.add_child(request)
+	request.connect("request_completed", self, "_on_HTTPRequestOnlineInfo_completed")
+	request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id) 	
+	# DESIGNQ: do we need to free the node now that the request is done? 
+	#         (if so how/where?) (netstat shows a slow build up of closed state ports)
+	#         (we could reuse, but I am worried if a request doesn't complete, comms will block)	
+
+	
+func _on_HTTPRequestOnlineInfo_completed(_result, _response_code, _headers, body):
+	if body.get_string_from_utf8():
+		var response = parse_json(body.get_string_from_utf8())
+		if response:
+			var s = ""		
+			for emoji in response['participants']:
+				s += char(emoji)
+			$HUD.update_users(s)
+			for etyp in response['q_energy']:
+				current_scene.spawn_energy(etyp) 
+				var eval = -1 if etyp == "m" or etyp == "s" else 1
+				update_energy(eval, true)
+		else:
+			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
+
 
 func _on_player_dead():
 	$HUD.show_message("Uh-oh!", 5)		
-	update_energy(-30)
+	update_energy(energy_loss_fall, false)  # we will pause it in revival scene so no additional pause
 	$Audio/MusicDead.stream.set_loop(false) 	
 	$Audio/MusicDead.play()
-	# revival will happen  once the dead music finishes playing
+	# revival will happen once this dead music finishes playing
+
+
+func _on_MusicDead_finished():
+	# REVIVAL LOGIC SCENE
+	# check if we have enough energy to revive
+	while GLOBAL.energy < 1:
+		# TODO we should also have a counter and escape from here after a while....
+		#if not $Audio/MusicHeart.playing:
+		$Audio/MusicHeart.play()  # MusicHeart set to loop and +5db vol via Inspector
+		$HUD.show_message("Energy critical, recharge!!", 1)		# should flash 1-vs-2 sec
+		yield(get_tree().create_timer(1), "timeout") 			
+	$Audio/MusicHeart.stop()  # TODO: sometimes doesn't work?
+	current_scene.reposition("0")  # TODO SET CORRECT REPOSITIONING! from sublevel saved earlier
+	
+
 
 
 func _on_level_dancenext():
@@ -144,62 +205,8 @@ func _on_level_dancenext():
 	var _err = http_request.request(GLOBAL.server_url + "/earth/gosavegame/" + GLOBAL.game_id + "/dance1")  
 
 
-func _on_HTTPRequestGame_completed(_result, _response_code, _headers, body):
-	if body.get_string_from_utf8():
-		var response = parse_json(body.get_string_from_utf8())
-		GLOBAL.game_id = str(response)
-		print_debug("GAMEID:", GLOBAL.game_id)  
-		$HUD.update_server(GLOBAL.server_url)
-		$HUD.update_gameid(GLOBAL.game_id)
-		$HTTP/TimerOnlineUsers.start()
-
-
-func _on_TimerOnlineUsers_timeout():
-	var request = HTTPRequest.new()
-	$HTTP.add_child(request)
-	request.connect("request_completed", self, "_on_HTTPRequestOnlineUsers_completed")
-	request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id) 	
-	# Q: do we need to free the node now that the request is done? if so how/where? 
-	#    (after completion?) (netstat shows a slow build up of closed state ports)
-	#    (we could reuse, but I am worried if a request doesn't complete, comms will block)	
-	
-	
-func _on_HTTPRequestOnlineUsers_completed(_result, _response_code, _headers, body):
-	if body.get_string_from_utf8():
-		var response = parse_json(body.get_string_from_utf8())
-		if response:
-			var s = ""		
-			for emoji in response['participants']:
-				s += char(emoji)
-			$HUD.update_users(s)
-			for e in response['q_energy']:
-				current_scene.spawn_energy(e) 
-				if e == "m" or e == "s":
-					update_energy(-1)
-				else:
-					update_energy(1)
-		else:
-			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
-
-
-
-
-
-
 func _on_MusicDance_finished():
 	pass # Replace with function body.
 	# TODO: ready to advance level :D
 
 
-func _on_MusicDead_finished():
-	# REVIVAL LOGIC SCENE
-	# TODO: check if we have enough energy to revive or not (hopefulyl we do otherwise mssages to get energy)
-	
-	# TESTING CODE, NEED MORE LOGIC HERE		
-
-	$Audio/MusicHeart.play()  # MusicHeart set to loop and +5db vol via Inspector
-	$HUD.show_message("Energy critical, recharge!!", 5)		
-	yield(get_tree().create_timer(10), "timeout")  # for dramatic effect now....
-	$Audio/MusicHeart.stop()
-	current_scene.reposition("0")  # TODO SET CORRECT REPOSITIONING! from sublevel saved earlier
-	

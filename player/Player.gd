@@ -21,10 +21,19 @@ func _ready():
 	$mouth/yawn.stream.set_loop(false)		
 	$wings/Sound.stream.set_loop(false)			
 	# (defaults already: $arms/arm_L.animation = "push")
-	# flip_sprites_dead(1)  # FOR TEST
 	
 
-func flip_sprites_dead(is_dead):
+func freeze_player(is_dead):
+	if is_dead:
+		set_physics_process(false)  # necessary to avoid hogging system, plus dramatic effects
+		$wings/Sprite.speed_scale = 0.2
+		$mouth.animation = "dies"
+	else:
+		set_physics_process(true) 
+		$wings/Sprite.speed_scale = 1
+		$mouth.animation = "default_smile"
+		$mouth.play()
+	# visual effects too
 	var filter = Color(0, 1, 0 ) if is_dead else Color(1, 1, 1)		
 	$wings/Sprite.self_modulate = filter
 	$arms/arm_R.self_modulate = filter
@@ -32,13 +41,6 @@ func flip_sprites_dead(is_dead):
 	$leg_L.self_modulate = filter
 	$leg_R.self_modulate = filter
 	$mouth.self_modulate = filter
-	if is_dead:
-		$wings/Sprite.speed_scale = 0.2
-		$mouth.animation = "dies"
-	else:
-		$wings/Sprite.speed_scale = 1
-		$mouth.animation = "default_smile"
-		$mouth.play()
 
 
 func get_input():
@@ -159,8 +161,7 @@ func _physics_process(delta):
 		
 	# check if player has fallen, is dead!			
 	if position.y > posy_dead: 
-		set_physics_process(false)  # necessary to avoid hogging system
-		flip_sprites_dead(1)
+		freeze_player(true)
 		emit_signal('dead')   # for HUD plus restart game  ...
 
 
