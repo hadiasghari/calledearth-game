@@ -41,7 +41,7 @@ func _ready():
 	_err = scene_level00.connect("start_next", self, "next_level")
 	_err = scene_level01.connect("player_dead", self, "_on_player_dead")
 	_err = scene_level01.connect("player_switched", self, "_on_player_switched")
-	_err = scene_level01.connect("player_energy", self, "on_player_energy")
+	_err = scene_level01.connect("player_energy", self, "_on_player_energy")
 	_err = scene_level01.connect("dance_next", self, "_on_level_dancenext")
 	# TODO: connect level02	
 	GLOBAL.current_level = start_level
