@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/sounds/sound_game_over.ogg" type="AudioStream" id=4]
 [ext_resource path="res://assets/sounds/soundtrack/soundtrack_victory.ogg" type="AudioStream" id=5]
-[ext_resource path="res://assets/sounds/soundtrack/soundtrack_waiting for energy.wav" type="AudioStream" id=6]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -28,7 +27,6 @@ stream = ExtResource( 5 )
 stream = ExtResource( 4 )
 
 [node name="MusicHeart" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource( 6 )
 volume_db = 10.0
 
 [connection signal="request_completed" from="HTTP/HTTPRequestGame" to="." method="_on_HTTPRequestGame_completed"]

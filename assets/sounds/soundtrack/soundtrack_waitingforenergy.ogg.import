@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/soundtrack_waitingforenergy.ogg-63119fa6d6e43788bfe316d0648fbe4f.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/soundtrack/soundtrack_waitingforenergy.ogg"
+dest_files=[ "res://.import/soundtrack_waitingforenergy.ogg-63119fa6d6e43788bfe316d0648fbe4f.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
