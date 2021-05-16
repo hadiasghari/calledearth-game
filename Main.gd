@@ -42,6 +42,7 @@ func _ready():
 	_err = scene_level01.connect("player_dead", self, "_on_player_dead")
 	_err = scene_level01.connect("player_switched", self, "_on_player_switched")
 	_err = scene_level01.connect("player_energy", self, "_on_player_energy")
+	print(_err)
 	_err = scene_level01.connect("dance_next", self, "_on_level_dancenext")
 	# TODO: connect level02	
 	GLOBAL.current_level = start_level
@@ -114,14 +115,12 @@ func _on_player_switched(offset):
 func _on_player_energy(value):
 	update_energy(value, true)
 	
-
-func update_energy(value, freeze_if_zero):
+func update_energy(value, freeze_on_zero):
 	GLOBAL.energy += value
 	GLOBAL.energy = min(max(0, GLOBAL.energy), 100)  # 0 to 100
 	$HUD.update_energy(GLOBAL.energy)
-
-	if freeze_if_zero and GLOBAL.energy < 1:
-		current_scene.freeze_player(true)  # perhaps need to ensure current level has a player?
+	if freeze_on_zero and GLOBAL.energy < 1:
+		current_scene.freeze_player(true)  # perhaps need to ensure current_scene has a player?
 		while GLOBAL.energy < 1:
 			$Audio/MusicHeart.play()  
 			$HUD.show_message("Energy critical, recharge!!", 1)	
@@ -129,8 +128,6 @@ func update_energy(value, freeze_if_zero):
 		$Audio/MusicHeart.stop()
 		current_scene.freeze_player(false)
 	
-
-
 func _on_HTTPRequestGame_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
 		var response = parse_json(body.get_string_from_utf8())
@@ -160,7 +157,7 @@ func _on_HTTPRequestOnlineInfo_completed(_result, _response_code, _headers, body
 				s += char(emoji)
 			$HUD.update_users(s)
 			for etyp in response['q_energy']:
-				current_scene.spawn_energy(etyp) 
+				current_scene.spawn_energy_item(etyp) 
 				var eval = -1 if etyp == "m" or etyp == "s" else 1
 				update_energy(eval, true)
 		else:

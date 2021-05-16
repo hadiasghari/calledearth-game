@@ -474,7 +474,6 @@ position = Vector2( 3.80614, 21.394 )
 scale = Vector2( 1.03, 0.91 )
 frames = SubResource( 57 )
 animation = "default_smile"
-frame = 1
 speed_scale = 0.1
 playing = true
 __meta__ = {

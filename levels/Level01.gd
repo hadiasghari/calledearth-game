@@ -39,9 +39,7 @@ func _ready():
 	_err = $Player.connect("energy", self, "_on_player_energychange")
 	_err = $Spikes.connect("hit", self, "_on_player_dead")
 	
-	
 	reposition("0")  # TODO: SET REPOSITION somewhere  -- from input
-
 
 func spawn_pickups():
 	$Tilemap_pickups.hide()	
@@ -56,11 +54,9 @@ func spawn_pickups():
 			add_child(c)
 			c.connect('pickup', self, '_on_pickup_' + type) 
 
-
 func _on_pickup_switch():
 	# Q from a design perspective could the pickup directly call the player, etc? do we need to go through level?
 	$Player.limb_switch()
-
 
 func _on_player_dead():
 	$MusicLevel.stop()
@@ -70,20 +66,17 @@ func _on_player_switched(offset):
 	emit_signal("player_switched", offset)
 
 func _on_player_energychange(value):
-	emit_signal("player_energy", value)
-		
+	emit_signal("player_energy", value)		
 		
 func _on_pickup_victory():
 	$MusicLevel.stop()
 	emit_signal('dance_next')  
-
 			
 func _on_Buttons_deactivated():
 	$Player/Camera2D.current = true  # return camera!
 	$MusicSegue.stop()
 	$MusicLevel.play()
 	$Player.set_physics_process(true)	# TODO however now sth needs to activate this
-
 
 func _on_Buttons_activated():
 	# volume already set to $MusicSegue.volume_db = -15
@@ -92,14 +85,12 @@ func _on_Buttons_activated():
 		$MusicSegue.play()
 	$Player.set_physics_process(false)
 	
-	
-func spawn_energy(etype):
+func spawn_energy_item(etype):
 	var ei = Energy.instance()  				
 	# position above player	
-	var pos = $Player.position + Vector2(-500+randi()%600, -400-randi()%100)
+	var pos = $Player.position + Vector2(-300+randi()%600, -50-randi()%100)
 	ei.init(etype, "?", pos)
 	add_child(ei)				
-
 	
 func freeze_player(pause_state):
 	if pause_state:
