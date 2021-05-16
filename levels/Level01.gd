@@ -6,7 +6,7 @@ var Collectible = preload('res://items/Collectible.tscn')
 
 signal player_dead
 signal dance_next
-signal limb_switched(offset)  # this is simply for HUD
+signal switched(offset)  # this is simply for HUD
 
 func reposition(loc):
 	# In case we stopped Music or physics on last death:	
@@ -34,7 +34,7 @@ func _ready():
 	spawn_pickups()
 	var _err
 	_err = $Player.connect("dead", self, "_on_gameover")
-	_err = $Player.connect("limbswitched", self, "_on_player_limbswitched")
+	_err = $Player.connect("switched", self, "_on_player_switched")
 	_err = $Spikes.connect("hit", self, "_on_gameover")
 	# TODO: SET REPOSITION somewhere
 	
@@ -62,14 +62,16 @@ func _on_pickup_switch():
 
 func _on_gameover():
 	$MusicLevel.stop()
+	print_debug("Level01 gameover")
 	emit_signal("player_dead")
 	
 
-func _on_player_limbswitched(offset):
+func _on_player_switched(offset):
 	# This should probably be moved into the player itself, if we can connect their signals
 	# Q: from a design perspective where should this HUD be best set?
 	# (for now we just pass it to Main that is calling us)
-	emit_signal("limb_switched", offset)
+	print_debug('Level01 switched')
+	emit_signal("switched", offset)
 		
 		
 func _on_pickup_victory():

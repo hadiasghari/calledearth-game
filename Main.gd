@@ -32,16 +32,20 @@ var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
 func _ready():
 	randomize()		
 	
-	scene_level00.connect("start_next", self, "next_level")
-	# TODO:
-	scene_level01.connect("player_dead", self, "_on_level_player_dead")
-	scene_level01.connect("limb_switched", self, "_on_level_limbswitched")
-	scene_level01.connect("dance_next", self, "_on_level_dance_next")
+	var _err
+	_err = scene_level00.connect("start_next", self, "next_level")
+	print_debug(_err)
+	_err = scene_level01.connect("player_dead", self, "_on_level_playerdead")
+	print_debug(_err)	
+	_err = scene_level01.connect("switched", self, "_on_level_limbswitched")
+	print_debug(_err)	
+	_err = scene_level01.connect("dance_next", self, "_on_level_dancenext")
+	print_debug(_err)	
 	
 	GLOBAL.currentLevel = TestStartLevel
 	GLOBAL.currentLevelSub = TestStartLevelSub
 		
-	$Audio/MusicOver.stream.set_loop(false) 
+	$Audio/MusicDead.stream.set_loop(false) 
 	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
 	reload_level()	
 	
@@ -95,7 +99,7 @@ func _on_level_playerdead():
 	
 	# MUSIC GAMEOVER HERE, NO?
 	print_debug("dead")	
-	$Audio/MusicOver.play()
+	$Audio/MusicDead.play()
 	$HUD.show_message("Game Over!", 5)		
 	yield(get_tree().create_timer(5), "timeout")
 
@@ -106,7 +110,7 @@ func _on_level_playerdead():
 func _on_level_dancenext():
 	# TODO: this will have singleton for (i) change prompts on HUD & mobile (ii) timeout at some point (iii) eventually next level logic
 	print_debug("dance")
-	$Audio/MusicVictory.play()
+	$Audio/MusicDance.play()
 	$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)	
 	# TODO: this should end at some point, 
 	#  and then we move to the scene asking whether to continue game or not! (or they are the same)
@@ -120,7 +124,7 @@ func _on_level_dancenext():
 
 
 
-func _on_level_limbswitch(offset):
+func _on_level_limbswitched(offset):
 	print_debug("limbswitch " + str(offset))
 	match offset:
 		0: $HUD.show_message("Limb Switch!*")
@@ -177,3 +181,9 @@ func _on_HTTPRequestOnlineUsers_completed(_result, _response_code, _headers, bod
 func _on_MusicDance_finished():
 	pass # Replace with function body.
 	# TODO: ready to advance level :D
+
+
+func _on_MusicDead_finished():
+	pass # Replace with function body.
+	# TODO: only if we don't have enough energy!
+	$Audio/MusicHeart.play()
