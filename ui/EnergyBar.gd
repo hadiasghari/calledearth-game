@@ -1,14 +1,31 @@
 extends Control
 
-# TODO : follow https://docs.godotengine.org/en/stable/getting_started/step_by_step/ui_game_user_interface.html
-#        (show with number)
+onready var GLOBAL = get_node("/root/Global")
 
-# TODO: actual enegy should be stored in global? this just shows?
-# TODO: this needs to receive signals to update?
-# TODO: every 10s, -1; every jump -1; every death -30;
-# TODO: cannot move or revive if out of energy (maybe can be red & flash!)
-# TODO: energy given by audience +1 -1 depending on ...
+export var critical_level = 10
+#signal energy_critical
 
-func _ready():
-	pass # Replace with function body.
+func _process(_delta):
+	if Input.is_action_just_pressed("test_recharge"):
+		print_debug("CHARGE!")
+		update_energy(100)	
+
+func update_energy(value):	
+	GLOBAL.energy += value
+	GLOBAL.energy = min(max(0, GLOBAL.energy), 100)  # 0 to 100
+	$Number.text = str(GLOBAL.energy)
+	$TextureProgress.value = GLOBAL.energy
+	if GLOBAL.energy < critical_level:
+		$TimerBlink.start()
+		#emit_signal("energy_critical")
+	else: 
+		$TimerBlink.stop()
+	$TextureProgress.show()  # restore state to visible
+	
+
+func _on_TimerBlink_timeout():
+	match $TextureProgress.visible:
+		false: $TextureProgress.show()
+		true: $TextureProgress.hide()
+		var wtf: print_debug("WTF ebar: " + str(wtf))
 

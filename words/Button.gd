@@ -49,10 +49,11 @@ func _on_tree_entered():
 	
 	
 func _process(_delta):
-	# this gets constantly called. how can we now one of our exports have changed?
 	if not Engine.editor_hint:
 		if Input.is_action_just_pressed("test_skip_next"):
-			_on_ExitArea_bodyentered("fakeKinematicBody2D")
+			# use the ESC key only if we are already activated
+			if $Button/CollisionShape2D.disabled:
+				_on_ExitArea_bodyentered("fakeKinematicBody2D")
 		
 
 func _on_HTTPTimer_timeout():

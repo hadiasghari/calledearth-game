@@ -15,7 +15,7 @@
 [ext_resource path="res://assets/art/danger/Spikes.png" type="Texture" id=15]
 [ext_resource path="res://assets/art/collect items/Victory button .png" type="Texture" id=16]
 [ext_resource path="res://assets/sounds/soundtrack/soundtrack_lvl_1.ogg" type="AudioStream" id=17]
-[ext_resource path="res://items/Spikes.tscn" type="PackedScene" id=18]
+[ext_resource path="res://enemies/Spikes.tscn" type="PackedScene" id=18]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Lvl 1 objects.png 0"
@@ -606,6 +606,6 @@ stream = ExtResource( 10 )
 volume_db = -15.0
 
 [connection signal="activated" from="Button1" to="." method="_on_Buttons_activated"]
-[connection signal="deactivated" from="Button1" to="." method="_on_Buttons_deactivated"]
+[connection signal="deactivated" from="Button1" to="." method="_on_Buttons_deactivated" binds= [ 1 ]]
 [connection signal="activated" from="Button2" to="." method="_on_Buttons_activated"]
-[connection signal="deactivated" from="Button2" to="." method="_on_Buttons_deactivated"]
+[connection signal="deactivated" from="Button2" to="." method="_on_Buttons_deactivated" binds= [ 2 ]]

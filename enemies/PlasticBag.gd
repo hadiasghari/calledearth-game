@@ -1,9 +1,15 @@
 extends KinematicBody2D
 
-# TODO: 1. follow path 2. if hit player cause death 3. while visible play sound (ambient)
+
+signal hit
+
+
+# TODO: if hit player cause death => THIS CAN BE DONE HERE OR IN PLAYER, NOT SURE WHICH IS BETTER
+
+# TODO: while visible play sound (ambient)?
 
 func _ready():
-	pass # Replace with function body.
+	pass 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

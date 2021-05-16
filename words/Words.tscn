@@ -19,7 +19,7 @@ use_filter = true
 font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 4 )
 
-[node name="Body2D" type="RigidBody2D"]
+[node name="Words" type="RigidBody2D"]
 collision_mask = 17
 linear_velocity = Vector2( 0, -40 )
 angular_velocity = 1.0

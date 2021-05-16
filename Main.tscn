@@ -29,7 +29,10 @@ stream = ExtResource( 4 )
 [node name="MusicHeart" type="AudioStreamPlayer" parent="Audio"]
 volume_db = 10.0
 
+[node name="TimerRecharge" type="Timer" parent="."]
+
 [connection signal="request_completed" from="HTTP/HTTPRequestGame" to="." method="_on_HTTPRequestGame_completed"]
 [connection signal="timeout" from="HTTP/TimerOnlineInfo" to="." method="_on_TimerOnlineInfo_timeout"]
 [connection signal="finished" from="Audio/MusicDance" to="." method="_on_MusicDance_finished"]
 [connection signal="finished" from="Audio/MusicDead" to="." method="_on_MusicDead_finished"]
+[connection signal="timeout" from="TimerRecharge" to="." method="_on_TimerRecharge_timeout"]

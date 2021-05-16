@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-signal dead
+signal dead(why)
 signal energy(value)
 signal switched(offset)
 
@@ -24,15 +24,20 @@ func _ready():
 	
 
 func freeze_player(is_dead):
-	if is_dead:
+	if is_dead == true:
 		set_physics_process(false)  # necessary to avoid hogging system, plus dramatic effects
+		$TimerEnergy.stop()
 		$wings/Sprite.speed_scale = 0.2
 		$mouth.animation = "dies"
+		$leg_L.stop()
+		$leg_R.stop()
+		velocity = Vector2()
 	else:
 		set_physics_process(true) 
 		$wings/Sprite.speed_scale = 1
 		$mouth.animation = "default_smile"
 		$mouth.play()
+		$TimerEnergy.start()
 	# visual effects too
 	var filter = Color(0, 1, 0 ) if is_dead else Color(1, 1, 1)		
 	$wings/Sprite.self_modulate = filter
@@ -152,6 +157,29 @@ func _physics_process(delta):
 							  false, 4, 0.785398, false)
 	if abs(velocity.x) < 1:
 		velocity.x = 0  # avoid very small slides for smoothness
+		
+	# process collisions
+	 # TODO: we could emit dead signal multiple times, not sure if that's a problem, perhaps it's better to be patient and to it once? :)
+	for i in range(get_slide_count()):
+		var collision = get_slide_collision(i)
+		var s = collision.collider.name.to_lower()
+		if s.begins_with("tilemap_world"):
+			continue  # normal
+		elif s == "words":
+			continue  # words, perhaps we want to do sth in future :)
+		elif s == "plasticbag":
+			# TODO: we should stop this particular plastic bag too!
+			#print_debug('Hit PlasticBag')
+			freeze_player(true)
+			emit_signal('dead', 'bag')
+		elif s == "tilemap_danger":
+			#print_debug('Hit Map Danger')
+			freeze_player(true)
+			emit_signal('dead', 'mapdanger')
+		else: 
+			print_debug(s)  # also is_in_group('enemies'):
+		# note (re godot collisions): 
+		#        nothing here when hand touches button, we hit collectible item, or fall on Spikes in L1 
 	
 	# some more of the logic for the jump
 	var dev2 = "dev" + str((2 + devoffset) % 4)
@@ -162,7 +190,7 @@ func _physics_process(delta):
 	# check if player has fallen, is dead!			
 	if position.y > posy_dead: 
 		freeze_player(true)
-		emit_signal('dead')   # for HUD plus restart game  ...
+		emit_signal('dead', 'fall')
 
 
 func _on_sound_growl_finished():
