@@ -31,13 +31,13 @@ __meta__ = {
 
 [node name="HBox" type="HBoxContainer" parent="OnlineInfo"]
 margin_right = 1920.0
-margin_bottom = 84.0
+margin_bottom = 102.0
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="OnlineInfo/HBox"]
 margin_left = 1766.0
 margin_right = 1920.0
-margin_bottom = 84.0
+margin_bottom = 102.0
 
 [node name="LabelServer" type="Label" parent="OnlineInfo/HBox/VBox"]
 margin_right = 154.0

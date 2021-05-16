@@ -587,11 +587,12 @@ tile_data = PoolIntArray( -3210970, 4, 0, -3014362, 13, 0, -2817754, 13, 0, -262
 
 [node name="Button1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 12850, -236.938 )
-prompt_key = 1
+prompt_key = 4
 platform_off_x = 550
 platform_off_y = 800
 platform_length = 850
 exitarea_off_x = 30
+fake_data = true
 
 [node name="Bags" type="Node2D" parent="."]
 

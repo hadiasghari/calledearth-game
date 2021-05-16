@@ -197,5 +197,5 @@ func _on_wings_body_entered(body):
 
 func limb_switch():
 	devoffset += 1		
-	print_debug('device-offset: ' + str(devoffset))
+	#print_debug('device-offset: ' + str(devoffset))
 	emit_signal('limbswitched', devoffset%4)  # inform eg for HUD

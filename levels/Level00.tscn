@@ -23,50 +23,60 @@ margin_bottom = 1080.0
 texture = ExtResource( 1 )
 expand = true
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="ButtonPlatform" parent="." instance=ExtResource( 2 )]
-visible = false
-position = Vector2( 288.499, 520.43 )
+position = Vector2( -204.653, 551.048 )
 prompt_key = 1
-test_mode = true
+platform_off_x = 1500
+platform_off_y = -300
+platform_length = 600
+exitarea_off_x = 1300
+already_pressed = true
+fake_data = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
 volume_db = -15.0
 autoplay = true
 
-[node name="LabelSpace" type="Label" parent="."]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 601.626
-margin_top = 882.015
-margin_right = 1021.63
-margin_bottom = 976.015
-custom_fonts/font = SubResource( 2 )
-text = "Press <X> to start"
-align = 1
-valign = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="LabelTitle" type="Label" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 249.244
-margin_top = 69.7642
-margin_right = 1340.24
-margin_bottom = 244.764
+margin_right = 1920.0
+margin_bottom = 310.0
 custom_fonts/font = ExtResource( 5 )
-text = "We Called It ----------"
+text = "We Called It ____________"
 align = 1
 valign = 1
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[connection signal="activated" from="ButtonPlatform" to="." method="_on_ButtonPlatform_activated"]
-[connection signal="deactivated" from="ButtonPlatform" to="." method="_on_ButtonPlatform_deactivated"]
+[node name="LabelStart" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 882.015
+margin_right = 1920.0
+margin_bottom = 976.015
+custom_fonts/font = SubResource( 2 )
+text = "Press --X-- to Start"
+align = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="InvisibleBounds" type="StaticBody2D" parent="."]
+position = Vector2( 978.634, 582.655 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="InvisibleBounds"]
+polygon = PoolVector2Array( -948.682, -576.913, -894.803, -576.913, -894.803, 334.525, 802.357, 294.116, 793.377, -567.934, 923.582, -567.934, 928.072, 397.382, -935.212, 406.362, -939.702, -437.728 )
+__meta__ = {
+"_edit_lock_": true
+}

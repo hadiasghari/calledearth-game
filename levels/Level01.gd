@@ -9,29 +9,36 @@ signal dance_next
 signal limb_switched(offset)  # this is simply for HUD
 
 func reposition(loc):
-	# in case we stopped these on death:	
+	# In case we stopped Music or physics on last death:	
+	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype test
 	$MusicLevel.play()
 	$Player.set_physics_process(true)  
-	# note, we don't respawn collectibles, or reset limbs, which turned out better during the prototype test
-	# finally, set player location
+	# reposition player
 	match loc:
-		'A': 
+		'0': 
 			$Player.position = Vector2(300, -400)			
-		'B': 
-			$Player.position = $Button1.position + $Button1/AreaExit.position + Vector2(300, -400)
+		'A-': 
+			$Player.position = $Button1.position + Vector2(-150, 0)
+		'A+': 
+			$Player.position = $Button1.position + $Button1/ExitArea.position + Vector2(300, -400)
+		'B-':
+			$Player.position = $Button2.position + Vector2(-150, 0)
+		'B+':
+			$Player.position = $Button2.position + $Button2/ExitArea.position + Vector2(300, 0)
 		var unknown:
-			# also e.g. write before these buttons $Player.position = $Button1.position - Vector2(100, 0) 				
-			# one could add position 'C' is write before/after dancing...
-			print_debug('Unknown location for reposition requested')
-	
+			print_debug('Unknown location for reposition requested: ' + str(unknown))
+
 	
 
 func _ready():
 	spawn_pickups()
-	$Player.connect("dead", self, "_on_gameover")
-	$Player.connect("limbswitched", self, "_on_player_limbswitched")
-	$Spikes.connect("hit", self, "_on_gameover")
+	var _err
+	_err = $Player.connect("dead", self, "_on_gameover")
+	_err = $Player.connect("limbswitched", self, "_on_player_limbswitched")
+	_err = $Spikes.connect("hit", self, "_on_gameover")
 	# TODO: SET REPOSITION somewhere
+	
+	reposition("B+")
 
 
 func spawn_pickups():
