@@ -34,6 +34,8 @@ platform_off_x = 1500
 platform_off_y = -300
 platform_length = 600
 exitarea_off_x = 1300
+already_pressed = true
+fake_data = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
