@@ -1,12 +1,7 @@
 extends KinematicBody2D
 
+# TODO: 1. follow path 2. if hit player cause death 3. while visible play sound (ambient)
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 

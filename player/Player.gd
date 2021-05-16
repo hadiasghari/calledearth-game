@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 signal dead
-signal limbswitched(offset)
+signal switched(offset)
 export (int) var speed = 20
 export (int) var jump_speed = -1800
 export (int) var gravity = 4000
@@ -18,8 +18,19 @@ func _ready():
 	$mouth/whistle.stream.set_loop(false)		
 	$mouth/yawn.stream.set_loop(false)		
 	$wings/Sound.stream.set_loop(false)			
-	# defaults now: $arms/arm_L.animation = "push"
-	# $arms/arm_R.animation = "push"	
+	# (defaults already: $arms/arm_L.animation = "push")
+	flip_sprites_dead(0)  # FOR TEST
+	
+
+func flip_sprites_dead(is_dead):
+	var filter = Color(0, 1, 0 ) if is_dead else Color(1, 1, 1)		
+	$wings/Sprite.self_modulate = filter
+	$arms/arm_R.self_modulate = filter
+	$arms/arm_L.self_modulate = filter
+	$leg_L.self_modulate = filter
+	$leg_R.self_modulate = filter
+	$wings/Sprite.speed_scale = 0.2 if is_dead else 1
+	
 
 func get_input():
 		# logic for rotating functions of four controllers
@@ -87,6 +98,7 @@ func get_input():
 		$wings/Sprite.stop()
 		$wings/Sprite.frame = 4
 		$wings/Collision.visible = false
+
 	
 	# III. logic for arms (dev 3)
 	# first show correct direction of arms re legs	
@@ -197,5 +209,5 @@ func _on_wings_body_entered(body):
 
 func limb_switch():
 	devoffset += 1		
-	#print_debug('device-offset: ' + str(devoffset))
-	emit_signal('limbswitched', devoffset%4)  # inform eg for HUD
+	print_debug('device-offset: ' + str(devoffset))
+	emit_signal('switched', devoffset%4)  # inform eg for HUD
