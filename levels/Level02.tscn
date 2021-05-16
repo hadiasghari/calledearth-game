@@ -117,7 +117,7 @@ load_path = "res://.import/Victory button .png-f8175e87fc9f114e2980a76ef3f40caa.
 7/shapes = [  ]
 7/z_index = 0
 
-[sub_resource type="ConvexPolygonShape2D" id=23]
+[sub_resource type="ConvexPolygonShape2D" id=4]
 points = PoolVector2Array( 32, 160, 64, 0, 96, 0, 128, 64, 192, 192, 224, 128, 320, 224, 384, 320, 384, 352, 0, 352 )
 
 [sub_resource type="TileSet" id=5]
@@ -131,14 +131,14 @@ points = PoolVector2Array( 32, 160, 64, 0, 96, 0, 128, 64, 192, 192, 224, 128, 3
 0/navigation_offset = Vector2( 0, 0 )
 0/shape_offset = Vector2( 0, 0 )
 0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-0/shape = SubResource( 23 )
+0/shape = SubResource( 4 )
 0/shape_one_way = false
 0/shape_one_way_margin = 1.0
 0/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 23 ),
+"shape": SubResource( 4 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 0/z_index = 0
@@ -248,13 +248,13 @@ load_path = "res://.import/City decorations 2.png-2f65a15637debe409264693e76c552
 8/z_index = 0
 
 [sub_resource type="ConvexPolygonShape2D" id=8]
-points = PoolVector2Array( 6.34402, 68.5324, 74.6311, 20.5, 506.344, 32.0741, 508.08, 98.0463, 504.029, 128.718, 402.177, 228.255, 212.941, 315.06, 195.58, 312.167, 135.395, 263.556, 31.807, 165.755, 10.395, 124.088 )
+points = PoolVector2Array( 6.34402, 68.5324, 74.6311, 20.5, 504, 26, 508.08, 98.0463, 504.029, 128.718, 402.177, 228.255, 212.941, 315.06, 195.58, 312.167, 135.395, 263.556, 31.807, 165.755, 10.395, 124.088 )
 
 [sub_resource type="ConvexPolygonShape2D" id=9]
 points = PoolVector2Array( 192, 192, 96, 192, 32, 160, 32, 96, 64, 32, 192, 32 )
 
 [sub_resource type="ConvexPolygonShape2D" id=10]
-points = PoolVector2Array( 23.9932, 31.9706, 206.767, 23.2901, 380.86, 31.4884, 377.485, 89.841, 260.779, 192.079, 143.11, 203.17, 64.9846, 143.853, 30.2625, 102.38 )
+points = PoolVector2Array( 23.9932, 31.9706, 203, 32, 380.86, 31.4884, 377.485, 89.841, 260.779, 192.079, 143.11, 203.17, 64.9846, 143.853, 30.2625, 102.38 )
 
 [sub_resource type="ConvexPolygonShape2D" id=11]
 points = PoolVector2Array( 47.1724, 32.5779, 151.821, 31.6134, 145.07, 95.2708, 98.7734, 129.029, 15.8259, 120.83, 3.28735, 93.8241 )
@@ -281,7 +281,7 @@ points = PoolVector2Array( 42.0909, 4.30792, 200.752, 3.82568, 201.717, 37.1011,
 points = PoolVector2Array( 2.79382, 3.34338, 160.491, 5.2724, 167.724, 35.1721, 86.7058, 160.076, 22.084, 159.593 )
 
 [sub_resource type="ConvexPolygonShape2D" id=19]
-points = PoolVector2Array( 31.0363, 40.4462, 344.019, 26.9432, 389.35, 76.6152, 384.528, 132.074, 373.436, 178.853, 255.766, 328.351, 238.405, 328.351, 105.785, 233.347, 99.0339, 232.383, 46.9506, 158.598, 37.3055, 136.415 )
+points = PoolVector2Array( 31.0363, 40.4462, 350, 37, 389.35, 76.6152, 384.528, 132.074, 373.436, 178.853, 255.766, 328.351, 238.405, 328.351, 105.785, 233.347, 99.0339, 232.383, 46.9506, 158.598, 37.3055, 136.415 )
 
 [sub_resource type="TileSet" id=20]
 0/name = "lvl_2_tilemap512.png 0"
@@ -537,12 +537,12 @@ points = PoolVector2Array( 31.0363, 40.4462, 344.019, 26.9432, 389.35, 76.6152, 
 } ]
 13/z_index = 0
 
-[sub_resource type="Curve2D" id=22]
+[sub_resource type="Curve2D" id=21]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 2663.49, -2135.95, 0, 0, 0, 0, 3400.34, -864.452, 0, 0, 0, 0, 2309.18, -568.891, 0, 0, 0, 0, 1532.48, -558.873, 0, 0, 0, 0, 581.581, -417.013, 0, 0, 0, 0, -33.2219, -204.109 )
 }
 
-[sub_resource type="Curve2D" id=21]
+[sub_resource type="Curve2D" id=22]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 2635.2, -894.948, 0, 0, 0, 0, 1988.22, -904.393, 0, 0, 0, 0, 1232.62, -772.163, 0, 0, 0, 0, 1142.65, -732.258, 0, 0, 0, 0, 451.984, -298.969, 0, 0, 0, 0, 61.8999, 10.118, 0, 0, 0, 0, -238.932, 35.3834, 0, 0, 0, 0, -427.832, -31.9122, 0, 0, 0, 0, -537.396, -37.5791, 0, 0, 0, 0, -644.833, 43.8839, 0, 0, 0, 0, -779.192, -13.7305, 0, 0, 0, 0, -914.964, -20.8143, 0, 0, 0, 0, -994.065, 44.1201, 0, 0, 0, 0, -1107.17, -11.8415, 0, 0, 0, 0, -1241.76, -11.8415, 0, 0, 0, 0, -1288.99, 43.6478, 0, 0, 0, 0, -1386.98, -0.0352783, 0, 0, 0, 0, -1505.04, -10.6609, 0, 0, 0, 0, -1598.31, 44.8284, 0, 0, 0, 0, -1751.56, 5.15948, 0, 0, 0, 0, -1873.16, 0.436951, 0, 0, 0, 0, -1955.8, 39.3976, 0, 0, 0, 0, -2101.73, 2.32599, 0, 0, 0, 0, -2231.6, -8.29962, 0, 0, 0, 0, -2311.88, 29.4803, 0, 0, 0, 0, -2412.23, -2.39655, 0, 0, 0, 0, -2527.94, -8.29962, 0, 0, 0, 0, -2640.1, 50.7316, 0, 0, 0, 0, -3335.26, -96.6103, 0, 0, 0, 0, -3870.08, -126.126, 0, 0, 0, 0, -4336.43, -90.2349, 0, 0, 0, 0, -5346.55, -1269.62 )
 }
@@ -554,7 +554,7 @@ script = ExtResource( 2 )
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-position = Vector2( 715.226, -1140.71 )
+position = Vector2( 714.472, -1140.71 )
 motion_offset = Vector2( 0.7, 0.7 )
 motion_mirroring = Vector2( 4032, 3024 )
 __meta__ = {
@@ -608,14 +608,14 @@ position = Vector2( 6733.11, 34.8149 )
 [node name="Bags" type="Node2D" parent="."]
 
 [node name="PathMinor" type="Path2D" parent="Bags"]
-curve = SubResource( 22 )
+curve = SubResource( 21 )
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="PathMajor" type="Path2D" parent="Bags"]
 position = Vector2( 8097.44, -844.939 )
-curve = SubResource( 21 )
+curve = SubResource( 22 )
 __meta__ = {
 "_edit_lock_": true
 }
