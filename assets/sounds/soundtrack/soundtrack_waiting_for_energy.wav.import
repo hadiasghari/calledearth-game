@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/soundtrack_waiting_for_energy.wav-f770faa9ec0b49fb8d3e6aaa8b429f7b.sample"
+
+[deps]
+
+source_file="res://assets/sounds/soundtrack/soundtrack_waiting_for_energy.wav"
+dest_files=[ "res://.import/soundtrack_waiting_for_energy.wav-f770faa9ec0b49fb8d3e6aaa8b429f7b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
