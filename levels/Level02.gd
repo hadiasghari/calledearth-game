@@ -37,7 +37,8 @@ func reposition(loc):
 func _process(delta):	
 	var bag_follows = [$Bags/PathMinor/Follow1, 
 						$Bags/PathMajor/Follow2, 
-						$Bags/PathMajor/Follow3, $Bags/PathMajor/Follow4, $Bags/PathMajor/Follow5]	
+						$Bags/PathMajor/Follow3, $Bags/PathMajor/Follow4, $Bags/PathMajor/Follow5, 
+						$Bags/PathFinal/Follow6, $Bags/PathFinal/Follow7, $Bags/PathFinal/Follow8 ]	
 	for f in bag_follows:
 		f.set_offset(f.get_offset() + bag_speed * delta)
 
