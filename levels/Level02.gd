@@ -37,7 +37,7 @@ func reposition(loc):
 func _process(delta):	
 	var bag_follows = [$Bags/PathMinor/Follow1, 
 						$Bags/PathMajor/Follow2, 
-						$Bags/PathMajor/Follow3]	
+						$Bags/PathMajor/Follow3, $Bags/PathMajor/Follow4, $Bags/PathMajor/Follow5]	
 	for f in bag_follows:
 		f.set_offset(f.get_offset() + bag_speed * delta)
 
@@ -94,7 +94,7 @@ func _on_ButtonPlatform_activated():
 	$MusicLevel.stop()	
 	if not $MusicSegue.playing:
 		$MusicSegue.play()  # set db in object
-	$Player.set_physics_process(false)
+	#$Player.set_physics_process(false)
 
 func _on_ButtonPlatform_deactivated():
 	$Player/Camera2D.current = true  # return camera!
