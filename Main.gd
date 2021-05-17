@@ -8,19 +8,23 @@ var scene_level00 = preload("res://levels/Level00.tscn").instance()  # title
 var scene_level01 = preload("res://levels/Level01.tscn").instance()
 var scene_level02 = preload("res://levels/Level02.tscn").instance()
 var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
-var current_scene  # updated to whatever current scene is
+var current_scene  # updated to whatever current scene is (for func calls)
 
-export var start_level = 2  # game level, currently 0/1/2/99
+export var start_level = 0  # game level, currently 0/1/2/99
 export var start_sublevel = ""  # define multiple save/status points in levels
 export var energy_start = 100
 export var energy_loss_fall = -50  # TODO: -30
 
-func _ready():
-	randomize()		
-		
-	var _err
-	_err = scene_level00.connect("start_next", self, "next_level")
 
+func _ready():
+	randomize()				
+	# connect signals all around
+	# NOTE: Design point (cons/pros) re whether player should be in this scene or in levels
+	# - to test levels standalone, it needs to be in those scenes. (but can they be tested without the gameover logic etc?)
+	# - also, it makes sense that player doesn't directly access HUD re `(de)coupling` (so uses signals/functions)
+	# - now, only wierdness is this piping of signals... (we need to capture them and resubmit them and vice-versa)
+	var _err
+	_err = scene_level00.connect("start_game", self, "_on_start_game")
 	_err = scene_level01.connect("player_dead", self, "_on_player_dead")
 	_err = scene_level01.connect("player_switched", self, "_on_player_switched")
 	_err = scene_level01.connect("player_energy", self, "_on_player_energy")
@@ -29,53 +33,28 @@ func _ready():
 	_err = scene_level02.connect("player_switched", self, "_on_player_switched")
 	_err = scene_level02.connect("player_energy", self, "_on_player_energy")
 	_err = scene_level02.connect("milestone", self, "_on_level_milestone")
-	
-	# TODO: connect level02	
+	# get a new gameid, also give server a bit of time to respond
+	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
+	yield(get_tree().create_timer(1), "timeout") 
+	# set levels & start	
 	GLOBAL.current_level = start_level
 	GLOBAL.current_sublevel = start_sublevel
 	GLOBAL.energy = energy_start
-	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
-	reload_level()	
+	load_level_scene() 
 	
-	# NOTE: Design point (cons/pros) re whether player should be in this scene or in levels
-	# - to test levels standalone, it needs to be in those scenes. (but can they be tested without the gameover logic etc?)
-	# - also, it makes sense that player doesn't directly access HUD re `(de)coupling` (so uses signals/functions)
-	# - now, only wierdness is this piping of signals... (we need to capture them and resubmit them and vice-versa)
 
-
-	#  NOTE (MusicHeart set to loop and +5db vol via Inspector)
-
-
-func next_level():	
-	match GLOBAL.current_level:
-		0:
-			GLOBAL.current_level = 1
-			#GLOBAL.currentLevelSub = 0
-			reload_level()
-		1:
-			GLOBAL.current_level = 2
-			# TODO: ASK IF PEOPLE WANT TO CONTINUE
-			reload_level()
-		2: 
-			GLOBAL.current_level = 99
-			reload_level()
-	
-	# TODO: probably we want to send/log the new state to Django Server too
+func _on_start_game():	
+	# this is called only within level00/titlepage; 
+	GLOBAL.current_level = 1
+	GLOBAL.current_sublevel = ""
+	load_level_scene()
 
 
 
-
-#func update_game_state(state):
-	# TODO: state is various locations in ganem, plus revival, prompts, dancing.
-	#       actually dancing is a signal, prompt gets set elsewehre, and revival will be a state here
-#	pass
-# TODO: should we log to DB also playerdead, limbswitch, dance....? (at least two are necessary for prompts!)
-
-
-
-func reload_level():
-	# based on https://docs.godotengine.org/en/latest/tutorials/scripting/change_scenes_manually.html (option 3,)
-	# the form of removal we use should keep the node data
+func load_level_scene():
+	# scene loads are based on:
+	#  https://docs.godotengine.org/en/latest/tutorials/scripting/change_scenes_manually.html (option 3,)
+	#  this form of removal we use keeps the node data in case we want it
 	for c in $CurrentScene.get_children():
 		$CurrentScene.remove_child(c)
 	
@@ -85,15 +64,20 @@ func reload_level():
 			$HUD.hide_energy()
 		1: 
 			current_scene = scene_level01
+			current_scene.reposition(GLOBAL.current_sublevel)  # current save
 			$HUD.update_energy(GLOBAL.energy)
 		2: 
 			current_scene = scene_level02
+			current_scene.reposition(GLOBAL.current_sublevel)
 			$HUD.update_energy(GLOBAL.energy)
 		99: 
 			current_scene = scene_level99
 			$HUD.hide_energy()
 			
 	$CurrentScene.add_child(current_scene)	
+	# log to server new scene load (also resets prompts from camera, dance, etc)	
+	set_web_state("scene", "L" + str(GLOBAL.current_level) + "." + GLOBAL.current_sublevel)
+
 
 func _on_player_switched(offset):
 	# simply update HUD (see design notes at top)
@@ -152,26 +136,26 @@ func _on_HTTPRequestOnlineInfo_completed(_result, _response_code, _headers, body
 			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
 
 
-func _on_player_dead(why):
+func _on_player_dead(_why):
+	print_debug(_why)
 	$HUD.show_message("Uh-oh!", 5)		
 	$HUD.update_energy(energy_loss_fall)	
 	$Audio/MusicDead.stream.set_loop(false) 	
 	$Audio/MusicDead.play()
-	# revival will happen once this dead music finishes playing
+	# revival will happen once this dead music finishes playing!	
+	set_web_state("dead", "")
 
 func _on_MusicDead_finished():
-	# REVIVAL LOGIC SCENE
-	# check if we have energy or need some to revive 
+	# REVIVAL LOGIC! (check if we have energy or need some to revive)
 	if GLOBAL.energy < 1:
-		# scene should already be frozen and music stopped, so no need for: current_scene.freeze_player(true)
+		# scene already frozen and music stopped, so no need for: current_scene.freeze_player(true)
 		$Audio/MusicHeart.play()
 		while GLOBAL.energy < 10:  # 
 			$HUD.show_message("Energy critical, recharge!!", 1)	
 			yield(get_tree().create_timer(1), "timeout")   # 
-		print_debug(GLOBAL.energy)  #
+		#print_debug(GLOBAL.energy) 
 		$Audio/MusicHeart.stop()  
-	print_debug('repsotioning')
-	current_scene.reposition("0")  # TODO SET CORRECT REPOSITIONING! from sublevel saved earlier
+	current_scene.reposition(GLOBAL.current_sublevel)
 	current_scene.freeze_player(false)
 
 
@@ -181,25 +165,68 @@ func _on_level_milestone(what):
 	# TODO: i) we shall have more mielstones, send them to web/mobile for synced action
 			# (TODO UPDATE DANCE STATE TO SERVER PROPERLY! NEED NEW FUNCTION)
 	#       ii) some might need HUDs, timeouts, and other local logic
-	$Audio/MusicDance.stream.set_loop(false) 	
-	$Audio/MusicDance.play()
-	$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)	
+
+
+	if what == "dance":
+		# dancing. nice. :)
+		$Audio/MusicDance.stream.set_loop(false) 	
+		$Audio/MusicDance.play()
+		$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)			
+		# On Dance Music Finished, we shall go to next level!		
+		set_web_state("dance", "L" + str(GLOBAL.current_level))
+	elif what.begins_with("btn"):
+		# milestone reached, save it to globa, inform server 
+		GLOBAL.current_sublevel = what
+		set_web_state("milestone", "L" + str(GLOBAL.current_level) + "_" + what)		
+	else:
+		print_debug("UNKNOWN milestone?!!!" )
 	# TODO: this should end at some point, 
 	#  and then we move to the scene asking whether to continue game or not! (or they are the same)
 
-	var http_request = HTTPRequest.new()
-	add_child(http_request)
-	var _err = http_request.request(GLOBAL.server_url + "/earth/gosavegame/" + GLOBAL.game_id + "/dance1")  
+
+func set_web_state(state, extra_info):
+	var request = HTTPRequest.new() 
+	# (Q ever, should we create a new request each time or reuse; if new, should we free it somewhere?)
+	add_child(request)   
+	var url = GLOBAL.server_url + "/earth/gosetstate/" + GLOBAL.game_id + "/" + state
+	if extra_info and extra_info != "":
+		url += "?info=" + extra_info
+	var _err = request.request(url)  
+	
+	
+	
+
+#func update_game_state(state):
+	# TODO: state is various locations in ganem, plus revival, prompts, dancing.
+	#       actually dancing is a signal, prompt gets set elsewehre, and revival will be a state here
+#	pass
+# TODO: should we log to DB also playerdead, limbswitch, dance....? (at least two are necessary for prompts!)
+	
+#	match GLOBAL.current_level:
+#		1:
+#			GLOBAL.current_level = 2
+#			# TODO: ASK IF PEOPLE WANT TO CONTINUE
+#			reload_level()
+#		2: 
+#			GLOBAL.current_level = 99
+#			reload_level()
+	
+	# TODO: probably we want to send/log the new state to Django Server too
 
 
-func _on_MusicDance_finished():
-	pass
-	# TODO: ready to advance level :D
 
 
+func _on_MusicDance_finished():	
+	# choose next level... 
+	if GLOBAL.current_level == 1:
+		# TODO: ADD shall we CONTINUE page (here and on server!) before continuing :)
+		GLOBAL.current_level = 2
+		GLOBAL.current_sublevel = ""
+	elif GLOBAL.current_level == 2:
+		GLOBAL.current_level = 99
+		GLOBAL.current_sublevel = ""
+	# load next level scene, will inform server too away from dancing	
+	load_level_scene()  
 
 
-func _on_TimerRecharge_timeout():
-	# TODO: could check if we can now unfreeze, i.e. we have enough opints
-	pass # Replace with function body.
 

@@ -9,5 +9,7 @@ func _ready():
 	pass
 
 func _on_Spike_body_entered(_body):
+	# (note: interesting that spikes detect this collision, not player, 
+	#        despite correct masks, cause they are an 'area2D' I think)
 	emit_signal("hit")	
 

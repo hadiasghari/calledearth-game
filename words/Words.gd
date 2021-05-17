@@ -7,6 +7,7 @@ func init(pos, text, ecode, maxlen, box_ix=-1):
 	# we thus set a limit of 140 characters to make sizing easier
 	if len(text) > 140:
 		text = text.left(140) + "..."	
+	text = text.replace("\n", "")  # new lines mess the box height
 	text = char(ecode) + " " + text
 	$Label.text = text		
 	

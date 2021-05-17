@@ -1,13 +1,13 @@
 extends KinematicBody2D
 
 signal dead(why)
-signal energy(value)
-signal switched(offset)
+signal energy(value)  # to update energy
+signal switched(offset)   # just for HUD
 
 export (int) var speed = 20
 export (int) var jump_speed = -1800
 export (int) var gravity = 4000
-export (int) var posy_dead = 2000
+export (int) var pos_y_dead = 2000
 
 var velocity = Vector2.ZERO
 var devoffset = 0  # responds to rotate and limb_switch
@@ -85,8 +85,8 @@ func get_input():
 		else:
 			$leg_R.stop()	
 	else:
-		# TODO maybe reset to still frames?
-		# (Note, could maybe make funny movement if in different direction)
+		# Notes: - maybe reset to still frames?
+		#        - could maybe make funny movement if in different direction?
 		$leg_L.stop()
 		$leg_R.stop()
 		
@@ -165,19 +165,21 @@ func _physics_process(delta):
 		var s = collision.collider.name.to_lower()
 		if s.begins_with("tilemap_world"):
 			continue  # normal
-		elif s == "words":
-			continue  # words, perhaps we want to do sth in future :)
+		elif s == "words" or s == "platform":
+			# words, platforms, ingore 			
+			continue  
 		elif s == "plasticbag":
 			# TODO: we should stop this particular plastic bag too!
 			#print_debug('Hit PlasticBag')
 			freeze_player(true)
 			emit_signal('dead', 'bag')
 		elif s == "tilemap_danger":
+			# TODO: move the word lower
 			#print_debug('Hit Map Danger')
 			freeze_player(true)
 			emit_signal('dead', 'mapdanger')
 		else: 
-			print_debug(s)  # also is_in_group('enemies'):
+			print("player collision: " + s)  # also is_in_group('enemies'):
 		# note (re godot collisions): 
 		#        nothing here when hand touches button, we hit collectible item, or fall on Spikes in L1 
 	
@@ -188,7 +190,7 @@ func _physics_process(delta):
 			velocity.y = jump_speed
 		
 	# check if player has fallen, is dead!			
-	if position.y > posy_dead: 
+	if position.y > pos_y_dead: 
 		freeze_player(true)
 		emit_signal('dead', 'fall')
 

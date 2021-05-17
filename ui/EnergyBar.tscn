@@ -1,34 +1,37 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://ui/EnergyBar.gd" type="Script" id=1]
 [ext_resource path="res://assets/art/energy_bar/energy_bar_bg.png" type="Texture" id=2]
 [ext_resource path="res://assets/art/energy_bar/energy_bar_fill.png" type="Texture" id=3]
+[ext_resource path="res://assets/fonts/NewTegomin-Regular.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 26
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 4 )
 
 [node name="EnergyBar" type="HBoxContainer"]
-margin_right = 404.0
-margin_bottom = 53.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Number" type="Label" parent="."]
-margin_top = 11.0
-margin_right = 50.0
-margin_bottom = 42.0
-rect_min_size = Vector2( 50, 30 )
-text = "80
-"
+margin_right = 60.0
+margin_bottom = 39.0
+rect_min_size = Vector2( 60, 0 )
+custom_fonts/font = SubResource( 1 )
+text = "100"
 align = 1
-valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureProgress" type="TextureProgress" parent="."]
-margin_left = 54.0
-margin_right = 302.0
-margin_bottom = 53.0
+margin_left = 64.0
+margin_right = 312.0
+margin_bottom = 40.0
 value = 80.0
 texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 3 )

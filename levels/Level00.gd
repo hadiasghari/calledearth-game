@@ -1,18 +1,20 @@
 extends Node2D
 
-signal start_next
+# `Level00` is the title scene. 
+# - It starts with a writing prompt. 
+# - We proceed to next scene when all controllers press X (or the ESC failsafe)
+# - The WriteButton is partially hidden by putting it out of the scene bounds
+
+signal start_game
 var dev0_x = 0
 var dev1_x = 0
 var dev2_x = 0
 var dev3_x = 0
 
 func _ready():
-	# Note: the ButtonPlatform's button is hidden by putting it out of screne
-	#       it is already activated... so nothing else to do here
 	pass
 
 func _input(event):
-	# TODO: this should be set to 4x Xs!  (or SEC)
 	if event.is_action_pressed('dev0_action'):	
 		dev0_x = 1
 	if event.is_action_pressed('dev1_action'):	
@@ -32,8 +34,7 @@ func _input(event):
 	$LabelStart.text = s
 	
 	if dev0_x + dev1_x + dev2_x + dev3_x == 4:
-		emit_signal("start_next")
+		emit_signal("start_game")
 	
 	if event.is_action_pressed('test_skip_next'):	
-		emit_signal("start_next")
-	
+		emit_signal("start_game")

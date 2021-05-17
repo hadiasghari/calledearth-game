@@ -20,7 +20,8 @@ font_data = ExtResource( 1 )
 fallback/0 = ExtResource( 4 )
 
 [node name="Words" type="RigidBody2D"]
-collision_mask = 17
+collision_layer = 64
+collision_mask = 83
 linear_velocity = Vector2( 0, -40 )
 angular_velocity = 1.0
 script = ExtResource( 2 )
