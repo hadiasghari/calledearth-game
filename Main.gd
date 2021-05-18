@@ -64,26 +64,32 @@ func load_level_scene():
 		0: 
 			current_scene = scene_level00			
 			$HUD.hide_energy()
+			# game just started, no additional server log needed 
 		1: 
 			current_scene = scene_level01
 			current_scene.reposition(GLOBAL.current_sublevel)  # current save
 			$HUD.update_energy(GLOBAL.energy)
+			set_web_state("level", "L1." + GLOBAL.current_sublevel)
 		2: 
 			current_scene = scene_level02
 			current_scene.reposition(GLOBAL.current_sublevel)
 			$HUD.update_energy(GLOBAL.energy)
+			set_web_state("level", "L2." + GLOBAL.current_sublevel)
 		99: 
 			current_scene = scene_level99
 			$HUD.hide_energy()
+			$HUD.hide_users()
+			set_web_state("credits", "")
 			
 	$CurrentScene.add_child(current_scene)	
 	# log to server new scene load (also resets prompts from camera, dance, etc)	
-	set_web_state("scene", "L" + str(GLOBAL.current_level) + "." + GLOBAL.current_sublevel)
+
 
 
 func _on_player_switched(offset):
 	# simply update HUD (see design notes at top)
 	# (we could log this even to db too but unnecessary) 
+	set_web_state('limb_switch', '')
 	match offset:
 		0: $HUD.show_message("Limb Switch!*")
 		_: $HUD.show_message("Limb Switch!")
@@ -151,6 +157,7 @@ func _on_player_dead(_why):
 func _on_MusicDead_finished():
 	# REVIVAL LOGIC! (check if we have energy or need some to revive)
 	if GLOBAL.energy < 1:
+		set_web_state("revival", "")
 		# scene already frozen and music stopped, so no need for: current_scene.freeze_player(true)
 		$Audio/MusicHeart.play()
 		while GLOBAL.energy < 10:  # 
@@ -162,14 +169,11 @@ func _on_MusicDead_finished():
 	current_scene.freeze_player(false)
 
 
-
 func _on_level_milestone(what):
+	# mielstones are: save points, button finished points (also saved points), 
+	#                 and dancing (which advanced to next level)
+	# main task is to update web-server and GLOBAL
 	print_debug("milestone: " + str(what))
-	# TODO: i) we shall have more mielstones, send them to web/mobile for synced action
-			# (TODO UPDATE DANCE STATE TO SERVER PROPERLY! NEED NEW FUNCTION)
-	#       ii) some might need HUDs, timeouts, and other local logic
-
-
 	if what == "dance":
 		# dancing. nice. :)
 		$Audio/MusicDance.stream.set_loop(false) 	
@@ -177,14 +181,27 @@ func _on_level_milestone(what):
 		$HUD.show_message(char(127881) + "Let's Dance!", 1000000000)			
 		# On Dance Music Finished, we shall go to next level!		
 		set_web_state("dance", "L" + str(GLOBAL.current_level))
-	elif what.begins_with("btn"):
+	elif what.begins_with("btn") or what.begins_with("sav"):
 		# milestone reached, save it to globa, inform server 
 		GLOBAL.current_sublevel = what
 		set_web_state("milestone", "L" + str(GLOBAL.current_level) + "_" + what)		
 	else:
 		print_debug("UNKNOWN milestone?!!!" )
-	# TODO: this should end at some point, 
-	#  and then we move to the scene asking whether to continue game or not! (or they are the same)
+
+
+func _on_MusicDance_finished():	
+	# choose next level... 
+	$HUD.hide_message()  # stop the let's dance
+	if GLOBAL.current_level == 1:
+		# TODO: ADD shall we CONTINUE page (here and on server!) before continuing :)
+		# TODO: darken screen; then use same logic as in `level00`
+		GLOBAL.current_level = 2
+		GLOBAL.current_sublevel = "0"
+	elif GLOBAL.current_level == 2:
+		GLOBAL.current_level = 99
+		GLOBAL.current_sublevel = ""
+	# load next level scene, will inform server too away from dancing	
+	load_level_scene()  
 
 
 func set_web_state(state, extra_info):
@@ -196,39 +213,5 @@ func set_web_state(state, extra_info):
 		url += "?info=" + extra_info
 	var _err = request.request(url)  
 	
-	
-	
-
-#func update_game_state(state):
-	# TODO: state is various locations in ganem, plus revival, prompts, dancing.
-	#       actually dancing is a signal, prompt gets set elsewehre, and revival will be a state here
-#	pass
-# TODO: should we log to DB also playerdead, limbswitch, dance....? (at least two are necessary for prompts!)
-	
-#	match GLOBAL.current_level:
-#		1:
-#			GLOBAL.current_level = 2
-#			# TODO: ASK IF PEOPLE WANT TO CONTINUE
-#			reload_level()
-#		2: 
-#			GLOBAL.current_level = 99
-#			reload_level()
-	
-	# TODO: probably we want to send/log the new state to Django Server too
-
-
-
-func _on_MusicDance_finished():	
-	# choose next level... 
-	if GLOBAL.current_level == 1:
-		# TODO: ADD shall we CONTINUE page (here and on server!) before continuing :)
-		GLOBAL.current_level = 2
-		GLOBAL.current_sublevel = "0"
-	elif GLOBAL.current_level == 2:
-		GLOBAL.current_level = 99
-		GLOBAL.current_sublevel = ""
-	# load next level scene, will inform server too away from dancing	
-	load_level_scene()  
-
 
 

@@ -9,6 +9,10 @@ func show_message(text, timeout=2):
 		$TimerHideMessage.start()
 	# NOTE: could add an animation player (or tween) to make message hide nicer
 
+func hide_message():
+	# for infinity messages
+	$Message.visible = false
+
 func update_energy(value):
 	$EnergyBar.update_energy(value)
 	$EnergyBar.show()
@@ -22,6 +26,12 @@ func update_server(url):
 func update_users(users):
 	$OnlineInfo/HBox/VBox/LabelUsers1.text = "Online Users: " + str(len(users))
 	$OnlineInfo/HBox/VBox/LabelUsers2.text = users
+	$OnlineInfo/HBox/VBox/LabelUsers1.show()
+	$OnlineInfo/HBox/VBox/LabelUsers2.show()
+		
+func hide_users():
+	$OnlineInfo/HBox/VBox/LabelUsers1.hide()
+	$OnlineInfo/HBox/VBox/LabelUsers2.hide()
 
 func update_gameid(gameid):
 	$OnlineInfo/HBox/VBox/LabelGame.text = "Game " + str(gameid)

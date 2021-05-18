@@ -12,53 +12,39 @@ var Energy = preload('res://items/Energy.tscn')
 var bag_hit_freeze = false
 onready var _bag_paths = [$Bags/PathMinor, $Bags/PathMajor, $Bags/PathFinal]
 
-# TODO: make sure movingplatform's sync-physics is not set!!
-	
-func _ready():
-	
+
+func _ready():	
 	spawn_pickups()		
 	var _err
 	_err = $Player.connect("dead", self, "_on_player_dead")
 	_err = $Player.connect("switched", self, "_on_player_switched")
 	_err = $Player.connect("energy", self, "_on_player_energychange")	
-	$MusicLevel.play()
-	
 	for p in _bag_paths:
 		for fp in p.get_children():
 			if fp.get_child_count() >= 1:	
 				var bag = fp.get_child(0)
-				_err = bag.connect("hit", self, "_on_plasticbag_hit") # todo pass extra params?	
-				#fp.(f.get_offset() + bag_speed * delta)
-	
-	
-	
-
+				_err = bag.connect("hit", self, "_on_plasticbag_hit")
+	#
+	$MusicLevel.play()
 
 func reposition(loc):
-	bag_hit_freeze = false  # unfreeze bags 
+	bag_hit_freeze = false  # unfreeze bags (if necessary)
 		
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype testing
 	match loc:
 		'': pass  # don't respoition (for testing start wherever player is)
 		'0': $Player.position = Vector2(300, -400)  # empty is level start (previsouly '0')
 		'btn1': $Player.position = $WriteButton1.position + Vector2($WriteButton1.platform_length*2, -400)
+		'sav1': $Player.position = $Save1.position + Vector2(0, -100)
 		# TESTING ONLY (not possible in game play):
 		'btn1-': $Player.position = $WriteButton1.position + Vector2(-150, 0)
 		'btn2-': $Player.position = $WriteButton2.position + Vector2(-150, 0)
-		'btn2': $Player.position = $WriteButton2.position + Vector2($WriteButton2.platform_length*2, 0)	 # cannot really die after btn2		
+		'btn2': $Player.position = $WriteButton2.position + Vector2($WriteButton2.platform_length*2, -400)	 # cannot really die after btn2		
 		var unknown:
 			print_debug('Unknown location for reposition requested: ' + str(unknown))
 			
 
-
-
-
 func _process(delta):	
-	#var bag_follows = [$Bags/PathMinor/Follow1, 
-	#					$Bags/PathMajor/Follow2, 
-	#					$Bags/PathMajor/Follow3, $Bags/PathMajor/Follow4, $Bags/PathMajor/Follow5, 
-	#					$Bags/PathFinal/Follow6, $Bags/PathFinal/Follow7, $Bags/PathFinal/Follow8 ]	
-	
 	if not bag_hit_freeze:
 		for p in _bag_paths:
 			for fp in p.get_children():
@@ -118,14 +104,10 @@ func spawn_energy_item(etype):
 	ei.init(etype, "?", $Player.position + pos)
 	add_child(ei)				
 
-
-
 func _on_Buttons_activated():
 	$MusicLevel.stop()	
-	#if not $MusicSegue.playing:
-	$MusicWriting.play()  # set db in object
+	$MusicWriting.play()  # TODO: maybe fade tween
 	#$Player.set_physics_process(false)
-
 
 func _on_Buttons_deactivated(num):
 	print_debug("DEACTIVATE: " + str(num))	
@@ -137,3 +119,7 @@ func _on_Buttons_deactivated(num):
 
 ## end shared functions
 
+func _on_Save1_body_exited(_body):
+	# save location! (collision triggers only for player) 
+	# print_debug(body)
+	emit_signal('milestone', 'sav1')   

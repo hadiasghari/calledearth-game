@@ -33,7 +33,6 @@ prompt_key = 10
 platform_offset = Vector2( 1100, 0 )
 platform_length = 700
 prompt_offset = Vector2( 1000, -700 )
-exitarea_length = 0
 already_pressed = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
