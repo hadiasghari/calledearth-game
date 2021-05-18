@@ -139,13 +139,14 @@ func _on_HTTPRequestOnlineInfo_completed(_result, _response_code, _headers, body
 
 
 func _on_player_dead(_why):
-	print_debug(_why)
+	print_debug("player dead: " + _why)
 	$HUD.show_message("Uh-oh!", 5)		
 	$HUD.update_energy(energy_loss_fall)	
 	$Audio/MusicDead.stream.set_loop(false) 	
 	$Audio/MusicDead.play()
+	set_web_state("dead", _why)	
 	# revival will happen once this dead music finishes playing!	
-	set_web_state("dead", "")
+
 
 func _on_MusicDead_finished():
 	# REVIVAL LOGIC! (check if we have energy or need some to revive)

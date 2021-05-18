@@ -9,5 +9,6 @@ func _physics_process(delta):
 		#       which is a problem for up-down moving platforms
 		#       solution might be to detect the colliding body or to use `velocity.bounce(collision.normal)`
 		#       (masks are already correctly set to only `environment`)
+		#       (the collision.collider gives generic KinematicBody2d not player)
 		velocity = -velocity 
 

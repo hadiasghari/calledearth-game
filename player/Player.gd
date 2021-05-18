@@ -149,7 +149,6 @@ func get_input():
 		$mouth/yawn.play()
 
 
-
 var _collisions_seen = {}
 
 
@@ -163,25 +162,31 @@ func _physics_process(delta):
 		velocity.x = 0  # avoid very small slides for smoothness
 		
 	# process collisions
-	 # TODO: we may be emitting dead signal multiple times, check
+	# most are handled automatically/in own objects, below is mainly a logger
+	# (also note nothing here when hand touches button, we collect item, or fall on L1Spikes) 	
 	for i in range(get_slide_count()):
 		var collision = get_slide_collision(i)
-		match collision.collider.name.to_lower():
-			"tilemap_world_l1": pass  # normal
-			"tilemap_world_l2": pass  # normal
+		var coname = collision.collider.name.to_lower()
+		coname = "@words" if coname.begins_with("@words") else coname
+		coname = "movingplatform" if coname.begins_with("movingplatform") else coname
+		match coname:
+			"tilemap_world_l1": pass
+			"tilemap_world_l2": pass
 			"words": pass  # static body, reacts self
-			"platform": pass  # moving platforms
+			"@words": pass  # which are these, i wonder
+			"platform": pass  # the words platform
+			"movingplatform": pass
 			"plasticbag": pass  # get's handled via bag/level signals
 			"tilemap_danger":
-				# TODO: move the player lower
+				# TODO: we sometimes emit this dead signal twice, why?
+				print_debug('player collide tilemap_danger!')
 				freeze_player(true)
 				emit_signal('dead', 'mapdanger')
 			var other: 
 				if _collisions_seen.get(other) == null:
 					print_debug("player collision: " + other) 
 					_collisions_seen[other] = 1
-				# note (re godot collisions): 
-				# nothing here when hand touches button, we hit collectible item, or fall on Spikes in L1 
+
 	
 	# some more of the logic for the jump
 	var dev2 = "dev" + str((2 + devoffset) % 4)
@@ -244,7 +249,7 @@ func _on_arms_body_entered(body):
 func _on_wings_body_entered(body):
 	if 'RigidBody' in str(body):
 		if $wings/Collision.visible:  # why is this necessary?
-			print_debug(body)
+			#print_debug(body)
 			body.apply_impulse(Vector2(), Vector2(0, -5000) )
  
 

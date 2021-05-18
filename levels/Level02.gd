@@ -35,6 +35,8 @@ func _ready():
 
 
 func reposition(loc):
+	bag_hit_freeze = false  # unfreeze bags 
+		
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype testing
 	match loc:
 		'': pass  # don't respoition (for testing start wherever player is)
@@ -47,7 +49,7 @@ func reposition(loc):
 		var unknown:
 			print_debug('Unknown location for reposition requested: ' + str(unknown))
 			
-	bag_hit_freeze = false  # unfreeze bags 
+
 
 
 
@@ -83,15 +85,12 @@ func _on_pickup_switch():
 	$Player.limb_switch()
 	
 func _on_plasticbag_hit():
-	# also need param to know which child!
-	#print_debug("plasticbaghit: " + str(obj) )
 	$MusicLevel.stop()	
 	$Player.freeze_player(true)
-	bag_hit_freeze = true  # freeze all bags temporarily
+	bag_hit_freeze = true  # freeze all bags temporarily. (alt add func param identifying bag)
 	emit_signal("player_dead", "hit_bag")
 
 func _on_player_dead(why):
-	print_debug(why) 
 	$MusicLevel.stop()
 	emit_signal("player_dead", why)
 	

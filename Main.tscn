@@ -8,8 +8,9 @@
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
+server = "local"
 start_level = 2
-start_sublevel = "0"
+start_sublevel = "btn1-"
 
 [node name="CurrentScene" type="Node2D" parent="."]
 

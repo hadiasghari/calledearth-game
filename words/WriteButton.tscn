@@ -98,7 +98,7 @@ wait_time = 2.0
 margin_right = 500.0
 margin_bottom = 100.0
 custom_fonts/font = SubResource( 9 )
-text = "Provocation"
+text = "Test Provocation..."
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -127,8 +127,11 @@ __meta__ = {
 
 [node name="ExitArea" type="Area2D" parent="."]
 position = Vector2( 250, 0 )
+space_override = 3
+linear_damp = 10.0
+angular_damp = 10.0
 collision_layer = 128
-collision_mask = 0
+collision_mask = 64
 __meta__ = {
 "_edit_lock_": true
 }

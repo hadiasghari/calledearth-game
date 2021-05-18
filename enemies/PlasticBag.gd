@@ -10,5 +10,6 @@ func _ready():
 	pass 
 
 func _on_PlasticBag_body_entered(_body):	
-	print_debug("bag hit: " + str(_body))  # if necessary check body is player!
+	# print_debug("bag hit: " + str(_body))  	
+	# future: if needed check body is player (not other enemies)!
 	emit_signal("hit")	

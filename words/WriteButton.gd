@@ -15,8 +15,10 @@ export var prompt_key = 99999
 export var platform_offset = Vector2()
 export var platform_length = 500
 export var prompt_offset = Vector2(0, 0)  # length same as platform
+export var prompt_length = 500
 export var exitarea_offset = Vector2()  
 export var exitarea_length = 500
+export var exitarea_hitcount = 3
 export var camera_offset = Vector2(0, -100)
 export var already_pressed = false
 export var test_fake_data = false
@@ -28,10 +30,11 @@ var Words = preload('./Words.tscn')
 var _last_text_pk = -1
 var _color_ix = randi()
 var _is_activated = false
+var words_in_exit = {}
 
 
 func _ready():
-	if not Engine.editor_hint:
+	if not Engine.editor_hint and not test_fake_data:
 		$PromptLabel.text = ""  # remove 'provocation'
 	if already_pressed and not Engine.editor_hint:
 		# note, we don't activate the camera for `alread pressed`		
@@ -45,14 +48,14 @@ func _on_tree_entered():
 	$Platform.position = platform_offset
 	$Platform.position[0] += platform_length/2
 	$Platform/CollisionShape2D.shape.extents[0] = platform_length/2	
-	# position prompt label too; length is same as platform
-	$PromptLabel.set_size(Vector2(platform_length, 100)) 
+	# position prompt label
+	$PromptLabel.set_size(Vector2(prompt_length, 100)) 
 	$PromptLabel.rect_position = prompt_offset
 	# position ExitArea	
 	$ExitArea.position = exitarea_offset  
 	$ExitArea.position[0] += platform_length/2  # sync it with platform
 	$ExitArea/CollisionShape2D.shape.extents[0] = exitarea_length 		
-	# position camera
+	# position camera 
 	$Platform/Camera2D.position = camera_offset
 	if already_pressed:
 		$Button/AnimatedSprite.frame = 5
@@ -63,7 +66,7 @@ func _process(_delta):
 	if not Engine.editor_hint:
 		if Input.is_action_just_pressed("test_skip_next"):
 			if _is_activated:
-				_on_ExitArea_bodyentered("fakeKinematicBody2D")
+				deactivate_prompt()
 		
 func _on_Button_area_entered(_area):
 	# activated
@@ -81,7 +84,6 @@ func _on_Button_animation_finished():
 	_is_activated = true
 	set_web_prompt()
 
-	
 func set_web_prompt():		
 	# set DB to this prompt!  
 	if test_fake_data:
@@ -94,10 +96,11 @@ func set_web_prompt():
 		+ "she whispered a secret code amongst the atoms, and life was born.",
 		"She rocked her new creation and spun and danced around the bright sun as her children multiplied in number, wisdom, and beauty." ,
 		"The End!"]
-		for s in test_strings:
-			if get_tree():  # check, in case we escape scene before spawing all words
-				spawn_words(s, 127913)
-				yield(get_tree().create_timer(0.8), "timeout")	
+		for _i in range(3):  
+			for s in test_strings:
+				if get_tree():  # check, in case we escape scene before spawing all words
+					spawn_words(s, 127913)
+					yield(get_tree().create_timer(0.8), "timeout")	
 	else:	
 		# also, hopefully we already have the new gameid...
 		var GLOBAL = get_node("/root/Global")				
@@ -151,14 +154,27 @@ func spawn_words(text, ecode):
 	add_child(w)
 
 func _on_ExitArea_bodyentered(body):
-	# Deactivation mechanism. (TODO: still to fix)
-	if 'KinematicBody2D' in str(body):
-		emit_signal('deactivated') 
-		_is_activated = false
-		if not test_fake_data:
-			var request = HTTPRequest.new()
-			add_child(request)
-			var GLOBAL = get_node("/root/Global")	# shouldn't be null (i.e. this func won't call if we are unloaded)
-			var url = GLOBAL.server_url + "/earth/gosetprompt/" + GLOBAL.game_id + "/0"	  # unset prompt		
-			var _err = request.request(url) 	
-			print("WriteButton deactivated for prompt " + str(prompt_key))
+	# Deactivation mechanism. 
+	# note: key is to make sure one word hasn't accidently flung through
+	#       i now check this by count new words that pass (+ area dampens word movement)
+	#       (alt ideas are to calc overlap % or have multiple hit areas)
+	var name = str(body)
+	if "RigidBody2D" in name:
+		words_in_exit[name] = words_in_exit.get(name, 0) + 1
+	else:
+		print_debug("unexpected collision detection: ", name)	
+	if len(words_in_exit) >= exitarea_hitcount:
+		print_debug("WriteButton met hit count: " + str(words_in_exit))
+		deactivate_prompt()
+		
+func deactivate_prompt():
+	emit_signal('deactivated') 
+	_is_activated = false
+	if not test_fake_data:
+		var request = HTTPRequest.new()
+		add_child(request)
+		var GLOBAL = get_node("/root/Global")	# shouldn't be null (i.e. this func won't call if we are unloaded)
+		var url = GLOBAL.server_url + "/earth/gosetprompt/" + GLOBAL.game_id + "/0"	  # unset prompt		
+		var _err = request.request(url) 	
+	print("WriteButton deactivated for prompt " + str(prompt_key))
+	#print_debug(words_in_exit)

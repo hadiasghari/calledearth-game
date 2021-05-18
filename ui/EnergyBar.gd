@@ -6,7 +6,7 @@ export var critical_level = 10
 
 func _process(_delta):
 	if Input.is_action_just_pressed("test_recharge"):
-		print_debug("CHARGE!")
+		print_debug("Test full charge!")
 		update_energy(100)	
 
 func update_energy(value):	
