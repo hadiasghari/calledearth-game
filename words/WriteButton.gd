@@ -145,7 +145,7 @@ func _on_HTTPRequest_texts_completed(_result, _response_code, _headers, body):
 func spawn_words(text, ecode):
 	var w = Words.instance()
 	var pos = $Platform.position - Vector2(platform_length/2, 50)        
-	# TODO: this seems to be spawning all in middle, I thought we did left/right?
+	# position is changed to left/right of this middle in the word init
 	w.init(pos, text, ecode, platform_length, _color_ix)
 	_color_ix += 1
 	add_child(w)

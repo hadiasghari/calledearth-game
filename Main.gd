@@ -10,6 +10,7 @@ var scene_level02 = preload("res://levels/Level02.tscn").instance()
 var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
 var current_scene  # updated to whatever current scene is (for func calls)
 
+export var server = "heroku"
 export var start_level = 0  # game level, currently 0/1/2/99
 export var start_sublevel = ""  # define multiple save/status points in levels
 export var energy_start = 100
@@ -34,6 +35,8 @@ func _ready():
 	_err = scene_level02.connect("player_energy", self, "_on_player_energy")
 	_err = scene_level02.connect("milestone", self, "_on_level_milestone")
 	# get a new gameid, also give server a bit of time to respond
+	GLOBAL.server_url = {'heroku': 'https://calledearth.herokuapp.com',
+				  'local': "http://127.0.0.1:8000"}[server.to_lower()]	
 	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
 	yield(get_tree().create_timer(1), "timeout") 
 	# set levels & start	
@@ -46,9 +49,8 @@ func _ready():
 func _on_start_game():	
 	# this is called only within level00/titlepage; 
 	GLOBAL.current_level = 1
-	GLOBAL.current_sublevel = ""
+	GLOBAL.current_sublevel = "0"
 	load_level_scene()
-
 
 
 func load_level_scene():
@@ -215,13 +217,12 @@ func set_web_state(state, extra_info):
 
 
 
-
 func _on_MusicDance_finished():	
 	# choose next level... 
 	if GLOBAL.current_level == 1:
 		# TODO: ADD shall we CONTINUE page (here and on server!) before continuing :)
 		GLOBAL.current_level = 2
-		GLOBAL.current_sublevel = ""
+		GLOBAL.current_sublevel = "0"
 	elif GLOBAL.current_level == 2:
 		GLOBAL.current_level = 99
 		GLOBAL.current_sublevel = ""

@@ -14,7 +14,8 @@ func reposition(loc):
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype test
 	# reposition player
 	match loc:
-		'': $Player.position = Vector2(300, -400)  # empty is level start (previsouly '0')
+		'': pass  # don't respoition (for testing start wherever player is)
+		'0': $Player.position = Vector2(300, -400)  # empty is level start (previsouly '0')
 		'btn1': $Player.position = $WriteButton1.position + Vector2($WriteButton1.platform_length*2, -400)
 		# TESTING ONLY (not possible in game play):
 		'btn1-': $Player.position = $WriteButton1.position + Vector2(-150, 0)

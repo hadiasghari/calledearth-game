@@ -40,7 +40,7 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=7]
 radius = 50.931
 
-[node name="PlasticBag" type="KinematicBody2D"]
+[node name="PlasticBag" type="Area2D"]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource( 1 )
@@ -49,6 +49,7 @@ script = ExtResource( 1 )
 position = Vector2( 0, 5.29773 )
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 6 )
+frame = 3
 playing = true
 __meta__ = {
 "_edit_lock_": true
@@ -60,3 +61,5 @@ shape = SubResource( 7 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_PlasticBag_body_entered"]

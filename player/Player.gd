@@ -149,6 +149,10 @@ func get_input():
 		$mouth/yawn.play()
 
 
+
+var _collisions_seen = {}
+
+
 func _physics_process(delta):
 	get_input()  # sets velocity.x and motions
 	
@@ -159,29 +163,25 @@ func _physics_process(delta):
 		velocity.x = 0  # avoid very small slides for smoothness
 		
 	# process collisions
-	 # TODO: we could emit dead signal multiple times, not sure if that's a problem, perhaps it's better to be patient and to it once? :)
+	 # TODO: we may be emitting dead signal multiple times, check
 	for i in range(get_slide_count()):
 		var collision = get_slide_collision(i)
-		var s = collision.collider.name.to_lower()
-		if s.begins_with("tilemap_world"):
-			continue  # normal
-		elif s == "words" or s == "platform":
-			# words, platforms, ingore 			
-			continue  
-		elif s == "plasticbag":
-			# TODO: we should stop this particular plastic bag too!
-			#print_debug('Hit PlasticBag')
-			freeze_player(true)
-			emit_signal('dead', 'bag')
-		elif s == "tilemap_danger":
-			# TODO: move the word lower
-			#print_debug('Hit Map Danger')
-			freeze_player(true)
-			emit_signal('dead', 'mapdanger')
-		else: 
-			print("player collision: " + s)  # also is_in_group('enemies'):
-		# note (re godot collisions): 
-		#        nothing here when hand touches button, we hit collectible item, or fall on Spikes in L1 
+		match collision.collider.name.to_lower():
+			"tilemap_world_l1": pass  # normal
+			"tilemap_world_l2": pass  # normal
+			"words": pass  # static body, reacts self
+			"platform": pass  # moving platforms
+			"plasticbag": pass  # get's handled via bag/level signals
+			"tilemap_danger":
+				# TODO: move the player lower
+				freeze_player(true)
+				emit_signal('dead', 'mapdanger')
+			var other: 
+				if _collisions_seen.get(other) == null:
+					print_debug("player collision: " + other) 
+					_collisions_seen[other] = 1
+				# note (re godot collisions): 
+				# nothing here when hand touches button, we hit collectible item, or fall on Spikes in L1 
 	
 	# some more of the logic for the jump
 	var dev2 = "dev" + str((2 + devoffset) % 4)

@@ -612,7 +612,6 @@ platform_length = 1000
 [node name="MovingPlatform" parent="." instance=ExtResource( 14 )]
 position = Vector2( 12346.1, -1330.78 )
 collision_layer = 3
-motion/sync_to_physics = true
 velocity = Vector2( 200, 0 )
 
 [node name="MovingPlatform2" parent="." instance=ExtResource( 14 )]
@@ -661,7 +660,7 @@ __meta__ = {
 }
 
 [node name="Follow2" type="PathFollow2D" parent="Bags/PathMajor"]
-position = Vector2( 1574.12, -575.039 )
+position = Vector2( 2610.59, -911.612 )
 rotation = -3.12703
 rotate = false
 
@@ -670,7 +669,7 @@ position = Vector2( 8.6875, -5.62732 )
 rotation = 3.12703
 
 [node name="Follow3" type="PathFollow2D" parent="Bags/PathMajor"]
-position = Vector2( 77.7269, -98.5588 )
+position = Vector2( 81.5834, -77.4868 )
 rotation = -3.12703
 offset = 2693.51
 rotate = false
@@ -680,7 +679,7 @@ position = Vector2( -1.38281, 0.619019 )
 rotation = 3.12703
 
 [node name="Follow4" type="PathFollow2D" parent="Bags/PathMajor"]
-position = Vector2( -3342.29, 26.9381 )
+position = Vector2( -3248.41, 91.2695 )
 rotation = -3.12703
 offset = 6284.86
 rotate = false
@@ -689,7 +688,7 @@ rotate = false
 position = Vector2( -0.0522461, -3.61328 )
 
 [node name="Follow5" type="PathFollow2D" parent="Bags/PathMajor"]
-position = Vector2( -4942.34, -750.935 )
+position = Vector2( -4829.92, -604.609 )
 rotation = -2.27906
 offset = 8080.54
 rotate = false

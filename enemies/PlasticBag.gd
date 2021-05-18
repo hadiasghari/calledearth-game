@@ -1,17 +1,14 @@
-extends KinematicBody2D
-
+extends Area2D
 
 signal hit
 
-
-# TODO: if hit player cause death => THIS CAN BE DONE HERE OR IN PLAYER, NOT SURE WHICH IS BETTER
-
-# TODO: while visible play sound (ambient)?
+# Design notes:
+# - the bags moved via a parent pathfollow object, that's why they arent kinematic bodies
+# - (it might make more sense to have the path follow be part of the object itself and update the follow here)
 
 func _ready():
 	pass 
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _on_PlasticBag_body_entered(_body):	
+	print_debug("bag hit: " + str(_body))  # if necessary check body is player!
+	emit_signal("hit")	

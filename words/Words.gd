@@ -28,8 +28,7 @@ func init(pos, text, ecode, maxlen, box_ix=-1):
 	# set bg color
 	$Rect.color = BoxColors[box_ix%4]
 	
-	# finally, some sound	
-	
+	# finally, some sound		
 	var audio
 	match (box_ix % 6):
 		0: 	audio = $Audio1

@@ -2,13 +2,12 @@ extends KinematicBody2D
 
 export (Vector2) var velocity
 
-func _physics_process(delta):
+func _physics_process(delta):	
 	var collision = move_and_collide(velocity * delta)
 	if collision:
-		#print_debug("collision")
-		velocity = -velocity  #.bounce(collision.normal)
+		# TODO: the platform currently also switches dir when it hits the player,
+		#       which is a problem for up-down moving platforms
+		#       solution might be to detect the colliding body or to use `velocity.bounce(collision.normal)`
+		#       (masks are already correctly set to only `environment`)
+		velocity = -velocity 
 
-	#move_and_slide(velocity * delta)
-	#for i in range(get_slide_count()):
-	#	var c = get_slide_collision(i)
-	#	print(c.collider.name)
