@@ -88,7 +88,7 @@ func spawn_energy_item(etype):
 func _on_Buttons_deactivated(num):
 	print_debug("DEACTIVATE: " + str(num))
 	$Player/Camera2D.current = true  # return camera!
-	$MusicSegue.stop()
+	$MusicWriting.stop()
 	$MusicLevel.play()
 	$Player.set_physics_process(true)	# TODO however now sth needs to activate this
 	emit_signal('milestone', 'btn' + str(num))  
@@ -96,6 +96,6 @@ func _on_Buttons_deactivated(num):
 func _on_Buttons_activated():
 	# note, signal emitted to django server re prompt in the writing-button scene
 	$MusicLevel.stop()	
-	if not $MusicSegue.playing:
-		$MusicSegue.play()
+	#if not $MusicSegue.playing:
+	$MusicWriting.play()
 	$Player.set_physics_process(false)

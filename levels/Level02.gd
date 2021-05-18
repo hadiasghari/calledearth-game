@@ -118,17 +118,22 @@ func spawn_energy_item(etype):
 	ei.init(etype, "?", $Player.position + pos)
 	add_child(ei)				
 
-func _on_ButtonPlatform_activated():
+
+
+func _on_Buttons_activated():
 	$MusicLevel.stop()	
-	if not $MusicSegue.playing:
-		$MusicSegue.play()  # set db in object
+	#if not $MusicSegue.playing:
+	$MusicWriting.play()  # set db in object
 	#$Player.set_physics_process(false)
 
-func _on_ButtonPlatform_deactivated():
+
+func _on_Buttons_deactivated(num):
+	print_debug("DEACTIVATE: " + str(num))	
 	$Player/Camera2D.current = true  # return camera!
-	$MusicSegue.stop()
+	$MusicWriting.stop()
 	$MusicLevel.play()
 	$Player.set_physics_process(true)
-	emit_signal('milestone', 'btn1')  
+	emit_signal('milestone', 'btn' + str(num))  
 
 ## end shared functions
+

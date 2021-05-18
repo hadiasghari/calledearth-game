@@ -370,7 +370,8 @@ collision_mask = 109
 script = ExtResource( 14 )
 
 [node name="wings" type="Area2D" parent="."]
-collision_mask = 81
+collision_layer = 2
+collision_mask = 64
 __meta__ = {
 "_edit_lock_": true
 }
@@ -475,7 +476,7 @@ position = Vector2( 3.80614, 21.394 )
 scale = Vector2( 1.03, 0.91 )
 frames = SubResource( 57 )
 animation = "default_smile"
-frame = 2
+frame = 1
 speed_scale = 0.1
 playing = true
 __meta__ = {

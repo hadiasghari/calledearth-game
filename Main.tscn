@@ -10,7 +10,7 @@
 script = ExtResource( 1 )
 server = "local"
 start_level = 2
-start_sublevel = "btn1-"
+start_sublevel = "btn2-"
 
 [node name="CurrentScene" type="Node2D" parent="."]
 

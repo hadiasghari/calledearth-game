@@ -17,7 +17,7 @@ export var platform_length = 500
 export var prompt_offset = Vector2(0, 0)  # length same as platform
 export var prompt_length = 500
 export var exitarea_offset = Vector2()  
-export var exitarea_length = 500
+#export var exitarea_length = 500  # use platform_length for now (sync)
 export var exitarea_hitcount = 3
 export var camera_offset = Vector2(0, -100)
 export var already_pressed = false
@@ -53,8 +53,8 @@ func _on_tree_entered():
 	$PromptLabel.rect_position = prompt_offset
 	# position ExitArea	
 	$ExitArea.position = exitarea_offset  
-	$ExitArea.position[0] += platform_length/2  # sync it with platform
-	$ExitArea/CollisionShape2D.shape.extents[0] = exitarea_length 		
+	$ExitArea.position[0] += platform_length/2  # should be close to platform length anyway
+	$ExitArea/CollisionShape2D.shape.extents[0] = platform_length/2
 	# position camera 
 	$Platform/Camera2D.position = camera_offset
 	if already_pressed:
@@ -164,7 +164,8 @@ func _on_ExitArea_bodyentered(body):
 	else:
 		print_debug("unexpected collision detection: ", name)	
 	if len(words_in_exit) >= exitarea_hitcount:
-		print_debug("WriteButton met hit count: " + str(words_in_exit))
+		print_debug("WriteButton met hit count: " + str(len(words_in_exit)))
+		$ExitArea/CollisionShape2D.disabled = true  # avoid further collisions (same `defer` error, ignore)
 		deactivate_prompt()
 		
 func deactivate_prompt():

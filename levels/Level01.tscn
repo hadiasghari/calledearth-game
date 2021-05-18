@@ -604,7 +604,7 @@ stream = ExtResource( 17 )
 volume_db = -10.0
 autoplay = true
 
-[node name="MusicSegue" type="AudioStreamPlayer" parent="."]
+[node name="MusicWriting" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
 volume_db = -15.0
 

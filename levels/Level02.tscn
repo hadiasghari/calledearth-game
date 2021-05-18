@@ -603,16 +603,19 @@ tile_data = PoolIntArray( -3603985, 4, 0, -3603982, 5, 0, -3407377, 13, 0, -3407
 [node name="WriteButton1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 13641.6, -1592.12 )
 prompt_key = 21
-platform_offset = Vector2( 150, 1125 )
-platform_length = 1100
-prompt_offset = Vector2( 300, 0 )
-exitarea_offset = Vector2( 150, 150 )
-exitarea_length = 1000
+platform_offset = Vector2( 200, 1125 )
+platform_length = 1050
+prompt_offset = Vector2( 350, 0 )
+exitarea_offset = Vector2( 250, 150 )
 camera_offset = Vector2( 0, -100 )
 
 [node name="WriteButton2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 23828.2, -1657.13 )
-platform_length = 1000
+position = Vector2( 23793.2, -1529.13 )
+prompt_key = 22
+platform_offset = Vector2( 350, 1125 )
+platform_length = 950
+prompt_offset = Vector2( 400, -50 )
+exitarea_offset = Vector2( 350, 0 )
 test_fake_data = true
 
 [node name="MovingPlatform1" parent="." instance=ExtResource( 14 )]
@@ -742,9 +745,11 @@ stream = ExtResource( 8 )
 volume_db = -10.0
 autoplay = true
 
-[node name="MusicSegue" type="AudioStreamPlayer" parent="."]
+[node name="MusicWriting" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
 volume_db = -10.0
 
-[connection signal="activated" from="WriteButton1" to="." method="_on_ButtonPlatform_activated"]
-[connection signal="deactivated" from="WriteButton1" to="." method="_on_ButtonPlatform_deactivated"]
+[connection signal="activated" from="WriteButton1" to="." method="_on_Buttons_activated"]
+[connection signal="deactivated" from="WriteButton1" to="." method="_on_Buttons_deactivated" binds= [ 1 ]]
+[connection signal="activated" from="WriteButton2" to="." method="_on_Buttons_activated"]
+[connection signal="deactivated" from="WriteButton2" to="." method="_on_Buttons_deactivated" binds= [ 2 ]]
