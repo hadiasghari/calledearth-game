@@ -82,6 +82,8 @@ func freeze_player(pause_state):
 		# note (.get_tree().paused=true pauses *everything* hence not...)
 	else:
 		$MusicLevel.stream_paused = false
+		if not $MusicLevel.playing:  
+			$MusicLevel.play()
 		$Player.freeze_player(false)
 
 func spawn_energy_item(etype):

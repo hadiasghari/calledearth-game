@@ -40,10 +40,13 @@ func _ready():
 	_err = scene_level02.connect("milestone", self, "_on_level_milestone")
 	_err = scene_contq.connect("answer", self, "_on_contq_answer")
 	# get a new gameid, also give server a bit of time to respond
-	GLOBAL.server_url = {'heroku': 'https://calledearth.herokuapp.com',
-				  'local': "http://127.0.0.1:8000"}[server.to_lower()]	
+	if server == 'heroku' or server == 'local':
+		GLOBAL.server_url = {'heroku': 'https://calledearth.herokuapp.com',
+				  'local': "http://127.0.0.1:8000"}[server]	
+	else:
+		GLOBAL.server_url = "http://" + server
 	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
-	yield(get_tree().create_timer(1), "timeout") 
+	yield(get_tree().create_timer(2), "timeout") 
 	# set levels & start	
 	GLOBAL.current_level = start_level
 	GLOBAL.current_sublevel = start_sublevel
@@ -183,6 +186,7 @@ func _on_MusicDead_finished():
 	current_scene.reposition(GLOBAL.current_sublevel)
 	current_scene.freeze_player(false)
 	is_dead = false
+	set_web_state("play", "")
 	
 
 func _on_level_milestone(what):
