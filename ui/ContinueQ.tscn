@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ui/ContinueQ.gd" type="Script" id=1]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/fonts/NewTegomin-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 120
+use_filter = true
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://assets/fonts/NewTegomin-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 64
+use_filter = true
+font_data = SubResource( 3 )
+
+[node name="Control" type="Control"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+max_wait = 15
+
+[node name="LabelQuestion" type="Label" parent="."]
+margin_top = 152.655
+margin_right = 1920.0
+margin_bottom = 462.655
+custom_fonts/font = SubResource( 2 )
+text = "Are you ready for more?"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelTimeLeft" type="Label" parent="."]
+margin_left = -21.1892
+margin_top = 381.499
+margin_right = 1898.81
+margin_bottom = 691.499
+custom_fonts/font = SubResource( 2 )
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelStart" type="Label" parent="."]
+margin_top = 740.058
+margin_right = 1920.0
+margin_bottom = 834.058
+custom_fonts/font = SubResource( 4 )
+text = "Press --X-- to Continue"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
