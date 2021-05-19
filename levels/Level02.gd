@@ -94,8 +94,12 @@ func _on_pickup_victory():
 	$MusicLevel.stop()
 	emit_signal('milestone', 'dance')  
 	
+func _on_pickup_yellow():
+	$HUD.show_message("Power Up +50!", 2)
+	emit_signal("player_energy", 50)
+	
 func freeze_player(pause_state):
-	print_debug("L1 freeze_player: ", pause_state)
+	#print_debug("L2 freeze_player: ", pause_state)
 	if pause_state:
 		$MusicLevel.stream_paused = true 
 		$Player.freeze_player(true)
@@ -113,8 +117,9 @@ func spawn_energy_item(etype):
 
 func _on_Buttons_activated():
 	$MusicLevel.stop()	
-	$MusicWriting.play()  # TODO: maybe fade tween
+	$MusicWriting.play()  # future: maybe fade tween
 	$Player.set_physics_process(false)
+	$Player.stop_animations()
 
 func _on_Buttons_deactivated(num):
 	#print_debug("DEACTIVATE: " + str(num))	

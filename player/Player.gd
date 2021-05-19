@@ -49,6 +49,13 @@ func freeze_player(is_dead):
 	$mouth.self_modulate = filter
 
 
+func stop_animations():
+	# function called for writing button in case legs still moving...
+	$wings/Sprite.stop()
+	$leg_L.stop()
+	$leg_R.stop()
+
+
 func get_input():
 		# logic for rotating functions of four controllers
 	if Input.is_action_just_pressed("rotate"):

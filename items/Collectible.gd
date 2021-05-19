@@ -3,7 +3,7 @@ extends Area2D
 signal pickup
 
 
-# TODO: Tweens to make pickup nicer
+# FUTURE: Add tweens to make pickup nicer
 #func _ready():
 #	$Tween.interpolate_property($Sprite, 'scale', Vector2(1, 1),
 #			Vector2(3, 3), 0.5, Tween.TRANS_QUAD, Tween.EASE_IN_OUT)
@@ -42,7 +42,7 @@ func init(type, pos):
 func _on_Area2D_body_entered(_body):
 	emit_signal('pickup') 	# for other pickup logic e.g. spawning words!
 	$Audio.play()  # note, perhaps audio should be played in mai
-	$CollisionShape2D.disabled = true  # TODO: USE DEFER()
+	$CollisionShape2D.disabled = true  # (note gives this `DEFER()` error...)
 	yield(get_tree().create_timer(0.2), "timeout")
 	#$Tween.start()
-	queue_free() # hide it! -- in Tween
+	queue_free()

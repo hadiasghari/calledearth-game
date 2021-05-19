@@ -4,7 +4,7 @@ var BoxColors = ["#FFA7A7", "#00F6F6", "#A7FF63", "#FFE160"]
 
 func init(pos, text, ecode, maxlen, box_ix=-1):
 	# we use the same font-size so the box adjusts
-	# we thus set a limit of 140 characters to make sizing easier
+	# we thus set a limit of characters to make sizing easier
 	if len(text) > 120:
 		text = text.left(120) + "..."	
 	text = text.replace("\n", "")  # new lines mess the box height
@@ -26,9 +26,8 @@ func init(pos, text, ecode, maxlen, box_ix=-1):
 	$Collision.shape = RectangleShape2D.new()  # we need a new one!
 	
 	$Collision.shape.set_extents(sz/2)	
-	# TEST: $Collision.transform[2] = sz/2  # centers it	
 	# position box at right or left 
-	position = pos + Vector2((0 if box_ix%2==1 else maxlen-boxl), -40)
+	position = pos + Vector2((0 if box_ix%2==1 else maxlen-boxl) + sz[0]/2, -40)
 	# set bg color
 	$Rect.color = BoxColors[box_ix%4]
 	
@@ -43,5 +42,5 @@ func init(pos, text, ecode, maxlen, box_ix=-1):
 		5:  audio = $Audio6
 	audio.stream.set_loop(false)	
 	audio.play()
-	# (NOTE/TODO: two types of words, jumpable (sticky/groove), moveable..)	
+	# (Future perhaps: different types of words, e.g. jumpable vs moveable..)	
 

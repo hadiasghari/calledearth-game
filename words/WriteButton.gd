@@ -164,18 +164,20 @@ func _on_ExitArea_bodyentered(body):
 	else:
 		print_debug("unexpected collision detection: ", name)	
 	if len(words_in_exit) >= exitarea_hitcount:
-		print_debug("WriteButton met hit count: " + str(len(words_in_exit)))
+		#print_debug("WriteButton met hit count: " + str(len(words_in_exit)))
 		$ExitArea/CollisionShape2D.disabled = true  # avoid further collisions (same `defer` error, ignore)
 		deactivate_prompt()
 		
 func deactivate_prompt():
-	emit_signal('deactivated') 
-	_is_activated = false
-	if not test_fake_data:
-		var request = HTTPRequest.new()
-		add_child(request)
-		var GLOBAL = get_node("/root/Global")	# shouldn't be null (i.e. this func won't call if we are unloaded)
-		var url = GLOBAL.server_url + "/earth/gosetprompt/" + GLOBAL.game_id + "/0"	  # unset prompt		
-		var _err = request.request(url) 	
-	print("WriteButton deactivated for prompt " + str(prompt_key))
+	if _is_activated:  
+		# check since this function can hit multiple times!
+		_is_activated = false
+		emit_signal('deactivated') 
+		if not test_fake_data:
+			var request = HTTPRequest.new()
+			add_child(request)
+			var GLOBAL = get_node("/root/Global")	# shouldn't be null (i.e. this func won't call if we are unloaded)
+			var url = GLOBAL.server_url + "/earth/gosetprompt/" + GLOBAL.game_id + "/0"	  # unset prompt		
+			var _err = request.request(url) 	
+		print("WriteButton deactivated for prompt " + str(prompt_key))
 	#print_debug(words_in_exit)

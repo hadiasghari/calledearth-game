@@ -39,29 +39,29 @@ margin_bottom = 84.0
 alignment = 2
 
 [node name="VBox" type="VBoxContainer" parent="OnlineInfo/HBox"]
-margin_left = 1766.0
+margin_left = 1776.0
 margin_right = 1920.0
 margin_bottom = 84.0
 
 [node name="LabelServer" type="Label" parent="OnlineInfo/HBox/VBox"]
-margin_right = 154.0
+margin_right = 144.0
 margin_bottom = 14.0
-text = "Connecting to Heroku...."
+text = "Connecting to server..."
 align = 2
 
 [node name="LabelGame" type="Label" parent="OnlineInfo/HBox/VBox"]
 margin_top = 18.0
-margin_right = 154.0
+margin_right = 144.0
 margin_bottom = 32.0
 
 [node name="LabelUsers1" type="Label" parent="OnlineInfo/HBox/VBox"]
 margin_top = 36.0
-margin_right = 154.0
+margin_right = 144.0
 margin_bottom = 50.0
 
 [node name="LabelUsers2" type="Label" parent="OnlineInfo/HBox/VBox"]
 margin_top = 53.0
-margin_right = 154.0
+margin_right = 144.0
 margin_bottom = 83.1176
 custom_fonts/font = SubResource( 1 )
 autowrap = true

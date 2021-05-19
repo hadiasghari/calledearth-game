@@ -6,11 +6,11 @@ export var critical_level = 10
 
 func _process(_delta):
 	if Input.is_action_just_pressed("test_recharge_full"):
-		print_debug("Test full charge!")
+		print_debug("Cheat charge +100!")
 		update_energy(100)	
 		
 	if Input.is_action_just_pressed("test_recharge_some"):
-		print_debug("Test small charge!")
+		print_debug("Cheat charge +5!")
 		update_energy(5)
 
 func update_energy(value):	

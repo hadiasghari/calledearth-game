@@ -10,10 +10,10 @@ var Energy = preload('res://items/Energy.tscn')
 
 
 func reposition(loc):
-	#print_debug("reposition:", loc)
 	# In case we stopped Music or physics on last death:	
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype test
-	# reposition player
+	# reposition player:
+	# print_debug("reposition:", loc)
 	match loc:
 		'-': pass  # don't respoition (for testing start wherever player is)
 		'': $Player.position = Vector2(300, -400)  # level start
@@ -25,8 +25,6 @@ func reposition(loc):
 		'btn2': $Player.position = $WriteButton2.position + Vector2($WriteButton2.platform_length*2, 0)	 # cannot really die after btn2		
 		var unknown:
 			print_debug('Unknown location for reposition requested: ' + str(unknown))
-			
-	# OR NOT ... $Player.freeze_player(false)  # in case we're coming from a fall
 
 	
 func _ready():
@@ -74,8 +72,13 @@ func _on_pickup_victory():
 	$MusicLevel.stop()
 	emit_signal('milestone', 'dance')  
 	
+func _on_pickup_yellow():
+	# To test :)
+	$HUD.show_message("Power Up +50!", 2)
+	emit_signal("player_energy", 50)
+	
 func freeze_player(pause_state):
-	print_debug("L1 freeze_player: ", pause_state)
+	#print_debug("L1 freeze_player: ", pause_state)
 	if pause_state:
 		$MusicLevel.stream_paused = true  # to continue music
 		$Player.freeze_player(true)
@@ -105,5 +108,6 @@ func _on_Buttons_deactivated(num):
 func _on_Buttons_activated():
 	# note, signal emitted to django server re prompt in the writing-button scene
 	$MusicLevel.stop()	
-	$MusicWriting.play()  # TODO: maybe fade tween
+	$MusicWriting.play()  # Future: perhaps fade start this with tween
 	$Player.set_physics_process(false)
+	$Player.stop_animations()
