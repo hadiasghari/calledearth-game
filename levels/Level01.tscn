@@ -506,6 +506,7 @@ prompt_key = 11
 platform_offset = Vector2( 250, 1150 )
 platform_length = 650
 prompt_offset = Vector2( 300, -200 )
+exitarea_offset = Vector2( 250, 50 )
 camera_offset = Vector2( 0, -100 )
 
 [node name="WriteButton2" parent="." instance=ExtResource( 4 )]
@@ -514,7 +515,7 @@ prompt_key = 12
 platform_offset = Vector2( 150, 1475 )
 platform_length = 700
 prompt_offset = Vector2( 225, 0 )
-exitarea_offset = Vector2( 150, 200 )
+exitarea_offset = Vector2( 150, 350 )
 camera_offset = Vector2( 0, -250 )
 
 [node name="Instructions" type="Node2D" parent="."]

@@ -42,7 +42,6 @@ platform_length = 700
 prompt_offset = Vector2( 1000, -700 )
 exitarea_offset = Vector2( 0, -500 )
 already_pressed = true
-test_fake_data = true
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

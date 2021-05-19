@@ -8,6 +8,7 @@ var scene_level00 = preload("res://levels/Level00.tscn").instance()  # title
 var scene_level01 = preload("res://levels/Level01.tscn").instance()
 var scene_level02 = preload("res://levels/Level02.tscn").instance()
 var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
+var scene_contq   = preload("res://ui/ContinueQ.tscn").instance()  
 var current_scene  # updated to whatever current scene is (for func calls)
 
 export var server = "heroku"
@@ -34,6 +35,7 @@ func _ready():
 	_err = scene_level02.connect("player_switched", self, "_on_player_switched")
 	_err = scene_level02.connect("player_energy", self, "_on_player_energy")
 	_err = scene_level02.connect("milestone", self, "_on_level_milestone")
+	_err = scene_contq.connect("answer", self, "_on_contq_answer")
 	# get a new gameid, also give server a bit of time to respond
 	GLOBAL.server_url = {'heroku': 'https://calledearth.herokuapp.com',
 				  'local': "http://127.0.0.1:8000"}[server.to_lower()]	
@@ -66,10 +68,14 @@ func load_level_scene():
 			$HUD.hide_energy()
 			# game just started, no additional server log needed 
 		1: 
-			current_scene = scene_level01
-			current_scene.reposition(GLOBAL.current_sublevel)  # current save
 			$HUD.update_energy(GLOBAL.energy)
-			set_web_state("level", "L1." + GLOBAL.current_sublevel)
+			if GLOBAL.current_sublevel != "contq": 
+				current_scene = scene_level01
+				current_scene.reposition(GLOBAL.current_sublevel)  # current save
+				set_web_state("level", "L1." + GLOBAL.current_sublevel)
+			else:
+				current_scene = scene_contq
+				set_web_state("contq", "")
 		2: 
 			current_scene = scene_level02
 			current_scene.reposition(GLOBAL.current_sublevel)
@@ -89,7 +95,7 @@ func load_level_scene():
 func _on_player_switched(offset):
 	# simply update HUD (see design notes at top)
 	# (we could log this even to db too but unnecessary) 
-	set_web_state('limb_switch', '')
+	set_web_state('event', 'limb_switch')
 	match offset:
 		0: $HUD.show_message("Limb Switch!*")
 		_: $HUD.show_message("Limb Switch!")
@@ -150,7 +156,7 @@ func _on_player_dead(_why):
 	$HUD.update_energy(energy_loss_fall)	
 	$Audio/MusicDead.stream.set_loop(false) 	
 	$Audio/MusicDead.play()
-	set_web_state("dead", _why)	
+	set_web_state("event", "dead-" + _why)	
 	# revival will happen once this dead music finishes playing!	
 
 
@@ -190,18 +196,31 @@ func _on_level_milestone(what):
 
 
 func _on_MusicDance_finished():	
-	# choose next level... 
 	$HUD.hide_message()  # stop the let's dance
+	# now choose next level... 	
 	if GLOBAL.current_level == 1:
-		# TODO: ADD shall we CONTINUE page (here and on server!) before continuing :)
-		# TODO: darken screen; then use same logic as in `level00`
-		GLOBAL.current_level = 2
-		GLOBAL.current_sublevel = "0"
+		GLOBAL.current_sublevel = "contq"
 	elif GLOBAL.current_level == 2:
 		GLOBAL.current_level = 99
 		GLOBAL.current_sublevel = ""
-	# load next level scene, will inform server too away from dancing	
-	load_level_scene()  
+	else:
+		print_debug('unexpected logic')
+		
+	load_level_scene()  # also informs server 	
+	
+	
+func _on_contq_answer(value):
+	match value:
+		"y":
+			GLOBAL.current_level = 2
+			GLOBAL.current_sublevel = ""
+		"n":
+			GLOBAL.current_level = 99
+			GLOBAL.current_sublevel = ""
+		var other:
+			print_debug('impossible answer!' + str(other))
+	
+	load_level_scene()	
 
 
 func set_web_state(state, extra_info):
