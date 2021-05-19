@@ -484,7 +484,7 @@ tile_set = SubResource( 4 )
 cell_size = Vector2( 128, 128 )
 collision_mask = 0
 format = 1
-tile_data = PoolIntArray( -1245089, 536870916, 0, -1048442, 536870916, 0, -982876, 7, 0, -655307, 4, 0 )
+tile_data = PoolIntArray( -1245089, 536870916, 0, -1048442, 536870916, 0, -982876, 7, 0, -917375, 3, 0, -655307, 4, 0 )
 
 [node name="TileMap_world_L1" type="TileMap" parent="."]
 tile_set = SubResource( 17 )
@@ -501,10 +501,10 @@ position = Vector2( 18864.7, -273.033 )
 position = Vector2( 10864, -1252.86 )
 
 [node name="WriteButton1" parent="." instance=ExtResource( 4 )]
-position = Vector2( 10695.4, -1979.64 )
+position = Vector2( 10728.4, -1979.64 )
 prompt_key = 11
 platform_offset = Vector2( 275, 1150 )
-platform_length = 625
+platform_length = 600
 prompt_offset = Vector2( 300, -200 )
 exitarea_offset = Vector2( 250, 50 )
 camera_offset = Vector2( 0, -100 )

@@ -5,6 +5,7 @@ onready var GLOBAL = get_node("/root/Global")
 export var critical_level = 10
 
 func _process(_delta):
+	# (design: maybe all cheats should be in one place, eg in Main) 
 	if Input.is_action_just_pressed("test_recharge_full"):
 		print_debug("Cheat charge +100!")
 		update_energy(100)	

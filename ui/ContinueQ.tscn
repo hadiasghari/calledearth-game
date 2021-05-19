@@ -59,7 +59,7 @@ margin_top = 676.562
 margin_right = 1926.35
 margin_bottom = 770.562
 custom_fonts/font = SubResource( 4 )
-text = "Press --X-- to Continue"
+text = "Press --X-- to continue"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -70,7 +70,7 @@ margin_top = 752.757
 margin_right = 1920.0
 margin_bottom = 846.757
 custom_fonts/font = SubResource( 4 )
-text = "Plus >1 EPs"
+text = "Plus min. 1 energy"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

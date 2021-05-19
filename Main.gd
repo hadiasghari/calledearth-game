@@ -34,10 +34,12 @@ func _ready():
 	_err = scene_level01.connect("player_switched", self, "_on_player_switched")
 	_err = scene_level01.connect("player_energy", self, "_on_player_energy")
 	_err = scene_level01.connect("milestone", self, "_on_level_milestone")
+	_err = scene_level01.connect("powerup", self, "_on_level_powerup")	
 	_err = scene_level02.connect("player_dead", self, "_on_player_dead")
 	_err = scene_level02.connect("player_switched", self, "_on_player_switched")
 	_err = scene_level02.connect("player_energy", self, "_on_player_energy")
 	_err = scene_level02.connect("milestone", self, "_on_level_milestone")
+	_err = scene_level02.connect("powerup", self, "_on_level_powerup")		
 	_err = scene_contq.connect("answer", self, "_on_contq_answer")
 	# get a new gameid, also give server a bit of time to respond
 	if server == 'heroku' or server == 'local':
@@ -101,7 +103,7 @@ func load_level_scene():
 func _on_player_switched(offset):
 	# simply update HUD (see design notes at top)
 	# (we could log this even to db too but unnecessary) 
-	set_web_state('event', 'limb_switch')
+	set_web_state('event', 'limb-switch')
 	match offset:
 		0: $HUD.show_message("Limb Switch!*")
 		_: $HUD.show_message("Limb Switch!")
@@ -235,6 +237,12 @@ func _on_contq_answer(value):
 			print_debug('impossible answer!' + str(other))
 	
 	load_level_scene()	
+	
+
+func _on_level_powerup():
+	set_web_state("event", "powerup")
+	$HUD.show_message("+50 EP!", 2)
+	_on_player_energy(50)
 
 
 func set_web_state(state, extra_info):
@@ -247,4 +255,11 @@ func set_web_state(state, extra_info):
 	var _err = request.request(url)  
 	
 
-
+func _input(event):
+	# secret cheat to skip ahead in each level till almost end
+	if Input.is_action_just_pressed("test_skip_to_end"):
+		if GLOBAL.current_level == 1 or GLOBAL.current_level == 2: 
+			set_web_state("event", "skip-to-end")
+			GLOBAL.current_sublevel = "btn2-"
+			current_scene.reposition(GLOBAL.current_sublevel)
+		

@@ -12,7 +12,7 @@ signal pickup
 ##func _on_Tween_tween_completed( object, key ):
 #	queue_free()
 
-var textures = {'yellow': 'res://assets/collect items/collect item yellow.png',
+var textures = {'yellow': 'res://assets/art/collect items/collect item yellow.png',
 				'aqua': 'res://assets/art/collect items/collect_item_aqua.png',
 				'switch': 'res://assets/art/collect items/Switch button.png',
 				'victory': 'res://assets/art/collect items/Victory button .png'}
@@ -20,6 +20,7 @@ var textures = {'yellow': 'res://assets/collect items/collect item yellow.png',
 var _type = ""
 
 func init(type, pos):
+	#print_debug("init collectible:", type)
 	type = type.to_lower()
 	if 'aqua' in type:
 		type = 'aqua'
@@ -33,6 +34,7 @@ func init(type, pos):
 		print_debug('UNKNOWN PICKUP: ' + str(type))
 		return ""	
 	$Sprite.texture = load(textures[type])
+	print_debug(type, textures[type])
 	# TODO: the collision shape should match the textures, which are not same size :(
 	#       either have different collisionmaps, different objects, or get from tilemap...
 	position = pos

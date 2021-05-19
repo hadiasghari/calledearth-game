@@ -4,6 +4,7 @@ signal player_dead(why)
 signal player_energy(value)  # to update energy
 signal player_switched(offset)  # this is simply for HUD
 signal milestone(what)
+signal powerup
 
 export var bag_speed  = 350
 var Collectible = preload('res://items/Collectible.tscn')
@@ -28,7 +29,7 @@ func _ready():
 	$MusicLevel.play()
 
 func reposition(loc):
-	#print_debug("reposition:", loc)	
+	#print_debug("L2 reposition:", loc)	
 	bag_hit_freeze = false  # unfreeze bags (if necessary)
 		
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype testing
@@ -64,13 +65,16 @@ func spawn_pickups():
 		var type = pickups.tile_set.tile_get_name(id)
 		var pos = pickups.map_to_world(cell)
 		var c = Collectible.instance()
-		# FUTURE: cell sizes between layers should (probably) be the same 
-		#        (and related to the collectible also) to avoid placement problems
-		type = c.init(type, pos + pickups.cell_size)  
-		if type:
-			add_child(c)
-			c.connect('pickup', self, '_on_pickup_' + type) 
-
+		if type:  
+			# TODO: the (several) blank ones are probably leftovers (hence type needed)
+			# FUTURE: cell sizes between layers should (probably) be the same 
+			#        (and related to the collectible also) to avoid placement 			
+			#print_debug(type, ">", pos)
+			type = c.init(type, pos + pickups.cell_size)  
+			if type:
+				add_child(c)
+				c.connect('pickup', self, '_on_pickup_' + type) 
+	
 func _on_pickup_switch():
 	$Player.limb_switch()
 	
@@ -95,8 +99,7 @@ func _on_pickup_victory():
 	emit_signal('milestone', 'dance')  
 	
 func _on_pickup_yellow():
-	$HUD.show_message("Power Up +50!", 2)
-	emit_signal("player_energy", 50)
+	emit_signal("powerup")
 	
 func freeze_player(pause_state):
 	#print_debug("L2 freeze_player: ", pause_state)

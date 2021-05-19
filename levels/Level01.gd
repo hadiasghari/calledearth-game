@@ -4,6 +4,7 @@ signal player_dead(why)
 signal player_energy(value)  
 signal player_switched(offset) 
 signal milestone(what)
+signal powerup
 
 var Collectible = preload('res://items/Collectible.tscn')
 var Energy = preload('res://items/Energy.tscn')
@@ -13,7 +14,7 @@ func reposition(loc):
 	# In case we stopped Music or physics on last death:	
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype test
 	# reposition player:
-	# print_debug("reposition:", loc)
+	#print_debug("L1 reposition:", loc)
 	match loc:
 		'-': pass  # don't respoition (for testing start wherever player is)
 		'': $Player.position = Vector2(300, -400)  # level start
@@ -73,9 +74,7 @@ func _on_pickup_victory():
 	emit_signal('milestone', 'dance')  
 	
 func _on_pickup_yellow():
-	# To test :)
-	$HUD.show_message("Power Up +50!", 2)
-	emit_signal("player_energy", 50)
+	emit_signal('powerup')
 	
 func freeze_player(pause_state):
 	#print_debug("L1 freeze_player: ", pause_state)
@@ -111,3 +110,5 @@ func _on_Buttons_activated():
 	$MusicWriting.play()  # Future: perhaps fade start this with tween
 	$Player.set_physics_process(false)
 	$Player.stop_animations()
+
+	

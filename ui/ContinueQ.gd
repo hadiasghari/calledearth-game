@@ -15,7 +15,7 @@ var dev3_x = 0
 func _ready():
 	secs_left = max_wait
 	$LabelTimeLeft.text = str(secs_left) + "s"
-	$LabelCondEP.text = "Plus >" + str(min_energy_cond) + " EPs" 
+	$LabelCondEP.text = "Plus min. " + str(min_energy_cond) + " energy" 
 
 func _on_Timer_timeout():
 	secs_left = max(secs_left-1, 0)
@@ -39,7 +39,7 @@ func _input(event):
 	s += "X" 
 	s += "+" if dev2_x else "-"
 	s += "+" if dev3_x else "-"
-	s += " to Continue"
+	s += " to continue"
 	$LabelCondX.text = s
 	
 	if dev0_x+dev1_x+dev2_x+dev3_x == 4 and GLOBAL.energy >= min_energy_cond:
