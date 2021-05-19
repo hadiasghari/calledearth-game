@@ -19,17 +19,19 @@ use_filter = true
 font_data = SubResource( 3 )
 
 [node name="Control" type="Control"]
+margin_top = 15.874
 margin_right = 1920.0
-margin_bottom = 1080.0
+margin_bottom = 1095.87
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LabelQuestion" type="Label" parent="."]
-margin_top = 152.655
-margin_right = 1920.0
-margin_bottom = 462.655
+margin_left = -3.1748
+margin_top = 114.557
+margin_right = 1916.83
+margin_bottom = 424.557
 custom_fonts/font = SubResource( 2 )
 text = "Are you ready for more?"
 align = 1
@@ -39,10 +41,10 @@ __meta__ = {
 }
 
 [node name="LabelTimeLeft" type="Label" parent="."]
-margin_left = -21.1892
-margin_top = 381.499
-margin_right = 1898.81
-margin_bottom = 691.499
+margin_left = -18.0144
+margin_top = 318.003
+margin_right = 1901.98
+margin_bottom = 628.003
 custom_fonts/font = SubResource( 2 )
 text = "0"
 align = 1
@@ -51,12 +53,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LabelStart" type="Label" parent="."]
-margin_top = 740.058
-margin_right = 1920.0
-margin_bottom = 834.058
+[node name="LabelCondX" type="Label" parent="."]
+margin_left = 6.34961
+margin_top = 676.562
+margin_right = 1926.35
+margin_bottom = 770.562
 custom_fonts/font = SubResource( 4 )
 text = "Press --X-- to Continue"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelCondEP" type="Label" parent="."]
+margin_top = 752.757
+margin_right = 1920.0
+margin_bottom = 846.757
+custom_fonts/font = SubResource( 4 )
+text = "Plus >1 EPs"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

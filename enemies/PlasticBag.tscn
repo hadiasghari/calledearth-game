@@ -38,7 +38,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=7]
-radius = 50.931
+radius = 45.2035
 
 [node name="PlasticBag" type="Area2D"]
 collision_layer = 4
@@ -49,7 +49,7 @@ script = ExtResource( 1 )
 position = Vector2( 0, 5.29773 )
 scale = Vector2( 0.3, 0.3 )
 frames = SubResource( 6 )
-frame = 3
+frame = 2
 playing = true
 __meta__ = {
 "_edit_lock_": true
