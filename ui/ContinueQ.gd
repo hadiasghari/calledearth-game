@@ -1,7 +1,9 @@
 extends Control
 
 signal answer(value)
-export var max_wait = 60
+export var max_wait = 90
+
+var Energy = preload('res://items/Energy.tscn')
 
 var secs_left = 0
 var dev0_x = 0
@@ -40,7 +42,10 @@ func _input(event):
 	
 	if dev0_x + dev1_x + dev2_x + dev3_x == 4:
 		emit_signal("answer", "y")
-	
-	if event.is_action_pressed('test_skip_next'):	
-		emit_signal("answer", "y")
 
+func spawn_energy_item(etype):
+	var ei = Energy.instance()  				
+	# position randomly
+	var pos = Vector2(-900+randi()%1800, -500-randi()%1000)
+	ei.init(etype, "?", pos)
+	add_child(ei)	

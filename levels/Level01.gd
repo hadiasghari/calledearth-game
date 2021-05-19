@@ -10,7 +10,7 @@ var Energy = preload('res://items/Energy.tscn')
 
 
 func reposition(loc):
-	print_debug("reposition:", loc)
+	#print_debug("reposition:", loc)
 	# In case we stopped Music or physics on last death:	
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype test
 	# reposition player

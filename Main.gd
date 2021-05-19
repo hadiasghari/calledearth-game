@@ -14,7 +14,7 @@ export var server = "heroku"
 export var start_level = 0  # game level, currently 0/1/2/99
 export var start_sublevel = ""  # define multiple save/status points in levels
 export var energy_start = 100
-export var energy_loss_fall = -50  # TODO: -30
+export var energy_loss_fall = -30
 
 # internal state:
 var current_scene  # updated to whatever current scene is (for func calls)

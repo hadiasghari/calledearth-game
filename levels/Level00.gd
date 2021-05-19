@@ -36,5 +36,5 @@ func _input(event):
 	if dev0_x + dev1_x + dev2_x + dev3_x == 4:
 		emit_signal("start_game")
 	
-	if event.is_action_pressed('test_skip_next'):	
-		emit_signal("start_game")
+	#if event.is_action_pressed('test_skip_next'):	
+	#	emit_signal("start_game")

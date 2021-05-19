@@ -1,8 +1,10 @@
 extends CanvasLayer
 
-# TODO: Level 99 is the credits + simple statistics scene at the end
+# Level 99 is the credits
+# in future, we may also add some simple statistics scene at the end
 
 func _ready():
-	pass # Replace with function body.
+	pass 
 
-
+func spawn_energy_item(etype):
+	pass   # do nothing, shouldn't even call here :)

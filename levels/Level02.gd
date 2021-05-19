@@ -28,12 +28,14 @@ func _ready():
 	$MusicLevel.play()
 
 func reposition(loc):
+	#print_debug("reposition:", loc)	
 	bag_hit_freeze = false  # unfreeze bags (if necessary)
 		
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype testing
 	match loc:
-		'': pass  # don't respoition (for testing start wherever player is)
-		'0': $Player.position = Vector2(300, -400)  # empty is level start (previsouly '0')
+		'-': pass  # don't respoition (for testing start wherever player is)
+		'': $Player.position = Vector2(300, -400)  # start
+		'0': $Player.position = Vector2(300, -400)
 		'btn1': $Player.position = $WriteButton1.position + Vector2($WriteButton1.platform_length*2, -400)
 		'sav1': $Player.position = $Save1.position + Vector2(0, -100)
 		# TESTING ONLY (not possible in game play):
@@ -91,11 +93,14 @@ func _on_pickup_victory():
 	emit_signal('milestone', 'dance')  
 	
 func freeze_player(pause_state):
+	print_debug("L1 freeze_player: ", pause_state)
 	if pause_state:
-		$MusicLevel.stop()
+		$MusicLevel.stream_paused = true 
 		$Player.freeze_player(true)
 	else:
-		$MusicLevel.play()
+		$MusicLevel.stream_paused = false
+		if not $MusicLevel.playing:  
+			$MusicLevel.play()
 		$Player.freeze_player(false)
 
 func spawn_energy_item(etype):
@@ -110,10 +115,11 @@ func _on_Buttons_activated():
 	#$Player.set_physics_process(false)
 
 func _on_Buttons_deactivated(num):
-	print_debug("DEACTIVATE: " + str(num))	
+	#print_debug("DEACTIVATE: " + str(num))	
 	$Player/Camera2D.current = true  # return camera!
-	$MusicWriting.stop()
-	$MusicLevel.play()
+	if $MusicWriting.playing:  # necessary check if we get called twice
+		$MusicWriting.stop()
+		$MusicLevel.play()
 	$Player.set_physics_process(true)
 	emit_signal('milestone', 'btn' + str(num))  
 
