@@ -112,7 +112,7 @@ func spawn_energy_item(etype):
 func _on_Buttons_activated():
 	$MusicLevel.stop()	
 	$MusicWriting.play()  # TODO: maybe fade tween
-	#$Player.set_physics_process(false)
+	$Player.set_physics_process(false)
 
 func _on_Buttons_deactivated(num):
 	#print_debug("DEACTIVATE: " + str(num))	

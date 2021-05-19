@@ -630,7 +630,8 @@ position = Vector2( 23793.2, -1529.13 )
 prompt_key = 22
 platform_offset = Vector2( 350, 1125 )
 platform_length = 950
-prompt_offset = Vector2( 400, -50 )
+prompt_offset = Vector2( 500, -50 )
+prompt_length = 700
 exitarea_offset = Vector2( 350, 0 )
 
 [node name="MovingPlatform1" parent="." instance=ExtResource( 14 )]

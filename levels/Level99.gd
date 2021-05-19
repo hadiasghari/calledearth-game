@@ -6,5 +6,5 @@ extends CanvasLayer
 func _ready():
 	pass 
 
-func spawn_energy_item(etype):
+func spawn_energy_item(_etype):
 	pass   # do nothing, shouldn't even call here :)
