@@ -57,14 +57,16 @@ func _process(delta):
 #      (once we add more functions in the future)
 
 func spawn_pickups():
-	$Tilemap_pickups.hide()	
+	$Tilemap_pickups.hide()
 	var pickups = $Tilemap_pickups 
 	for cell in pickups.get_used_cells():
 		var id = pickups.get_cellv(cell)
 		var type = pickups.tile_set.tile_get_name(id)
 		var pos = pickups.map_to_world(cell)
 		var c = Collectible.instance()
-		type = c.init(type, pos + pickups.cell_size/2)
+		# FUTURE: cell sizes between layers should (probably) be the same 
+		#        (and related to the collectible also) to avoid placement problems
+		type = c.init(type, pos + pickups.cell_size)  
 		if type:
 			add_child(c)
 			c.connect('pickup', self, '_on_pickup_' + type) 

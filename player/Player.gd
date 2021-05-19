@@ -261,4 +261,5 @@ func limb_switch():
 
 
 func _on_TimerEnergy_timeout():
-	emit_signal("energy", -1) 
+	if self.is_physics_processing():
+		emit_signal("energy", -1) 

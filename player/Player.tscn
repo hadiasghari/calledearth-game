@@ -24,28 +24,28 @@
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
-atlas = ExtResource( 4 )
+atlas = ExtResource( 13 )
 region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
-atlas = ExtResource( 4 )
+atlas = ExtResource( 13 )
 region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 512, 0, 512, 512 )
+region = Rect2( 1536, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=5]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 1024, 0, 512, 512 )
+region = Rect2( 2048, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
@@ -55,34 +55,34 @@ region = Rect2( 1536, 0, 512, 512 )
 [sub_resource type="AtlasTexture" id=7]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 2048, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=8]
 flags = 4
 atlas = ExtResource( 13 )
-region = Rect2( 1536, 0, 512, 512 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=9]
 flags = 4
-atlas = ExtResource( 13 )
-region = Rect2( 1024, 0, 512, 512 )
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=10]
 flags = 4
-atlas = ExtResource( 13 )
+atlas = ExtResource( 4 )
 region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="SpriteFrames" id=11]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ) ],
-"loop": true,
-"name": "wings_idle",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "wings_fly",
 "speed": 20.0
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ) ],
+"loop": true,
+"name": "wings_idle",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=12]
@@ -162,69 +162,69 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=26]
 flags = 4
-atlas = ExtResource( 10 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=27]
 flags = 4
-atlas = ExtResource( 10 )
+atlas = ExtResource( 1 )
 region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=28]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 512, 512 )
+region = Rect2( 1024, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=29]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 512, 0, 512, 512 )
+region = Rect2( 1536, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=30]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 1024, 0, 512, 512 )
+region = Rect2( 2048, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=31]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 1536, 0, 512, 512 )
+region = Rect2( 2560, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=32]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 2048, 0, 512, 512 )
+region = Rect2( 3072, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=33]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 2560, 0, 512, 512 )
+region = Rect2( 3584, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=34]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 3072, 0, 512, 512 )
+region = Rect2( 4096, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=35]
 flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 3584, 0, 512, 512 )
+atlas = ExtResource( 10 )
+region = Rect2( 0, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=36]
 flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 4096, 0, 512, 512 )
+atlas = ExtResource( 10 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="SpriteFrames" id=37]
 animations = [ {
-"frames": [ SubResource( 26 ), SubResource( 27 ) ],
-"loop": true,
-"name": "leg_left_idle",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
+"frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ) ],
 "loop": true,
 "name": "leg_left_walk",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 35 ), SubResource( 36 ) ],
+"loop": true,
+"name": "leg_left_idle",
 "speed": 5.0
 } ]
 
@@ -298,18 +298,18 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=50]
 flags = 4
-atlas = ExtResource( 8 )
-region = Rect2( 0, 0, 87, 74 )
+atlas = ExtResource( 11 )
+region = Rect2( 0, 0, 118, 122 )
 
 [sub_resource type="AtlasTexture" id=51]
 flags = 4
-atlas = ExtResource( 18 )
-region = Rect2( 512, 0, 512, 512 )
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 87, 74 )
 
 [sub_resource type="AtlasTexture" id=52]
 flags = 4
-atlas = ExtResource( 11 )
-region = Rect2( 0, 0, 118, 122 )
+atlas = ExtResource( 18 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="AtlasTexture" id=53]
 flags = 4
@@ -335,17 +335,17 @@ region = Rect2( 1024, 0, 512, 512 )
 animations = [ {
 "frames": [ SubResource( 50 ) ],
 "loop": true,
-"name": "whistle",
+"name": "growl",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 51 ) ],
 "loop": true,
-"name": "yawn",
+"name": "whistle",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 52 ) ],
 "loop": true,
-"name": "growl",
+"name": "yawn",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 53 ) ],

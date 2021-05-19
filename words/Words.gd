@@ -13,16 +13,20 @@ func init(pos, text, ecode, maxlen, box_ix=-1):
 	
 	# estimate box size
 	var textlen = len(text)*16 + 100  # estimate with margin
-	var lines = min((textlen / maxlen) + 1, 4)  # 4 lines limit
+	var lines = min((textlen / maxlen) + 1, 4)  # 4 lines limit -- could be 5
 	var boxl = min(textlen, maxlen-100)
 	var boxh = lines * 50 + 20  # add margin		
 	var sz = Vector2(boxl, boxh)  # len(text) * 16 + 20 , 32
 	# resize all elements 
 	$Rect.set_size(sz)
+	$Rect.rect_position = -sz/2
 	$Label.set_size(sz)  # resizing this with center makes it nice
+	$Label.rect_position = -sz/2
+	
 	$Collision.shape = RectangleShape2D.new()  # we need a new one!
+	
 	$Collision.shape.set_extents(sz/2)	
-	$Collision.transform[2] = sz/2  # centers it	
+	# TEST: $Collision.transform[2] = sz/2  # centers it	
 	# position box at right or left 
 	position = pos + Vector2((0 if box_ix%2==1 else maxlen-boxl), -40)
 	# set bg color

@@ -74,7 +74,7 @@ func _on_Button_area_entered(_area):
 		$Button/CollisionShape2D.disabled = true  # so not to trigger again (for now ignore `defer` error, still works)
 		$Button/Audio.play()
 		$Button/AnimatedSprite.play()
-		emit_signal('activated')  # immediately freeze player
+		emit_signal('activated')  # immediately freeze player (via level)
 
 func _on_Button_animation_finished():
 	# the mechanism button has been pressed! activate!

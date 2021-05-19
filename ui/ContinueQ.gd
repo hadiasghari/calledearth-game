@@ -44,8 +44,9 @@ func _input(event):
 		emit_signal("answer", "y")
 
 func spawn_energy_item(etype):
+	print_debug("energy", etype)
 	var ei = Energy.instance()  				
 	# position randomly
-	var pos = Vector2(-900+randi()%1800, -500-randi()%1000)
+	var pos = Vector2(randi()%1900, randi()%1000)
 	ei.init(etype, "?", pos)
 	add_child(ei)	
