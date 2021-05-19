@@ -9,13 +9,16 @@ var scene_level01 = preload("res://levels/Level01.tscn").instance()
 var scene_level02 = preload("res://levels/Level02.tscn").instance()
 var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
 var scene_contq   = preload("res://ui/ContinueQ.tscn").instance()  
-var current_scene  # updated to whatever current scene is (for func calls)
 
 export var server = "heroku"
 export var start_level = 0  # game level, currently 0/1/2/99
 export var start_sublevel = ""  # define multiple save/status points in levels
 export var energy_start = 100
 export var energy_loss_fall = -50  # TODO: -30
+
+# internal state:
+var current_scene  # updated to whatever current scene is (for func calls)
+var is_dead = false
 
 
 func _ready():
@@ -68,7 +71,7 @@ func load_level_scene():
 			$HUD.hide_energy()
 			# game just started, no additional server log needed 
 		1: 
-			$HUD.update_energy(GLOBAL.energy)
+			$HUD.update_energy(0)
 			if GLOBAL.current_sublevel != "contq": 
 				current_scene = scene_level01
 				current_scene.reposition(GLOBAL.current_sublevel)  # current save
@@ -79,7 +82,7 @@ func load_level_scene():
 		2: 
 			current_scene = scene_level02
 			current_scene.reposition(GLOBAL.current_sublevel)
-			$HUD.update_energy(GLOBAL.energy)
+			$HUD.update_energy(0)
 			set_web_state("level", "L2." + GLOBAL.current_sublevel)
 		99: 
 			current_scene = scene_level99
@@ -104,15 +107,19 @@ func _on_player_switched(offset):
 func _on_player_energy(value):
 	$HUD.update_energy(value)
 	if GLOBAL.energy < 1:
-		current_scene.freeze_player(true)  # freeze's level music
+		if not is_dead:
+			# freeze's level music too. don't do this stuff if 
+			current_scene.freeze_player(true)  
 		$Audio/MusicHeart.play()
 		while GLOBAL.energy < 10:  # note 10 vs 1
 			$HUD.show_message("Energy critical, recharge!!", 1)	
 			yield(get_tree().create_timer(1), "timeout")   # does this cause crazy bug?
-		print_debug(GLOBAL.energy)  
+		#print_debug(GLOBAL.energy)  
 		$Audio/MusicHeart.stop() 
-		yield(get_tree().create_timer(1.5), "timeout")   # TEMP FIX to avoid unfreeze before repositioning after fall to avoid redeath. (better would be to keep the 'just fell' state in player or in the death-fall signal)
-		current_scene.freeze_player(false)
+		# TEMP sleep-timeout to avoid unfreeze before repositioning after fall doesn't work
+		if not is_dead:
+			# the dead need to be unfrozen after repositioning
+			current_scene.freeze_player(false)
 	
 	
 func _on_HTTPRequestGame_completed(_result, _response_code, _headers, body):
@@ -151,8 +158,11 @@ func _on_HTTPRequestOnlineInfo_completed(_result, _response_code, _headers, body
 			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
 
 
+
+
 func _on_player_dead(_why):
-	print_debug("player dead: " + _why)
+	#print_debug("player dead: " + _why)
+	is_dead = true  # player already frozen by itself, state for here 
 	$HUD.show_message("Uh-oh!", 5)		
 	$HUD.update_energy(energy_loss_fall)	
 	$Audio/MusicDead.stream.set_loop(false) 	
@@ -164,17 +174,16 @@ func _on_player_dead(_why):
 func _on_MusicDead_finished():
 	# REVIVAL LOGIC! (check if we have energy or need some to revive)
 	if GLOBAL.energy < 1:
+		#print_debug('revival state')
 		set_web_state("revival", "")
-		# scene already frozen and music stopped, so no need for: current_scene.freeze_player(true)
-		$Audio/MusicHeart.play()
+		_on_player_energy(0)  # this will start the heart music & HUD message... 
 		while GLOBAL.energy < 10:  # 
-			$HUD.show_message("Energy critical, recharge!!", 1)	
-			yield(get_tree().create_timer(1), "timeout")   # 
-		#print_debug(GLOBAL.energy) 
-		$Audio/MusicHeart.stop()  
+			yield(get_tree().create_timer(1), "timeout")   #  
+	#print_debug('repositioning...')
 	current_scene.reposition(GLOBAL.current_sublevel)
 	current_scene.freeze_player(false)
-
+	is_dead = false
+	
 
 func _on_level_milestone(what):
 	# mielstones are: save points, button finished points (also saved points), 

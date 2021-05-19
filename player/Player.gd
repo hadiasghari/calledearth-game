@@ -24,6 +24,7 @@ func _ready():
 	
 
 func freeze_player(is_dead):
+	#print_debug('freeze_player: ', is_dead)
 	if is_dead == true:
 		set_physics_process(false)  # necessary to avoid hogging system, plus dramatic effects
 		$TimerEnergy.stop()

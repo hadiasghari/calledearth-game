@@ -10,12 +10,14 @@ var Energy = preload('res://items/Energy.tscn')
 
 
 func reposition(loc):
+	print_debug("reposition:", loc)
 	# In case we stopped Music or physics on last death:	
 	# Note: we don't respawn collectibles, or reset limbs, which turned out well during prototype test
 	# reposition player
 	match loc:
-		'': pass  # don't respoition (for testing start wherever player is)
-		'0': $Player.position = Vector2(300, -400)  # empty is level start (previsouly '0')
+		'-': pass  # don't respoition (for testing start wherever player is)
+		'': $Player.position = Vector2(300, -400)  # level start
+		'0': $Player.position = Vector2(300, -400)  
 		'btn1': $Player.position = $WriteButton1.position + Vector2($WriteButton1.platform_length*2, -400)
 		# TESTING ONLY (not possible in game play):
 		'btn1-': $Player.position = $WriteButton1.position + Vector2(-150, 0)
@@ -23,6 +25,8 @@ func reposition(loc):
 		'btn2': $Player.position = $WriteButton2.position + Vector2($WriteButton2.platform_length*2, 0)	 # cannot really die after btn2		
 		var unknown:
 			print_debug('Unknown location for reposition requested: ' + str(unknown))
+			
+	# OR NOT ... $Player.freeze_player(false)  # in case we're coming from a fall
 
 	
 func _ready():
@@ -71,11 +75,13 @@ func _on_pickup_victory():
 	emit_signal('milestone', 'dance')  
 	
 func freeze_player(pause_state):
+	print_debug("L1 freeze_player: ", pause_state)
 	if pause_state:
-		$MusicLevel.pause()		
+		$MusicLevel.stream_paused = true  # to continue music
 		$Player.freeze_player(true)
+		# note (.get_tree().paused=true pauses *everything* hence not...)
 	else:
-		$MusicLevel.play()		
+		$MusicLevel.stream_paused = false
 		$Player.freeze_player(false)
 
 func spawn_energy_item(etype):
