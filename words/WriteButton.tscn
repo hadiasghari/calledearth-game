@@ -53,10 +53,10 @@ use_filter = true
 font_data = ExtResource( 5 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 500, 10 )
+extents = Vector2( 250, 10 )
 
 [sub_resource type="RectangleShape2D" id=11]
-extents = Vector2( 500, 20 )
+extents = Vector2( 250, 20 )
 
 [node name="WriteButton" type="Node2D"]
 script = ExtResource( 2 )
@@ -127,9 +127,6 @@ __meta__ = {
 
 [node name="ExitArea" type="Area2D" parent="."]
 position = Vector2( 250, 0 )
-space_override = 3
-linear_damp = 10.0
-angular_damp = 10.0
 collision_layer = 128
 collision_mask = 64
 __meta__ = {

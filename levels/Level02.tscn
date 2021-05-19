@@ -780,7 +780,7 @@ autoplay = true
 
 [node name="MusicWriting" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
-volume_db = -10.0
+volume_db = -15.0
 
 [connection signal="activated" from="WriteButton1" to="." method="_on_Buttons_activated"]
 [connection signal="deactivated" from="WriteButton1" to="." method="_on_Buttons_deactivated" binds= [ 1 ]]

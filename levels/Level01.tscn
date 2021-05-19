@@ -9,7 +9,7 @@
 [ext_resource path="res://assets/art/collect items/collect_item_aqua.png" type="Texture" id=7]
 [ext_resource path="res://assets/art/tile_set/500_tilemap.png" type="Texture" id=8]
 [ext_resource path="res://assets/art/decorative objects/Lvl 1 objects.png" type="Texture" id=9]
-[ext_resource path="res://assets/sounds/soundtrack/soundtrack_segue.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/sounds/soundtrack/soundtrack_music_for_writing.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/art/collect items/Switch button.png" type="Texture" id=11]
 [ext_resource path="res://assets/fonts/instruction_font.tres" type="DynamicFont" id=12]
 [ext_resource path="res://assets/art/danger/Spikes.png" type="Texture" id=15]
@@ -503,8 +503,8 @@ position = Vector2( 10864, -1252.86 )
 [node name="WriteButton1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 10695.4, -1979.64 )
 prompt_key = 11
-platform_offset = Vector2( 250, 1150 )
-platform_length = 650
+platform_offset = Vector2( 275, 1150 )
+platform_length = 625
 prompt_offset = Vector2( 300, -200 )
 exitarea_offset = Vector2( 250, 50 )
 camera_offset = Vector2( 0, -100 )

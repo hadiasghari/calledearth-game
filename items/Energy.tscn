@@ -9,6 +9,8 @@ radius = 32.8392
 height = 13.8736
 
 [node name="EnergyItem" type="RigidBody2D"]
+collision_layer = 256
+collision_mask = 0
 gravity_scale = -1.0
 script = ExtResource( 2 )
 
@@ -22,6 +24,7 @@ autostart = true
 
 [node name="Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+volume_db = -10.0
 
 [node name="Tween1" type="Tween" parent="."]
 

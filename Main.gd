@@ -110,7 +110,8 @@ func _on_player_energy(value):
 			$HUD.show_message("Energy critical, recharge!!", 1)	
 			yield(get_tree().create_timer(1), "timeout")   # does this cause crazy bug?
 		print_debug(GLOBAL.energy)  
-		$Audio/MusicHeart.stop()  
+		$Audio/MusicHeart.stop() 
+		yield(get_tree().create_timer(1.5), "timeout")   # TEMP FIX to avoid unfreeze before repositioning after fall to avoid redeath. (better would be to keep the 'just fell' state in player or in the death-fall signal)
 		current_scene.freeze_player(false)
 	
 	

@@ -72,7 +72,7 @@ func _on_pickup_victory():
 	
 func freeze_player(pause_state):
 	if pause_state:
-		$MusicLevel.stop()		
+		$MusicLevel.pause()		
 		$Player.freeze_player(true)
 	else:
 		$MusicLevel.play()		
@@ -86,10 +86,11 @@ func spawn_energy_item(etype):
 	add_child(ei)				
 			
 func _on_Buttons_deactivated(num):
-	print_debug("DEACTIVATE: " + str(num))
+	#print_debug("DEACTIVATE: " + str(num))
 	$Player/Camera2D.current = true  # return camera!
-	$MusicWriting.stop()
-	$MusicLevel.play()
+	if $MusicWriting.playing:  # necessary check if we get called twice
+		$MusicWriting.stop()
+		$MusicLevel.play()
 	$Player.set_physics_process(true)
 	emit_signal('milestone', 'btn' + str(num))  
 

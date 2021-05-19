@@ -5,8 +5,8 @@ var BoxColors = ["#FFA7A7", "#00F6F6", "#A7FF63", "#FFE160"]
 func init(pos, text, ecode, maxlen, box_ix=-1):
 	# we use the same font-size so the box adjusts
 	# we thus set a limit of 140 characters to make sizing easier
-	if len(text) > 140:
-		text = text.left(140) + "..."	
+	if len(text) > 120:
+		text = text.left(120) + "..."	
 	text = text.replace("\n", "")  # new lines mess the box height
 	text = char(ecode) + " " + text
 	$Label.text = text		

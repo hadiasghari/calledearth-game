@@ -216,6 +216,7 @@ test_recharge={
 2d_physics/layer_6="enemies"
 2d_physics/layer_7="words"
 2d_physics/layer_8="milestones"
+2d_physics/layer_9="energy"
 
 [rendering]
 
