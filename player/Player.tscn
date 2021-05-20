@@ -298,62 +298,47 @@ animations = [ {
 
 [sub_resource type="AtlasTexture" id=50]
 flags = 4
-atlas = ExtResource( 11 )
-region = Rect2( 0, 0, 118, 122 )
-
-[sub_resource type="AtlasTexture" id=51]
-flags = 4
-atlas = ExtResource( 8 )
-region = Rect2( 0, 0, 87, 74 )
-
-[sub_resource type="AtlasTexture" id=52]
-flags = 4
-atlas = ExtResource( 18 )
-region = Rect2( 512, 0, 512, 512 )
-
-[sub_resource type="AtlasTexture" id=53]
-flags = 4
 atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 111, 135 )
 
-[sub_resource type="AtlasTexture" id=54]
+[sub_resource type="AtlasTexture" id=51]
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=55]
+[sub_resource type="AtlasTexture" id=52]
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 512, 0, 512, 512 )
 
-[sub_resource type="AtlasTexture" id=56]
+[sub_resource type="AtlasTexture" id=53]
 flags = 4
 atlas = ExtResource( 3 )
 region = Rect2( 1024, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=54]
+flags = 4
+atlas = ExtResource( 11 )
+region = Rect2( 0, 0, 118, 122 )
+
+[sub_resource type="AtlasTexture" id=55]
+flags = 4
+atlas = ExtResource( 8 )
+region = Rect2( 0, 0, 87, 74 )
+
+[sub_resource type="AtlasTexture" id=56]
+flags = 4
+atlas = ExtResource( 18 )
+region = Rect2( 512, 0, 512, 512 )
 
 [sub_resource type="SpriteFrames" id=57]
 animations = [ {
 "frames": [ SubResource( 50 ) ],
 "loop": true,
-"name": "growl",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 51 ) ],
-"loop": true,
-"name": "whistle",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 52 ) ],
-"loop": true,
-"name": "yawn",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 53 ) ],
-"loop": true,
 "name": "sing",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 54 ), SubResource( 55 ), SubResource( 56 ) ],
+"frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ) ],
 "loop": true,
 "name": "default_smile",
 "speed": 5.0
@@ -361,6 +346,21 @@ animations = [ {
 "frames": [ ExtResource( 21 ) ],
 "loop": true,
 "name": "dies",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 54 ) ],
+"loop": true,
+"name": "growl",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 55 ) ],
+"loop": true,
+"name": "whistle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 56 ) ],
+"loop": true,
+"name": "yawn",
 "speed": 5.0
 } ]
 
@@ -390,7 +390,7 @@ __meta__ = {
 position = Vector2( -2.24114, -41.5938 )
 scale = Vector2( 0.99, 0.78 )
 stream = ExtResource( 19 )
-volume_db = -5.0
+volume_db = -8.0
 __meta__ = {
 "_edit_lock_": true
 }

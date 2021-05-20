@@ -9,7 +9,7 @@
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
 start_level = 2
-start_sublevel = "btn2"
+start_sublevel = "btn1"
 
 [node name="CurrentScene" type="Node2D" parent="."]
 

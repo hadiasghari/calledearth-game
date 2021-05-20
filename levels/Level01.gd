@@ -22,7 +22,7 @@ func reposition(loc):
 		'btn1': $Player.position = $WriteButton1.position + Vector2($WriteButton1.platform_length*2, -400)
 		# TESTING ONLY (not possible in game play):
 		'btn1-': $Player.position = $WriteButton1.position + Vector2(-150, 0)
-		'btn2-': $Player.position = $WriteButton2.position + Vector2(-150, 0)
+		'btn2-': $Player.position = $WriteButton2.position + Vector2(-150, -200)
 		'btn2': $Player.position = $WriteButton2.position + Vector2($WriteButton2.platform_length*2, 0)	 # cannot really die after btn2		
 		var unknown:
 			print_debug('Unknown location for reposition requested: ' + str(unknown))
