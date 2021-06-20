@@ -71,17 +71,19 @@ func _process(_delta):
 func _on_Button_area_entered(_area):
 	# activated
 	if not Engine.editor_hint:
-		$Button/CollisionShape2D.disabled = true  # so not to trigger again (for now ignore `defer` error, still works)
+		$Button/CollisionShape2D.disabled = true  
+			# so not to trigger again 
+			# TODO: FIX THE `defer` error raised below by Godot (see TODO notes for story)
 		$Button/Audio.play()
 		$Button/AnimatedSprite.play()
 		emit_signal('activated')  # immediately freeze player (via level)
+		_is_activated = true  # this must be here so it can be deactivated
 
 func _on_Button_animation_finished():
 	# the mechanism button has been pressed! activate!
 	yield(get_tree().create_timer(1), "timeout")
 	$Platform/CollisionShape2D.disabled = false
 	$Platform/Camera2D.current = true
-	_is_activated = true
 	set_web_prompt()
 
 func set_web_prompt():		

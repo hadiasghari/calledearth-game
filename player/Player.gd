@@ -10,7 +10,7 @@ export (int) var gravity = 4000
 export (int) var pos_y_dead = 2000
 
 var velocity = Vector2.ZERO
-var devoffset = 0  # responds to rotate and limb_switch
+var _collisions_seen = {}
 
 				
 func _ready():
@@ -21,7 +21,6 @@ func _ready():
 	$mouth/yawn.stream.set_loop(false)		
 	$wings/Sound.stream.set_loop(false)			
 	# (defaults already: $arms/arm_L.animation = "push")
-	
 
 func freeze_player(is_dead):
 	#print_debug('freeze_player: ', is_dead)
@@ -48,7 +47,6 @@ func freeze_player(is_dead):
 	$leg_R.self_modulate = filter
 	$mouth.self_modulate = filter
 
-
 func stop_animations():
 	# function called for writing button in case legs still moving...
 	$wings/Sprite.stop()
@@ -56,8 +54,15 @@ func stop_animations():
 	$leg_R.stop()
 
 
+var devoffset = 0
+ 
+func limb_switch():
+	devoffset += 1		
+	print_debug('device-offset: ' + str(devoffset))
+	emit_signal('switched', devoffset%4)  # inform eg for HUD
+
 func get_input():
-		# logic for rotating functions of four controllers
+	# logic for rotating functions of four controllers
 	if Input.is_action_just_pressed("rotate"):
 		limb_switch()
 
@@ -79,9 +84,6 @@ func get_input():
 		motion_legr = -1
 
 	velocity.x = pow(motion_legl + motion_legr, 3) * speed	
-	# friction/acceleration based speed (not in use)
-	#	velocity.x = lerp(velocity.x, dir * speed, acceleration)
-	#	velocity.x = lerp(velocity.x, 0, friction)		
 			
 	if velocity.x != 0:
 		if abs(motion_legl) > 0:
@@ -141,7 +143,7 @@ func get_input():
 			$arms/arm_R.play()	
 				
 	# IV. finally, logic for mouth (all devices)
-	# NOTE: if we odn't want mixing of sounds at one time, 
+	# NOTE: if we don't want mixing of sounds at one time, 
 	#       we should have one audio2d and stop/restart it
 	if Input.is_action_just_pressed(dev0 + "_mouth"):
 		$mouth.animation = "growl"
@@ -157,9 +159,6 @@ func get_input():
 		$mouth/yawn.play()
 
 
-var _collisions_seen = {}
-
-
 func _physics_process(delta):
 	get_input()  # sets velocity.x and motions
 	
@@ -170,31 +169,17 @@ func _physics_process(delta):
 		velocity.x = 0  # avoid very small slides for smoothness
 		
 	# process collisions
-	# most are handled automatically/in own objects, below is mainly a logger
-	# (also note nothing here when hand touches button, we collect item, or fall on L1Spikes) 	
+	# (note most colluisions are handled automatically or in own objects)
 	for i in range(get_slide_count()):
-		var collision = get_slide_collision(i)
-		var coname = collision.collider.name.to_lower()
-		coname = "@words" if coname.begins_with("@words") else coname
-		coname = "movingplatform" if coname.begins_with("movingplatform") else coname
-		match coname:
-			"tilemap_world_l1": pass
-			"tilemap_world_l2": pass
-			"words": pass  # static body, reacts self
-			"@words": pass  # which are these, i wonder
-			"platform": pass  # the words platform
-			"movingplatform": pass
-			"plasticbag": pass  # get's handled via bag/level signals
-			"tilemap_danger":
-				# TODO: we sometimes emit this dead signal twice, why?
-				print_debug('player collide tilemap_danger!')
-				freeze_player(true)
-				emit_signal('dead', 'mapdanger')
-			var other: 
-				if _collisions_seen.get(other) == null:
-					print_debug("player collision: " + other) 
-					_collisions_seen[other] = 1
-
+		var coname = get_slide_collision(i).collider.name.to_lower()
+		if coname == "tilemap_danger":
+			# (do we sometimes emit this dead signal twice, if so why?)
+			freeze_player(true)
+			emit_signal('dead', 'mapdanger')
+		# else: 
+		# 	if _collisions_seen.get(other) == null:
+		#	print_debug("player collision: " + other) 
+		#	_collisions_seen[other] = 1
 	
 	# some more of the logic for the jump
 	var dev2 = "dev" + str((2 + devoffset) % 4)
@@ -224,7 +209,6 @@ func _on_sound_yawn_finished():
 	$mouth.animation = "default_smile"
 	$mouth.play()
 
-
 func _on_arm_R_animation_finished():
 	$arms/Collision_R.disabled = false	
 	yield(get_tree().create_timer(1), "timeout")
@@ -240,7 +224,6 @@ func _on_arm_L_animation_finished():
 	$arms/arm_L.frame = 0
 	$arms/arm_L.stop()
 
-
 func _on_arms_body_entered(body):
 	# This is entered when we PUSH WORDS
 	# TODO: this is somewhat clunky, even with arms & wings... (learn `impulse`)
@@ -253,19 +236,11 @@ func _on_arms_body_entered(body):
 			print('push word right')			
 			body.apply_impulse(Vector2(), Vector2(-3000, 0) )
 
-
 func _on_wings_body_entered(body):
 	if 'RigidBody' in str(body):
 		if $wings/Collision.visible:  # why is this necessary?
 			#print_debug(body)
 			body.apply_impulse(Vector2(), Vector2(0, -5000) )
- 
-
-func limb_switch():
-	devoffset += 1		
-	print_debug('device-offset: ' + str(devoffset))
-	emit_signal('switched', devoffset%4)  # inform eg for HUD
-
 
 func _on_TimerEnergy_timeout():
 	if self.is_physics_processing():

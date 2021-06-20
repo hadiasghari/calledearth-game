@@ -80,7 +80,7 @@ func load_level_scene():
 			if GLOBAL.current_sublevel != "contq": 
 				current_scene = scene_level01
 				current_scene.reposition(GLOBAL.current_sublevel)  # current save
-				set_web_state("level", "L1." + GLOBAL.current_sublevel)
+				set_web_state("play", "L1." + GLOBAL.current_sublevel)
 			else:
 				current_scene = scene_contq
 				set_web_state("contq", "")
@@ -88,7 +88,7 @@ func load_level_scene():
 			current_scene = scene_level02
 			current_scene.reposition(GLOBAL.current_sublevel)
 			$HUD.update_energy(0)
-			set_web_state("level", "L2." + GLOBAL.current_sublevel)
+			set_web_state("play", "L2." + GLOBAL.current_sublevel)
 		99: 
 			current_scene = scene_level99
 			$HUD.hide_energy()
@@ -103,7 +103,7 @@ func load_level_scene():
 func _on_player_switched(offset):
 	# simply update HUD (see design notes at top)
 	# (we could log this even to db too but unnecessary) 
-	set_web_state('event', 'limb-switch')
+	# TODO: `set_web_state('event', 'limb-switch')` with file-based-gamelog
 	match offset:
 		0: $HUD.show_message("Limb Switch!*")
 		_: $HUD.show_message("Limb Switch!")
@@ -119,7 +119,7 @@ func _on_player_energy(value):
 		while GLOBAL.energy < 10:  # note 10 vs 1
 			$HUD.show_message("Energy critical, recharge!!", 1)	
 			yield(get_tree().create_timer(1), "timeout")   # does this cause crazy bug?
-		#print_debug(GLOBAL.energy)  
+		# print_debug(GLOBAL.energy)  
 		$Audio/MusicHeart.stop() 
 		# TEMP sleep-timeout to avoid unfreeze before repositioning after fall doesn't work
 		if not is_dead:
@@ -140,12 +140,14 @@ func _on_HTTPRequestGame_completed(_result, _response_code, _headers, body):
 func _on_TimerOnlineInfo_timeout():
 	var request = HTTPRequest.new()
 	$HTTP.add_child(request)
-	request.connect("request_completed", self, "_on_HTTPRequestOnlineInfo_completed")
-	request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id) 	
+	var _err
+	_err = request.connect("request_completed", self, "_on_HTTPRequestOnlineInfo_completed")
+	_err = request.request(GLOBAL.server_url + "/earth/gogetstats/" + GLOBAL.game_id) 	
 	# DESIGNQ: do we need to free the node now that the request is done? 
 	#         (if so how/where?) (netstat shows a slow build up of closed state ports)
 	#         (we could reuse, but I am worried if a request doesn't complete, comms will block)	
-
+	#         Note, this point relates to the current PRIORITY TODO item (in TODO file)
+	
 	
 func _on_HTTPRequestOnlineInfo_completed(_result, _response_code, _headers, body):
 	if body.get_string_from_utf8():
@@ -163,8 +165,6 @@ func _on_HTTPRequestOnlineInfo_completed(_result, _response_code, _headers, body
 			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
 
 
-
-
 func _on_player_dead(_why):
 	#print_debug("player dead: " + _why)
 	is_dead = true  # player already frozen by itself, state for here 
@@ -172,8 +172,8 @@ func _on_player_dead(_why):
 	$HUD.update_energy(energy_loss_fall)	
 	$Audio/MusicDead.stream.set_loop(false) 	
 	$Audio/MusicDead.play()
-	set_web_state("event", "dead-" + _why)	
-	# revival will happen once this dead music finishes playing!	
+	# TODO: `set_web_state("event", "dead-" + _why)` with file based gamelog	
+	# (revival will happen once this dead music finishes playing!)
 
 
 func _on_MusicDead_finished():
@@ -184,7 +184,6 @@ func _on_MusicDead_finished():
 		_on_player_energy(0)  # this will start the heart music & HUD message... 
 		while GLOBAL.energy < 10:  # 
 			yield(get_tree().create_timer(1), "timeout")   #  
-	#print_debug('repositioning...')
 	current_scene.reposition(GLOBAL.current_sublevel)
 	current_scene.freeze_player(false)
 	is_dead = false
@@ -206,7 +205,7 @@ func _on_level_milestone(what):
 	elif what.begins_with("btn") or what.begins_with("sav"):
 		# milestone reached, save it to globa, inform server 
 		GLOBAL.current_sublevel = what
-		set_web_state("milestone", "L" + str(GLOBAL.current_level) + "_" + what)		
+		# TODO: `set_web_state("milestone", "L" + str(GLOBAL.current_level) + "_" + what)` -- replace with filebased gamelog	
 	else:
 		print_debug("UNKNOWN milestone?!!!" )
 
@@ -240,12 +239,14 @@ func _on_contq_answer(value):
 	
 
 func _on_level_powerup():
-	set_web_state("event", "powerup")
+	# TODO: set_web_state("event", "powerup")  replace with gamelog to file
 	$HUD.show_message("+50 EP!", 2)
 	_on_player_energy(50)
 
 
 func set_web_state(state, extra_info):
+	# TODO: 20210521 in order to reduce network traffic the server should only be used for changes in gamestate
+	#               that effect the mobile UX. the gamelogs should happen in a local text file. ;)
 	var request = HTTPRequest.new() 
 	# (Q ever, should we create a new request each time or reuse; if new, should we free it somewhere?)
 	add_child(request)   
@@ -259,7 +260,7 @@ func _input(event):
 	# secret cheat to skip ahead in each level till almost end
 	if Input.is_action_just_pressed("test_skip_to_end"):
 		if GLOBAL.current_level == 1 or GLOBAL.current_level == 2: 
-			set_web_state("event", "skip-to-end")
+			# TODO: `set_web_state("event", "skip-to-end")` replace with file-based gamelog
 			GLOBAL.current_sublevel = "btn2-"
 			current_scene.reposition(GLOBAL.current_sublevel)
 		
