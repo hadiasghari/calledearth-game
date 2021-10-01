@@ -726,6 +726,9 @@ position = Vector2( 9120.79, -1112.81 )
 [node name="Save3" parent="." instance=ExtResource( 17 )]
 position = Vector2( 20002.2, -1603.62 )
 
+[node name="FlagBut1" parent="." instance=ExtResource( 17 )]
+position = Vector2( 15335.3, -1754.64 )
+
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 228.139, -105.449 )
 scale = Vector2( 0.5, 0.5 )

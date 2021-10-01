@@ -74,7 +74,8 @@ func _on_Button_area_entered(_area):
 		$Button/CollisionShape2D.disabled = true  
 			# so not to trigger again 
 			# TODO: FIX THE `defer` error raised below by Godot (see TODO notes for story)
-		$Button/Audio.play()
+		if not _is_activated:
+			$Button/Audio.play()
 		$Button/AnimatedSprite.play()
 		emit_signal('activated')  # immediately freeze player (via level)
 		_is_activated = true  # this must be here so it can be deactivated

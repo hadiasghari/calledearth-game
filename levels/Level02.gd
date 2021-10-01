@@ -37,11 +37,11 @@ func reposition(loc):
 		'': $Player.position = Vector2(300, -400)  # start
 		'0': $Player.position = Vector2(300, -400)
 		'start': $Player.position = Vector2(300, -400)		
-		'sav1': $Player.position = $Save1.position + Vector2(0, -100)
-		'sav2': $Player.position = $Save2.position + Vector2(0, -100)		
+		'sav1': $Player.position = $Save1.position + Vector2(0, -75)
+		'sav2': $Player.position = $Save2.position + Vector2(0, -50)		
 		'btn1-': $Player.position = $WriteButton1.position + Vector2(-150, 0)
-		'btn1+': $Player.position = $WriteButton1.position + Vector2($WriteButton1.platform_length*2, -400)
-		'sav3': $Player.position = $Save3.position + Vector2(0, -100)		
+		'btn1+': $Player.position = $WriteButton1.position + Vector2($WriteButton1.platform_length*2 -400, -400)
+		'sav3': $Player.position = $Save3.position + Vector2(0, -75)		
 		'btn2-': $Player.position = $WriteButton2.position + Vector2(-150, 0)
 		'btn2+': $Player.position = $WriteButton2.position + Vector2($WriteButton2.platform_length*2, -400)	 # cannot really die after btn2		
 		'default': pass  # don't respoition (for testing start wherever player is)

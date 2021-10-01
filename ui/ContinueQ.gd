@@ -46,6 +46,7 @@ func _input(event):
 		print_debug("condition met")
 		emit_signal("answer", "y")
 
+
 func spawn_energy_item(etype):
 	#print_debug("energy", etype)
 	var ei = Energy.instance()  				
@@ -53,3 +54,8 @@ func spawn_energy_item(etype):
 	var pos = Vector2(randi()%1900, randi()%1000)
 	ei.init(etype, "?", pos)
 	add_child(ei)	
+
+
+func freeze_player(pause_state):
+	# we might end up here due to unepxected code paths. simply ignore to avoid a crash
+	pass

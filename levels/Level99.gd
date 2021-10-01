@@ -7,4 +7,7 @@ func _ready():
 	pass 
 
 func spawn_energy_item(_etype):
-	pass   # do nothing, shouldn't even call here :) (might due to race condition)
+	# do nothing, shouldn't even call here :) (might due to race condition)
+	# TODO: in the rare condition that this does get called, then the 
+	#       energy bar would reappear, so we should disable it here :)
+	pass   

@@ -118,7 +118,8 @@ func _on_player_energy(value):
 	if GLOBAL.energy < 1:
 		if not is_dead:
 			# freeze's level music too. don't do this stuff if 
-			current_scene.freeze_player(true)  
+			if current_scene:
+				current_scene.freeze_player(true)  
 		$Audio/MusicHeart.play()
 		while GLOBAL.energy < 10:  # note 10 vs 1
 			$HUD.show_message("Energy critical, recharge!!", 1)	
@@ -128,7 +129,8 @@ func _on_player_energy(value):
 		# TEMP sleep-timeout to avoid unfreeze before repositioning after fall doesn't work
 		if not is_dead:
 			# the dead need to be unfrozen after repositioning
-			current_scene.freeze_player(false)
+			if current_scene:
+				current_scene.freeze_player(false)
 	
 	
 func _on_HTTPRequestGame_completed(_result, _response_code, _headers, body):
@@ -189,8 +191,9 @@ func _on_MusicDead_finished():
 		_on_player_energy(0)  # this will start the heart music & HUD message... 
 		while GLOBAL.energy < 10:  # 
 			yield(get_tree().create_timer(1), "timeout")   #  
-	current_scene.reposition(GLOBAL.current_sublevel)
-	current_scene.freeze_player(false)
+	if current_scene:
+		current_scene.reposition(GLOBAL.current_sublevel)
+		current_scene.freeze_player(false)
 	is_dead = false
 	set_web_state("play", "")
 	
@@ -277,6 +280,7 @@ func _populate_Level_Options():
 	$LevelMenu/Grid/OptionL1.add_item("btn1+")
 	$LevelMenu/Grid/OptionL1.add_item("btn2-")
 	$LevelMenu/Grid/OptionL1.add_item("btn2+")
+	$LevelMenu/Grid/OptionL1.add_item("contq")
 	$LevelMenu/Grid/OptionL1.add_item("default")
 	$LevelMenu/Grid/OptionL2.add_item("start")
 	$LevelMenu/Grid/OptionL2.add_item("sav1")
