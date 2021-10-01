@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/optimistic wanderer.ogg-8f6d1d86eb5ffe323aa025017aad7b93.oggstr"
+
+[deps]
+
+source_file="res://assets/sounds/soundtrack/optimistic wanderer.ogg"
+dest_files=[ "res://.import/optimistic wanderer.ogg-8f6d1d86eb5ffe323aa025017aad7b93.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
