@@ -11,10 +11,11 @@ var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
 var scene_contq   = preload("res://ui/ContinueQ.tscn").instance()  
 
 export var server = "heroku"
-export var start_level = 0  # game level, currently 0/1/2/99
-export var start_sublevel = ""  # define multiple save/status points in levels
 export var energy_start = 100
 export var energy_loss_fall = -30
+# the following has been replaced with the menu at the start
+#export var start_level = 2  # game level, currently 0/1/2/99
+#export var start_sublevel = "btn2"  # define multiple save/status points in levels
 
 # internal state:
 var current_scene  # updated to whatever current scene is (for func calls)
@@ -41,6 +42,9 @@ func _ready():
 	_err = scene_level02.connect("milestone", self, "_on_level_milestone")
 	_err = scene_level02.connect("powerup", self, "_on_level_powerup")		
 	_err = scene_contq.connect("answer", self, "_on_contq_answer")
+	
+	_populate_Level_Options()
+	
 	# get a new gameid, also give server a bit of time to respond
 	if server == 'heroku' or server == 'local':
 		GLOBAL.server_url = {'heroku': 'https://calledearth.herokuapp.com',
@@ -50,11 +54,9 @@ func _ready():
 	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
 	yield(get_tree().create_timer(2), "timeout") 
 	# set levels & start	
-	GLOBAL.current_level = start_level
-	GLOBAL.current_sublevel = start_sublevel
 	GLOBAL.energy = energy_start
-	load_level_scene() 
-	
+	# the level is now set once the buttons are selected
+
 
 func _on_start_game():	
 	# this is called only within level00/titlepage; 
@@ -69,6 +71,8 @@ func load_level_scene():
 	#  this form of removal we use keeps the node data in case we want it
 	for c in $CurrentScene.get_children():
 		$CurrentScene.remove_child(c)
+		
+	$LevelMenu.visible = false  # in case this is still showing
 	
 	match GLOBAL.current_level:				
 		0: 
@@ -157,10 +161,11 @@ func _on_HTTPRequestOnlineInfo_completed(_result, _response_code, _headers, body
 			for emoji in response['participants']:
 				s += char(emoji)
 			$HUD.update_users(s)
-			for etyp in response['q_energy']:
-				current_scene.spawn_energy_item(etyp) 
-				var eval = -1 if etyp == "m" or etyp == "s" else 1
-				_on_player_energy(eval)
+			if current_scene:
+				for etyp in response['q_energy']:
+					current_scene.spawn_energy_item(etyp)  # note, this func can be moved to main
+					var eval = -1 if etyp == "m" or etyp == "s" else 1
+					_on_player_energy(eval)
 		else:
 			print_debug('parsing error: ' + str(body.get_string_from_utf8()) )
 
@@ -264,3 +269,39 @@ func _input(event):
 			GLOBAL.current_sublevel = "btn2-"
 			current_scene.reposition(GLOBAL.current_sublevel)
 		
+
+## The starting level menu choices:
+func _populate_Level_Options():
+	$LevelMenu/Grid/OptionL1.add_item("start")
+	$LevelMenu/Grid/OptionL1.add_item("btn1-")
+	$LevelMenu/Grid/OptionL1.add_item("btn1+")
+	$LevelMenu/Grid/OptionL1.add_item("btn2-")
+	$LevelMenu/Grid/OptionL1.add_item("btn2+")
+	$LevelMenu/Grid/OptionL1.add_item("default")
+	$LevelMenu/Grid/OptionL2.add_item("start")
+	$LevelMenu/Grid/OptionL2.add_item("sav1")
+	$LevelMenu/Grid/OptionL2.add_item("btn1-")
+	$LevelMenu/Grid/OptionL2.add_item("btn1+")
+	$LevelMenu/Grid/OptionL2.add_item("btn2-")
+	$LevelMenu/Grid/OptionL2.add_item("btn2+")
+	$LevelMenu/Grid/OptionL2.add_item("default")
+	
+func _on_ButtonL0_pressed():
+	GLOBAL.current_level = 0
+	load_level_scene() 
+	
+func _on_ButtonL99_pressed():
+	GLOBAL.current_level = 99
+	load_level_scene() 
+	
+func _on_ButtonL1_pressed():
+	GLOBAL.current_level = 1
+	GLOBAL.current_sublevel = $LevelMenu/Grid/OptionL1.text
+	print_debug("Switching to L1." + GLOBAL.current_sublevel)
+	load_level_scene() 
+
+func _on_ButtonL2_pressed():
+	GLOBAL.current_level = 2
+	GLOBAL.current_sublevel = $LevelMenu/Grid/OptionL2.text
+	print_debug("Switching to L2." + GLOBAL.current_sublevel)
+	load_level_scene() 

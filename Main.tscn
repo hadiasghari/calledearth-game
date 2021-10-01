@@ -31,7 +31,70 @@ stream = ExtResource( 4 )
 stream = ExtResource( 3 )
 volume_db = 10.0
 
+[node name="LevelMenu" type="CenterContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_right = 1920.0
+margin_bottom = 950.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Grid" type="GridContainer" parent="LevelMenu"]
+margin_left = 900.0
+margin_top = 429.0
+margin_right = 1020.0
+margin_bottom = 521.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonL0" type="Button" parent="LevelMenu/Grid"]
+margin_right = 87.0
+margin_bottom = 20.0
+text = "Title Screen"
+
+[node name="blank" type="MarginContainer" parent="LevelMenu/Grid"]
+margin_left = 91.0
+margin_right = 120.0
+margin_bottom = 20.0
+
+[node name="ButtonL1" type="Button" parent="LevelMenu/Grid"]
+margin_top = 24.0
+margin_right = 87.0
+margin_bottom = 44.0
+text = "Level 1"
+
+[node name="OptionL1" type="OptionButton" parent="LevelMenu/Grid"]
+margin_left = 91.0
+margin_top = 24.0
+margin_right = 120.0
+margin_bottom = 44.0
+
+[node name="ButtonL2" type="Button" parent="LevelMenu/Grid"]
+margin_top = 48.0
+margin_right = 87.0
+margin_bottom = 68.0
+text = "Level 2"
+
+[node name="OptionL2" type="OptionButton" parent="LevelMenu/Grid"]
+margin_left = 91.0
+margin_top = 48.0
+margin_right = 120.0
+margin_bottom = 68.0
+
+[node name="ButtonL99" type="Button" parent="LevelMenu/Grid"]
+margin_top = 72.0
+margin_right = 87.0
+margin_bottom = 92.0
+text = "Credits"
+
 [connection signal="request_completed" from="HTTP/HTTPRequestGame" to="." method="_on_HTTPRequestGame_completed"]
 [connection signal="timeout" from="HTTP/TimerOnlineInfo" to="." method="_on_TimerOnlineInfo_timeout"]
 [connection signal="finished" from="Audio/MusicDance" to="." method="_on_MusicDance_finished"]
 [connection signal="finished" from="Audio/MusicDead" to="." method="_on_MusicDead_finished"]
+[connection signal="pressed" from="LevelMenu/Grid/ButtonL0" to="." method="_on_ButtonL0_pressed"]
+[connection signal="pressed" from="LevelMenu/Grid/ButtonL1" to="." method="_on_ButtonL1_pressed"]
+[connection signal="pressed" from="LevelMenu/Grid/ButtonL2" to="." method="_on_ButtonL2_pressed"]
+[connection signal="pressed" from="LevelMenu/Grid/ButtonL99" to="." method="_on_ButtonL99_pressed"]
