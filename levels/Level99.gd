@@ -7,4 +7,4 @@ func _ready():
 	pass 
 
 func spawn_energy_item(_etype):
-	pass   # do nothing, shouldn't even call here :)
+	pass   # do nothing, shouldn't even call here :) (might due to race condition)

@@ -102,7 +102,7 @@ func _on_Buttons_deactivated(num):
 		$MusicWriting.stop()
 		$MusicLevel.play()
 	$Player.set_physics_process(true)
-	emit_signal('milestone', 'btn' + str(num))  
+	emit_signal('milestone', 'btn' + str(num) + '+')  
 
 func _on_Buttons_activated():
 	# note, signal emitted to django server re prompt in the writing-button scene
