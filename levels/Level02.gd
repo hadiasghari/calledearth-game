@@ -12,7 +12,7 @@ var Energy = preload('res://items/Energy.tscn')
 
 var bag_hit_freeze = false
 onready var _bag_paths = [$Bags/PathMinor, $Bags/PathMajor, $Bags/PathFinal]
-
+var _dancing = false 
 
 func _ready():	
 	spawn_pickups()		
@@ -98,6 +98,7 @@ func _on_player_energychange(value):
 		
 func _on_pickup_victory():
 	$MusicLevel.stop()
+	_dancing = true
 	emit_signal('milestone', 'dance')  
 	
 func _on_pickup_yellow():
@@ -112,8 +113,9 @@ func freeze_player(pause_state):
 	else:
 		$MusicLevel.stream_paused = false
 		if not $MusicLevel.playing:  
-			# TODO: this shouldn't restart if dance music is playing :) 
-			$MusicLevel.play()
+			# don't restart music if dance music is playing; (state-engine logic!) 
+			if not _dancing:
+				$MusicLevel.play()
 		$Player.freeze_player(false)
 
 func spawn_energy_item(etype):
@@ -137,19 +139,11 @@ func _on_Buttons_deactivated(num):
 	$Player.set_physics_process(true)
 	emit_signal('milestone', 'btn' + str(num) + '+')  
 
-## end shared functions
 
-func _on_Save1_body_entered(body):
+func _on_SavePoint_body_entered(_body, num):
 	# save location! 
 	# (collision triggers only for player) 
-	# Q: should this be for enter or exit? (before was exit)
-	print_debug("L2:_on_Save1_body_entered")
-	emit_signal('milestone', 'sav1')   
-	
-func _on_Save2_body_entered(body):
-	print_debug("L2:_on_Save2_body_entered")
-	emit_signal('milestone', 'sav2')   
+	print_debug("_on_SavePoint_body_entered: sav" + str(num))
+	emit_signal('milestone', 'sav' + str(num))   
 
-func _on_Save3_body_entered(body):
-	print_debug("L2:_on_Save3_body_entered")
-	emit_signal('milestone', 'sav3')   
+## end shared functions

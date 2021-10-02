@@ -259,8 +259,9 @@ func set_web_state(state, extra_info):
 	var _err = request.request(url)  
 	
 
-func _input(event):
+func _input(_event):
 	# secret cheat to skip ahead in each level till almost end
+	# TODO: merge this with a state engine, so we can have next/prev sav/btn
 	if Input.is_action_just_pressed("test_skip_to_end"):
 		if GLOBAL.current_level == 1 or GLOBAL.current_level == 2: 
 			# log: `set_web_state("event", "skip-to-end")` 

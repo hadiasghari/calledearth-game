@@ -9,6 +9,8 @@ signal powerup
 var Collectible = preload('res://items/Collectible.tscn')
 var Energy = preload('res://items/Energy.tscn')
 
+var _dancing = false 
+
 
 func reposition(loc):
 	# In case we stopped Music or physics on last death:	
@@ -71,6 +73,7 @@ func _on_player_energychange(value):
 		
 func _on_pickup_victory():
 	$MusicLevel.stop()
+	_dancing = true
 	emit_signal('milestone', 'dance')  
 	
 func _on_pickup_yellow():
@@ -84,8 +87,10 @@ func freeze_player(pause_state):
 		# note (.get_tree().paused=true pauses *everything* hence not...)
 	else:
 		$MusicLevel.stream_paused = false
-		if not $MusicLevel.playing:  
-			$MusicLevel.play()
+		if not $MusicLevel.playing:
+			# don't restart music if dance music is playing; (state-engine logic!) 
+			if not _dancing:  
+				$MusicLevel.play()
 		$Player.freeze_player(false)
 
 func spawn_energy_item(etype):

@@ -40,6 +40,6 @@ func _input(event):
 	#	emit_signal("start_game")
 
 
-func spawn_energy_item(etype):
+func spawn_energy_item(_etype):
 	# empty function, placed to avoid crash if energy sent to this screen (due to a race condition)
 	pass   

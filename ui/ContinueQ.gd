@@ -56,6 +56,6 @@ func spawn_energy_item(etype):
 	add_child(ei)	
 
 
-func freeze_player(pause_state):
+func freeze_player(_pause_state):
 	# we might end up here due to unepxected code paths. simply ignore to avoid a crash
 	pass
