@@ -11,11 +11,7 @@ var scene_level99 = preload("res://levels/Level99.tscn").instance()  # credits
 var scene_contq   = preload("res://ui/ContinueQ.tscn").instance()  
 
 export var server = "heroku"
-export var energy_start = 100
 export var energy_loss_fall = -30
-# the following has been replaced with the menu at the start
-#export var start_level = 2  # game level, currently 0/1/2/99
-#export var start_sublevel = "btn2"  # define multiple save/status points in levels
 
 # internal state:
 var current_scene  # updated to whatever current scene is (for func calls)
@@ -53,8 +49,7 @@ func _ready():
 		GLOBAL.server_url = "http://" + server
 	$HTTP/HTTPRequestGame.request(GLOBAL.server_url + "/earth/gonewgame") 
 	yield(get_tree().create_timer(2), "timeout") 
-	# set levels & start	
-	GLOBAL.energy = energy_start
+
 	# the level is now set once the buttons are selected
 
 
@@ -103,11 +98,10 @@ func load_level_scene():
 	# log to server new scene load (also resets prompts from camera, dance, etc)	
 
 
-
 func _on_player_switched(offset):
 	# simply update HUD (see design notes at top)
 	# (we could log this even to db too but unnecessary) 
-	# TODO: `set_web_state('event', 'limb-switch')` with file-based-gamelog
+	# log: `set_web_state('event', 'limb-switch')` with file-based-gamelog
 	match offset:
 		0: $HUD.show_message("Limb Switch!*")
 		_: $HUD.show_message("Limb Switch!")
@@ -179,7 +173,7 @@ func _on_player_dead(_why):
 	$HUD.update_energy(energy_loss_fall)	
 	$Audio/MusicDead.stream.set_loop(false) 	
 	$Audio/MusicDead.play()
-	# TODO: `set_web_state("event", "dead-" + _why)` with file based gamelog	
+	# log: `set_web_state("event", "dead-" + _why)` 	
 	# (revival will happen once this dead music finishes playing!)
 
 
@@ -213,12 +207,13 @@ func _on_level_milestone(what):
 	elif what.begins_with("btn") or what.begins_with("sav"):
 		# milestone reached, save it to globa, inform server 
 		GLOBAL.current_sublevel = what
-		# TODO: `set_web_state("milestone", "L" + str(GLOBAL.current_level) + "_" + what)` -- replace with filebased gamelog	
+		# log: `set_web_state("milestone", "L" + str(GLOBAL.current_level) + "_" + what)`
 	else:
 		print_debug("UNKNOWN milestone?!!!" )
 
 
 func _on_MusicDance_finished():	
+	# TODO: merge logic here into a state-engine :)
 	$HUD.hide_message()  # stop the let's dance
 	# now choose next level... 	
 	if GLOBAL.current_level == 1:
@@ -247,7 +242,7 @@ func _on_contq_answer(value):
 	
 
 func _on_level_powerup():
-	# TODO: set_web_state("event", "powerup")  replace with gamelog to file
+	# log: set_web_state("event", "powerup")  replace with gamelog to file
 	$HUD.show_message("+50 EP!", 2)
 	_on_player_energy(50)
 
@@ -268,13 +263,14 @@ func _input(event):
 	# secret cheat to skip ahead in each level till almost end
 	if Input.is_action_just_pressed("test_skip_to_end"):
 		if GLOBAL.current_level == 1 or GLOBAL.current_level == 2: 
-			# TODO: `set_web_state("event", "skip-to-end")` replace with file-based gamelog
+			# log: `set_web_state("event", "skip-to-end")` 
 			GLOBAL.current_sublevel = "btn2-"
 			current_scene.reposition(GLOBAL.current_sublevel)
 		
 
 ## The starting level menu choices:
 func _populate_Level_Options():
+	# TODO: merge this list here into a state engine
 	$LevelMenu/Grid/OptionL1.add_item("start")
 	$LevelMenu/Grid/OptionL1.add_item("btn1-")
 	$LevelMenu/Grid/OptionL1.add_item("btn1+")

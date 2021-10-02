@@ -521,6 +521,7 @@ camera_offset = Vector2( 0, -250 )
 
 [node name="FlagBut1" parent="." instance=ExtResource( 13 )]
 position = Vector2( 11971.4, -2607.35 )
+make_sound = false
 
 [node name="Instructions" type="Node2D" parent="."]
 __meta__ = {

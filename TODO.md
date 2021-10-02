@@ -1,4 +1,23 @@
 # PROJECT TODO
+*UPDATE October 2021*
+- We have added a websocket backend to the Django part to make webuser gameflow faster/smoother.
+  This still requires some further work (esp re issues leading to websocket disconnects).
+- Also, the Godot engine link with the Django part could also use this websocket mechanism for effiency
+  Note, I decided to keep the Heroku part as the design works :)
+- For game restart, we added a menu at the start to allow it. 
+  (State isn't kept but that's okay for now; it's manual but that's also okay)
+- The game-level logic is getting a bit complicated in Main.gd, which might suggest refactoring
+  maybe helpful. The same for refactoring the HUDs (which are also a bit in Main and a bit in contq.) 
+- A gamelog might still be useful for debugging purposes, but not necessary
+- The `defer` error is still being pushed hard to the Godot console, to look into... 
+  (re button multipress, although not an issue now)
+- (See Hadi's other notes from this period)
+
+
+
+
+----
+
 As of June 2021, for future versions.
 
 

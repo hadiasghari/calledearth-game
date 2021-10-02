@@ -5,7 +5,7 @@ extends Node
 
 var game_id = ""
 var server_url = ""
-var energy = 0  # between 0 to 100
+var energy = 100  # between 0 to 100, start level is 100!
 var current_level = -1
 var current_sublevel = ""
 

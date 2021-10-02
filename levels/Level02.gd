@@ -105,12 +105,14 @@ func _on_pickup_yellow():
 	
 func freeze_player(pause_state):
 	#print_debug("L2 freeze_player: ", pause_state)
+	# TODO: this funciton should probably merge into a state-engine too
 	if pause_state:
 		$MusicLevel.stream_paused = true 
 		$Player.freeze_player(true)
 	else:
 		$MusicLevel.stream_paused = false
 		if not $MusicLevel.playing:  
+			# TODO: this shouldn't restart if dance music is playing :) 
 			$MusicLevel.play()
 		$Player.freeze_player(false)
 
