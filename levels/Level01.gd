@@ -109,11 +109,27 @@ func _on_Buttons_deactivated(num):
 	$Player.set_physics_process(true)
 	emit_signal('milestone', 'btn' + str(num) + '+')  
 
-func _on_Buttons_activated():
+func _on_Buttons_activated1():
+	# note, signal emitted to django server re prompt in the writing-button scene
+	$MusicLevel.stop()	
+	$Player.set_physics_process(false)
+	$Player.stop_animations()	
+	
+	# hmm, get_viewport().size is 1680x997, so is get_tree().get_root()... 
+	var res = get_viewport().size 
+	print_debug(res)
+	print($VideoPlayer.get_rect().size)
+	#$VideoPlayer.set_size(res)
+	$VideoPlayer.show()
+	$VideoPlayer.play()  # TODO: possibly center on this, zoom.
+	
+func _on_Buttons_activated2():
 	# note, signal emitted to django server re prompt in the writing-button scene
 	$MusicLevel.stop()	
 	$MusicWriting.play()  # Future: perhaps fade start this with tween
 	$Player.set_physics_process(false)
 	$Player.stop_animations()
 
-	
+func _on_VideoPlayer_finished():
+	$VideoPlayer.hide()
+	$MusicWriting.play()  # Future: perhaps fade start this with tween

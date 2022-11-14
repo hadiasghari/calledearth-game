@@ -39,6 +39,7 @@ func _ready():
 	_err = scene_level02.connect("powerup", self, "_on_level_powerup")		
 	_err = scene_contq.connect("answer", self, "_on_contq_answer")
 	
+	#OS.set_window_fullscreen(true)
 	_populate_Level_Options()
 	
 	# get a new gameid, also give server a bit of time to respond
@@ -278,7 +279,7 @@ func _populate_Level_Options():
 	$LevelMenu/Grid/OptionL1.add_item("btn2-")
 	$LevelMenu/Grid/OptionL1.add_item("btn2+")
 	$LevelMenu/Grid/OptionL1.add_item("contq")
-	$LevelMenu/Grid/OptionL1.add_item("default")
+	#$LevelMenu/Grid/OptionL1.add_item("default") 
 	$LevelMenu/Grid/OptionL2.add_item("start")
 	$LevelMenu/Grid/OptionL2.add_item("sav1")
 	$LevelMenu/Grid/OptionL2.add_item("sav2")
@@ -287,7 +288,7 @@ func _populate_Level_Options():
 	$LevelMenu/Grid/OptionL2.add_item("sav3")	
 	$LevelMenu/Grid/OptionL2.add_item("btn2-")
 	$LevelMenu/Grid/OptionL2.add_item("btn2+")
-	$LevelMenu/Grid/OptionL2.add_item("default")
+	#$LevelMenu/Grid/OptionL2.add_item("default") 
 	
 func _on_ButtonL0_pressed():
 	GLOBAL.current_level = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://assets/art/background images/background 7-5.png" type="Texture" id=1]
 [ext_resource path="res://levels/Level01.gd" type="Script" id=2]
@@ -13,10 +13,12 @@
 [ext_resource path="res://assets/art/collect items/Switch button.png" type="Texture" id=11]
 [ext_resource path="res://assets/fonts/instruction_font.tres" type="DynamicFont" id=12]
 [ext_resource path="res://items/SavePoint.tscn" type="PackedScene" id=13]
+[ext_resource path="res://items/MovingPlatform.tscn" type="PackedScene" id=14]
 [ext_resource path="res://assets/art/danger/Spikes.png" type="Texture" id=15]
 [ext_resource path="res://assets/art/collect items/Victory button .png" type="Texture" id=16]
 [ext_resource path="res://assets/sounds/soundtrack/soundtrack_lvl_1.ogg" type="AudioStream" id=17]
 [ext_resource path="res://enemies/Spikes.tscn" type="PackedScene" id=18]
+[ext_resource path="res://assets/video/WCIE_calming.webm" type="VideoStream" id=19]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Lvl 1 objects.png 0"
@@ -533,8 +535,8 @@ margin_left = 320.254
 margin_top = -506.676
 margin_right = 1753.25
 margin_bottom = -314.676
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "You are a wanderer on life’s highways, 
 but before you can explore 
 you must learn to walk... "
@@ -549,8 +551,8 @@ margin_left = 2706.98
 margin_top = -399.385
 margin_right = 4139.97
 margin_bottom = -207.385
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "and jump... "
 autowrap = true
 __meta__ = {
@@ -563,8 +565,8 @@ margin_left = 5792.11
 margin_top = 80.3892
 margin_right = 7225.1
 margin_bottom = 272.389
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "watch out..."
 autowrap = true
 __meta__ = {
@@ -577,8 +579,8 @@ margin_left = 6597.8
 margin_top = -1488.49
 margin_right = 8030.8
 margin_bottom = -1296.49
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "sometimes things just change...
 "
 autowrap = true
@@ -592,8 +594,8 @@ margin_left = 10473.6
 margin_top = -2479.73
 margin_right = 11906.6
 margin_bottom = -2287.73
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "And sometimes you have to push...."
 autowrap = true
 __meta__ = {
@@ -614,7 +616,22 @@ autoplay = true
 stream = ExtResource( 10 )
 volume_db = -15.0
 
-[connection signal="activated" from="WriteButton1" to="." method="_on_Buttons_activated"]
+[node name="MovingPlatform" parent="." instance=ExtResource( 14 )]
+position = Vector2( 21802.4, -1267.1 )
+velocity = Vector2( 10, 0 )
+
+[node name="VideoPlayer" type="VideoPlayer" parent="."]
+visible = false
+margin_left = 10980.8
+margin_top = -2262.88
+margin_right = 12900.8
+margin_bottom = -1182.88
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stream = ExtResource( 19 )
+
+[connection signal="activated" from="WriteButton1" to="." method="_on_Buttons_activated1"]
 [connection signal="deactivated" from="WriteButton1" to="." method="_on_Buttons_deactivated" binds= [ 1 ]]
-[connection signal="activated" from="WriteButton2" to="." method="_on_Buttons_activated"]
+[connection signal="activated" from="WriteButton2" to="." method="_on_Buttons_activated2"]
 [connection signal="deactivated" from="WriteButton2" to="." method="_on_Buttons_deactivated" binds= [ 2 ]]
+[connection signal="finished" from="VideoPlayer" to="." method="_on_VideoPlayer_finished"]
