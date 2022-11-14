@@ -71,9 +71,9 @@ func _process(_delta):
 func _on_Button_area_entered(_area):
 	# activated
 	if not Engine.editor_hint:
-		$Button/CollisionShape2D.disabled = true  
-			# so not to trigger again 
-			# TODO: FIX THE `defer` error raised below by Godot (see TODO notes for story)
+		$Button/CollisionShape2D.disabled = true  # so not to trigger again 
+		# TODO: FIX THE `defer` error raised below by Godot (see TODO notes for story)
+		# maybe: $Button/CollisionShape2D.set_deferred("disabled", true)
 		if not _is_activated:
 			$Button/Audio.play()
 		$Button/AnimatedSprite.play()
@@ -169,6 +169,7 @@ func _on_ExitArea_bodyentered(body):
 	if len(words_in_exit) >= exitarea_hitcount:
 		#print_debug("WriteButton met hit count: " + str(len(words_in_exit)))
 		$ExitArea/CollisionShape2D.disabled = true  # avoid further collisions (same `defer` error, ignore)
+		# todo: maybe $ExitArea/CollisionShape2D.set_deferred("disabled", true)
 		deactivate_prompt()
 		
 func deactivate_prompt():
