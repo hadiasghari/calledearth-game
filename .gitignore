@@ -11,3 +11,5 @@ data_*/
 # Me
 *.bak
 
+# For Mac
+**/.DS_Store
