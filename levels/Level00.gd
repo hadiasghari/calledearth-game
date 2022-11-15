@@ -12,6 +12,7 @@ var dev2_x = 0
 var dev3_x = 0
 
 func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)  # no mouse
 	pass
 
 func _input(event):

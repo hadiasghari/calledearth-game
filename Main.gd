@@ -39,6 +39,7 @@ func _ready():
 	_err = scene_level02.connect("powerup", self, "_on_level_powerup")		
 	_err = scene_contq.connect("answer", self, "_on_contq_answer")
 	
+	# full screen
 	OS.set_window_fullscreen(true)
 	_populate_Level_Options()
 	
@@ -261,13 +262,15 @@ func set_web_state(state, extra_info):
 	
 
 func _input(_event):
+	pass  # 202211: removed this hotkey (no longer needed)
+
 	# secret cheat to skip ahead in each level till almost end
 	# TODO: merge this with a state engine, so we can have next/prev sav/btn
-	if Input.is_action_just_pressed("test_skip_to_end"):
-		if GLOBAL.current_level == 1 or GLOBAL.current_level == 2: 
-			# log: `set_web_state("event", "skip-to-end")` 
-			GLOBAL.current_sublevel = "btn2-"
-			current_scene.reposition(GLOBAL.current_sublevel)
+	#if Input.is_action_just_pressed("test_skip_to_end"):
+	#	if GLOBAL.current_level == 1 or GLOBAL.current_level == 2: 
+	#		# log: `set_web_state("event", "skip-to-end")` 
+	#		GLOBAL.current_sublevel = "btn2-"
+	#		current_scene.reposition(GLOBAL.current_sublevel)
 		
 
 ## The starting level menu choices:

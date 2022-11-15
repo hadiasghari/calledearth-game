@@ -44,7 +44,10 @@ func init(type, pos):
 func _on_Area2D_body_entered(_body):
 	emit_signal('pickup') 	# for other pickup logic e.g. spawning words!
 	$Audio.play()  # note, perhaps audio should be played in mai
-	$CollisionShape2D.disabled = true  # (note gives this `DEFER()` error...)
+	
+	# 202211 was: $CollisionShape2D.disabled = true  # (note gives this `DEFER()` error...)
+	$CollisionShape2D.set_deferred("disabled", true)
+	
 	yield(get_tree().create_timer(0.2), "timeout")
 	#$Tween.start()
 	queue_free()

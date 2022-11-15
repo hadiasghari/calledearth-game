@@ -27,6 +27,7 @@ func _ready():
 				_err = bag.connect("hit", self, "_on_plasticbag_hit")
 	#
 	$MusicLevel.play()
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)  # no mouse
 
 func reposition(loc):
 	#print_debug("L2 reposition:", loc)	

@@ -64,17 +64,18 @@ func _on_tree_entered():
 	
 func _process(_delta):
 	# use the ESC key as failsafe to deactivate ... if we are already `activated`	
-	if not Engine.editor_hint:
-		if Input.is_action_just_pressed("test_skip_next"):
-			if _is_activated:
-				deactivate_prompt()
+	pass  # UPDATE 202211: removed this function (not needed)
+	#if not Engine.editor_hint:
+	#	if Input.is_action_just_pressed("test_skip_next"):
+	#		if _is_activated:
+	#			deactivate_prompt()
 		
 func _on_Button_area_entered(_area):
 	# activated
 	if not Engine.editor_hint:
-		# TODO: FIX THE `defer` error raised below by Godot (see TODO notes for story)
-		# was: $Button/CollisionShape2D.disabled = true  # so not to trigger again
-		# maybe: $Button/CollisionShape2D.set_deferred("disabled", true)
+		# THE `defer` error raised below by Godot (see TODO notes for story)
+		# 202211 was: $Button/CollisionShape2D.disabled = true  # so not to trigger again
+		# changed: $Button/CollisionShape2D.set_deferred("disabled", true)
 		$Button/CollisionShape2D.set_deferred("disabled", true)
 
 		if not _is_activated:
@@ -174,8 +175,8 @@ func _on_ExitArea_bodyentered(body):
 	if len(words_in_exit) >= exitarea_hitcount:
 		#print_debug("WriteButton met hit count: " + str(len(words_in_exit)))
 		
-		# was: $ExitArea/CollisionShape2D.disabled = true  # avoid further collisions (same `defer` error, ignore)
-		# maybe: $ExitArea/CollisionShape2D.set_deferred("disabled", true)
+		# 202211 was: $ExitArea/CollisionShape2D.disabled = true  # avoid further collisions (same `defer` error, ignore)
+		# changed: $ExitArea/CollisionShape2D.set_deferred("disabled", true)
 		$ExitArea/CollisionShape2D.set_deferred("disabled", true)
 		deactivate_prompt()
 		

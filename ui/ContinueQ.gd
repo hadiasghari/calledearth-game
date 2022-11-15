@@ -1,7 +1,7 @@
 extends Control
 
 signal answer(value)
-export var max_wait = 90
+export var max_wait = 10  # used to be 90, this is fast to get to credits!
 export var min_energy_cond = 50 
 
 var Energy = preload('res://items/Energy.tscn')

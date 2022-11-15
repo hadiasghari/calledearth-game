@@ -23,9 +23,6 @@ margin_top = 15.874
 margin_right = 1920.0
 margin_bottom = 1095.87
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="LabelQuestion" type="Label" parent="."]
 margin_left = -3.1748

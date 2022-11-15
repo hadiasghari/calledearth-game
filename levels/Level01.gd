@@ -39,6 +39,7 @@ func _ready():
 	_err = $Spikes1.connect("hit", self, "_on_spikes_hit")
 	_err = $Spikes2.connect("hit", self, "_on_spikes_hit")
 	$MusicLevel.play()
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)  # no mouse
 
 
 func spawn_pickups():
@@ -124,17 +125,14 @@ func _on_Buttons_activated2():
 	$Player.set_physics_process(false)
 	$Player.stop_animations()
 
+func _on_WriteButton1_activation_animation_finished():
+	yield(get_tree().create_timer(2), "timeout") 
+	$VideoControl/Camera2D.current = true
+	$VideoControl/VideoPlayer.show()
+	$VideoControl/VideoPlayer.play()  
+
 func _on_VideoPlayer_finished():
 	$VideoControl/VideoPlayer.hide()
 	$VideoControl/Camera2D.current = false
 	$WriteButton1/Platform/Camera2D.current = true
-	# TODO: pass control to camera in writing button 
 	$MusicWriting.play()  # Future: perhaps fade start this with tween
-
-
-func _on_WriteButton1_activation_animation_finished():
-	# var res = get_viewport().size 
-	# maybe resize VideoPlayer to above, and camera in middle
-	$VideoControl/Camera2D.current = true
-	$VideoControl/VideoPlayer.show()
-	$VideoControl/VideoPlayer.play()  

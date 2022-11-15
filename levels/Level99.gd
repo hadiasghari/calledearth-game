@@ -5,6 +5,7 @@ extends CanvasLayer
 
 func _ready():
 	pass 
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func spawn_energy_item(_etype):
 	# do nothing, shouldn't even call here :) (might due to race condition)
