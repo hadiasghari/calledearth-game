@@ -40,6 +40,7 @@ func _ready():
 	_err = $Spikes2.connect("hit", self, "_on_spikes_hit")
 	$MusicLevel.play()
 
+
 func spawn_pickups():
 	$Tilemap_pickups.hide()	
 	var pickups = $Tilemap_pickups 
@@ -114,14 +115,7 @@ func _on_Buttons_activated1():
 	$MusicLevel.stop()	
 	$Player.set_physics_process(false)
 	$Player.stop_animations()	
-	
-	# hmm, get_viewport().size is 1680x997, so is get_tree().get_root()... 
-	var res = get_viewport().size 
-	print_debug(res)
-	print($VideoPlayer.get_rect().size)
-	#$VideoPlayer.set_size(res)
-	$VideoPlayer.show()
-	$VideoPlayer.play()  # TODO: possibly center on this, zoom.
+	# we'll play a video, once the button animation is done
 	
 func _on_Buttons_activated2():
 	# note, signal emitted to django server re prompt in the writing-button scene
@@ -131,5 +125,16 @@ func _on_Buttons_activated2():
 	$Player.stop_animations()
 
 func _on_VideoPlayer_finished():
-	$VideoPlayer.hide()
+	$VideoControl/VideoPlayer.hide()
+	$VideoControl/Camera2D.current = false
+	$WriteButton1/Platform/Camera2D.current = true
+	# TODO: pass control to camera in writing button 
 	$MusicWriting.play()  # Future: perhaps fade start this with tween
+
+
+func _on_WriteButton1_activation_animation_finished():
+	# var res = get_viewport().size 
+	# maybe resize VideoPlayer to above, and camera in middle
+	$VideoControl/Camera2D.current = true
+	$VideoControl/VideoPlayer.show()
+	$VideoControl/VideoPlayer.play()  

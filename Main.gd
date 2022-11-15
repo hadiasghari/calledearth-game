@@ -39,7 +39,7 @@ func _ready():
 	_err = scene_level02.connect("powerup", self, "_on_level_powerup")		
 	_err = scene_contq.connect("answer", self, "_on_contq_answer")
 	
-	#OS.set_window_fullscreen(true)
+	OS.set_window_fullscreen(true)
 	_populate_Level_Options()
 	
 	# get a new gameid, also give server a bit of time to respond

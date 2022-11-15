@@ -459,13 +459,31 @@ resource_local_to_scene = true
 position = Vector2( -14.119, 577.044 )
 script = ExtResource( 2 )
 
+[node name="VideoControl" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 15000.0
+margin_top = 1000.0
+margin_right = 15000.0
+margin_bottom = 1000.0
+
+[node name="VideoPlayer" type="VideoPlayer" parent="VideoControl"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stream = ExtResource( 19 )
+expand = false
+
+[node name="Camera2D" type="Camera2D" parent="VideoControl"]
+offset = Vector2( 960, 540 )
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2( 715.226, -1140.71 )
 motion_mirroring = Vector2( 4032, 3024 )
 __meta__ = {
-"_edit_group_": true
+"_edit_group_": true,
+"_edit_lock_": true
 }
 
 [node name="background 1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
@@ -499,12 +517,21 @@ tile_data = PoolIntArray( -3997426, 13, 0, -3931869, 0, 0, -3735273, 0, 0, -3669
 
 [node name="Spikes2" parent="." instance=ExtResource( 18 )]
 position = Vector2( 18864.7, -273.033 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Spikes1" parent="." instance=ExtResource( 18 )]
 position = Vector2( 10864, -1252.86 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="WriteButton1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 10728.4, -1979.64 )
+__meta__ = {
+"_edit_lock_": true
+}
 prompt_key = 11
 platform_offset = Vector2( 275, 1150 )
 platform_length = 600
@@ -514,6 +541,9 @@ camera_offset = Vector2( 0, -100 )
 
 [node name="WriteButton2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 18814.6, -1308.02 )
+__meta__ = {
+"_edit_lock_": true
+}
 prompt_key = 12
 platform_offset = Vector2( 150, 1475 )
 platform_length = 700
@@ -606,6 +636,9 @@ __meta__ = {
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 350.752, -107.808 )
 scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="MusicLevel" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
@@ -620,18 +653,9 @@ volume_db = -15.0
 position = Vector2( 21802.4, -1267.1 )
 velocity = Vector2( 10, 0 )
 
-[node name="VideoPlayer" type="VideoPlayer" parent="."]
-visible = false
-margin_left = 10980.8
-margin_top = -2262.88
-margin_right = 12900.8
-margin_bottom = -1182.88
-size_flags_horizontal = 3
-size_flags_vertical = 3
-stream = ExtResource( 19 )
-
+[connection signal="finished" from="VideoControl/VideoPlayer" to="." method="_on_VideoPlayer_finished"]
 [connection signal="activated" from="WriteButton1" to="." method="_on_Buttons_activated1"]
+[connection signal="activation_animation_finished" from="WriteButton1" to="." method="_on_WriteButton1_activation_animation_finished"]
 [connection signal="deactivated" from="WriteButton1" to="." method="_on_Buttons_deactivated" binds= [ 1 ]]
 [connection signal="activated" from="WriteButton2" to="." method="_on_Buttons_activated2"]
 [connection signal="deactivated" from="WriteButton2" to="." method="_on_Buttons_deactivated" binds= [ 2 ]]
-[connection signal="finished" from="VideoPlayer" to="." method="_on_VideoPlayer_finished"]

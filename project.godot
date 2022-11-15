@@ -228,6 +228,11 @@ test_skip_to_end={
 2d_physics/layer_8="milestones"
 2d_physics/layer_9="energy"
 
+[logging]
+
+file_logging/enable_file_logging=true
+file_logging/max_log_files=500
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

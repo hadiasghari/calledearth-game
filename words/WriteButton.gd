@@ -25,6 +25,7 @@ export var test_fake_data = false
 
 signal activated
 signal deactivated
+signal activation_animation_finished
 
 var Words = preload('./Words.tscn')
 var _last_text_pk = -1
@@ -71,20 +72,24 @@ func _process(_delta):
 func _on_Button_area_entered(_area):
 	# activated
 	if not Engine.editor_hint:
-		$Button/CollisionShape2D.disabled = true  # so not to trigger again 
 		# TODO: FIX THE `defer` error raised below by Godot (see TODO notes for story)
+		# was: $Button/CollisionShape2D.disabled = true  # so not to trigger again
 		# maybe: $Button/CollisionShape2D.set_deferred("disabled", true)
+		$Button/CollisionShape2D.set_deferred("disabled", true)
+
 		if not _is_activated:
+			# HA note 2022.11.15: moved all these under _is_activated
+			_is_activated = true  # this must be here so it can be deactivated
 			$Button/Audio.play()
-		$Button/AnimatedSprite.play()
-		emit_signal('activated')  # immediately freeze player (via level)
-		_is_activated = true  # this must be here so it can be deactivated
+			$Button/AnimatedSprite.play()
+			emit_signal('activated')  # immediately freeze player (via level)
 
 func _on_Button_animation_finished():
 	# the mechanism button has been pressed! activate!
 	yield(get_tree().create_timer(1), "timeout")
 	$Platform/CollisionShape2D.disabled = false
 	$Platform/Camera2D.current = true
+	emit_signal('activation_animation_finished')  # for playing videos and such	
 	set_web_prompt()
 
 func set_web_prompt():		
@@ -168,8 +173,10 @@ func _on_ExitArea_bodyentered(body):
 		print_debug("unexpected collision detection: ", name)	
 	if len(words_in_exit) >= exitarea_hitcount:
 		#print_debug("WriteButton met hit count: " + str(len(words_in_exit)))
-		$ExitArea/CollisionShape2D.disabled = true  # avoid further collisions (same `defer` error, ignore)
-		# todo: maybe $ExitArea/CollisionShape2D.set_deferred("disabled", true)
+		
+		# was: $ExitArea/CollisionShape2D.disabled = true  # avoid further collisions (same `defer` error, ignore)
+		# maybe: $ExitArea/CollisionShape2D.set_deferred("disabled", true)
+		$ExitArea/CollisionShape2D.set_deferred("disabled", true)
 		deactivate_prompt()
 		
 func deactivate_prompt():
